@@ -1,0 +1,14 @@
+﻿@model Helpers.SPage
+@{var curr = Model.CurrPage;}
+<table class="sort_options" style="font-weight: bold;">
+    <tbody>
+        <tr>
+            <td align="left">
+                <a href="@Model.UrlTempl" class="button-link">First</a>
+                <a href="@String.Format(Model.UrlTempl, curr > 1 ? curr - 1 : 1)" class="button-link">Previous</a>
+                <a href="@String.Format(Model.UrlTempl, curr < Model.TotalPages ? curr + 1 : Model.TotalPages)"class="button-link">Next</a>
+                <a href="@String.Format(Model.UrlTempl, Model.TotalPages)"class="button-link">Last</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

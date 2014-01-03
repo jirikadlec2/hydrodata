@@ -1,0 +1,60 @@
+TRANSFER: SNOW
+==============
+
+insert into snow (station_id, time_utc, snow_cm)
+select periods.station_id, observations2.obs_time, max(obs_value)  from periods 
+inner join observations2 on periods.period_id = observations2.period_id
+where variable_id = 8 and obs_time < '2013-02-08' and station_id > 20
+group by station_id, obs_time
+order by station_id, obs_time
+
+select st_name, station_id, max(snow_cm) from snow 
+inner join stations on snow.station_id = stations.st_id
+where snow.time_utc > '2012-01-01' and snow.time_utc < '2012-12-31'
+group by st_name, station_id
+order by max(snow_cm) desc
+
+
+TRANSFER: PRECIPITATION_DAILY
++++++++++++++++++++++++++++++
+
+insert into rain_daily (station_id, time_utc, rain_mm_10)
+select periods.station_id, observations2.obs_time, max(obs_value)  from periods 
+inner join observations2 on periods.period_id = observations2.period_id
+where variable_id = 2 and obs_time < '2013-02-08'
+group by station_id, obs_time
+having max(obs_value) < 3000
+order by station_id, obs_time
+
+TRANSFER: STAGE
+===============
+
+insert into stage (station_id, time_utc, stage_mm)
+select station_id, obs_time, stage_mm  from hydrodata
+where stage_mm is not null
+order by station_id, obs_time
+
+TRANSFER: DISCHARGE
++++++++++++++++++++
+
+insert into discharge (station_id, time_utc, discharge_m3s)
+select station_id, obs_time, power(2.0, cast(klog2_discharge_cms as real) * 0.001) as 'discharge_m3s'  from hydrodata
+where klog2_discharge_cms is not null
+order by station_id, obs_time;
+
+TRANSFER: RAIN_HOURLY
++++++++++++++++++++++
+
+insert into rain_hourly (station_id, time_utc, rain_mm_10)
+select periods.station_id, observations2.obs_time, max(obs_value)  from periods 
+inner join observations2 on periods.period_id = observations2.period_id
+where variable_id = 1
+group by station_id, obs_time
+having max(obs_value) < 2000
+order by station_id, obs_time
+
+select st_name,station_id, max(rain_mm_10) from rain_hourly
+inner join stations on stations.st_id = rain_hourly.station_id
+group by st_name,station_id
+order by max(rain_mm_10) desc
+

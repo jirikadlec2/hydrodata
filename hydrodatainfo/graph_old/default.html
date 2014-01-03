@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Graph Web Service</title>
+<style type="text/css">
+label {
+width:100px;    /*Or however much space you need for the form’s labels*/
+    float:left;
+}
+input {
+	margin-bottom: 5px;
+}
+</style>
+</head>
+<body>
+<form action="Handler2.ashx" method="get" enctype="application/x-www-form-urlencoded" name="test_form">
+<label for="siteCode">siteCode</label>
+<input name="siteCode" type="text" value="CZSNW:1" /><br />
+<label for="variableCode">siteCode</label>
+<input name="variableCode" type="text" value="CZSNW:16" /><br />
+<label for="startDate">startDate</label>
+<input name="startDate" type="text" value="2012-06-09" /><br />
+<label for="endDate">endDate</label>
+<input name="endDate" type="text" value="2012-06-14" /><br />
+<label for="serviceURL">serviceURL</label>
+<input name="serviceURL" type="text" value="http://hydrodata.cz/cz_snow/cuahsi_1_1.asmx" size="100" /><br />
+<input name="Submit" type="submit" value="Submit" />
+</form>
+</body>
+</html>

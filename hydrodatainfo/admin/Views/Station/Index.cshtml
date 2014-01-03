@@ -1,0 +1,27 @@
+﻿@model List<Data.station>
+@{
+    ViewBag.Title = "Stations:Index";
+    WebGrid grid = new WebGrid(Model);
+}
+
+
+<h2>station</h2>
+@Html.ActionLink("Create new", "Create")
+
+@grid.GetHtml(
+    mode: WebGridPagerModes.All,
+    firstText: "<< First",
+    previousText: "< Previous", nextText: "Next >",
+    lastText: "Last >>",
+    columns: new[] {
+        grid.Column("st_id", header: "Station ID"),
+        grid.Column("st_name",header: "Station Name"),
+        grid.Column("operator_id",header: "operator"),
+        grid.Column("lat",header: "lat",format: @<text>@String.Format("{0:0.000000}", item.lat==null?0:item.lat) </text>),
+        grid.Column("lon",header: "lon",format: @<text>@String.Format("{0:0.000000}", item.lon==null?0:item.lon) </text>),
+        grid.Column("meteo_code",header: "Meteo Code"),
+        grid.Column( "", header: "Actions",
+            format: @<text>@Html.ActionLink("Edit","Edit",new { id=item.st_id} )</text>)
+    }
+)
+

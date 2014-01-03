@@ -1,0 +1,15 @@
+﻿@model byte?
+
+@{var qid = Model.GetValueOrDefault(0);}
+<div class="display-mode">
+    @if (qid == 0)
+    { @string.Format("Null")}
+    @if (qid == 1)
+    {<img class="qicon1" />}
+    @if (qid == 2)
+    {<img class="qicon2" />}
+    @if (qid == 3)
+    {<img src="../../Content/images/status_checked_16.png" />}
+    @if (qid == 4)
+    {<img src="../../Content/images/status_inserted_16.png" />}
+</div>

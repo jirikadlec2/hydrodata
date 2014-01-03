@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Radar:Index";
+}
+@model HydroData.Models.RadarViewModel
+
+<h2>Radar</h2>
+
+@using (Html.BeginForm("Index"))
+{ 
+    <table>
+        <tr>
+            <td>Select radar network: </td>
+            <td style="width: 250px;">
+
+                @Html.DropDownListFor(m => m.RNID, Model.RadarNets,"---all---")
+            </td>
+        </tr>
+    </table>
+    <br />
+    <input type="submit" name="show" value="Show" />
+}
+<br />
+<br />
+Page @Model.Page.CurrentPage out of @Model.Page.TotalPages
+@Html.Partial("_PageNav", new Helpers.SPage { UrlTempl = Model.UrlTempl, CurrPage = Model.Page.CurrentPage, TotalPages = Model.Page.TotalPages })
+<br />
+
+<table>
+    <tbody>
+        <tr style="height: 22px">
+            <th>Time(UTC)
+            </th>
+            <th>Radar image
+            </th>
+        </tr>
+        @foreach (var item in Model.Page.Items)
+        {
+            <tr>
+                <td>@item.obs_time
+
+                </td>
+                <td></td>
+
+            </tr>
+        }
+    </tbody>
+</table>

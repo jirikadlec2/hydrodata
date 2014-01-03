@@ -1,0 +1,3 @@
+log4net: XmlHierarchyConfigurator: Configuration update mode [Merge].
+log4net: XmlHierarchyConfigurator: Logger [root] Level string is [DEBUG].
+log4net: XmlHierarchyConfigurator: Logger [root] level set to [name="DEBUG",value=30000].
