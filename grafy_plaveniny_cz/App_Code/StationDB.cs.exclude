@@ -1,0 +1,115 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Web.Configuration;
+using jk.plaveninycz;
+
+
+namespace jk.plaveninycz.DataSources
+{
+
+    /// <summary>
+    /// This class provides methods to access data
+    /// about stations in the database
+    /// </summary>
+    public class StationDB
+    {
+        public StationDB()
+        {
+            _connStr = 
+                WebConfigurationManager.ConnectionStrings["connstr3"].ConnectionString;
+        }
+
+        public StationDB(string connectionStringName)
+        {
+            _connStr = 
+                WebConfigurationManager.ConnectionStrings[connectionStringName].ConnectionString;
+        }
+
+
+        /// <summary>
+        /// This method returns a list of
+        /// all stations which match the specified criteria
+        /// </summary>
+        public List<StationDetails> GetStations(int variableId, int orderType)
+        {
+            //string name, url, location;
+            //int elevation;
+            //DateTime firstDate, lastDate;
+            // determine the base URL
+            VariableInfo vi = new VariableInfo(variableId);
+            string varUrl = vi.Url;
+            string lang = vi.UrlLang;
+            string baseUrl = string.Format(@"/testweb20/{0}/{1}", lang, varUrl);
+            string url;
+            SqlConnection con = new SqlConnection(_connStr);
+            SqlCommand cmd = new SqlCommand("query_stationsbyvariable", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@var_id", SqlDbType.TinyInt));
+            cmd.Parameters.Add(new SqlParameter("@order", SqlDbType.TinyInt));
+            cmd.Parameters["@var_id"].Value = variableId;
+            cmd.Parameters["@order"].Value = orderType;
+            // create a List collection to store query results
+            List<StationDetails> stations = new List<StationDetails>();
+
+            try
+            {
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while ( reader.Read() )
+                {
+                    StationDetails stDetail = new StationDetails();
+                    if ( reader["station"] != DBNull.Value ) stDetail.Name = reader.GetString(0);
+                    if ( reader["location"] != DBNull.Value ) stDetail.Location = reader.GetString(1);
+                    if ( reader["elevation"] != DBNull.Value ) stDetail.Elevation = Convert.ToInt32(reader[2]);
+                    url = String.Empty;
+                    if ( reader["url"] != DBNull.Value ) url = reader.GetString(3);
+                    if ( reader["first_date"] != DBNull.Value ) stDetail.FirstDate = reader.GetDateTime(4);
+                    if ( reader["last_date"] != DBNull.Value )
+                    {
+                        stDetail.LastDate = reader.GetDateTime(5);
+                        if ( url != String.Empty )
+                        {
+                            stDetail.Url = this.CreateStationUrl(baseUrl, url, stDetail.LastDate);
+                        }
+                    }
+                    stations.Add(stDetail);
+                }
+                reader.Close();
+                return stations;
+            }
+            catch ( SqlException ex1 )
+            {
+                throw new ApplicationException("Data error");
+            }
+            catch ( InvalidCastException ex2 )
+            {
+                throw new ApplicationException("Data error - bad data types");
+            }
+            catch ( Exception ex3 )
+            {
+                throw new ApplicationException("Database connection error");
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        #region Private_Methods
+            
+        private string CreateStationUrl(string baseUrl, string stationUrl, DateTime t)
+        {
+            string timeString = t.Year.ToString("0000") + t.Month.ToString("00") + t.Day.ToString("00");         
+            return ( String.Format(@"{0}/{1}/{2}/52w.aspx", baseUrl, stationUrl, timeString) );
+        }
+
+        #endregion Private_Methods
+
+        #region Private Members
+            private string _connStr;
+        #endregion Private Members
+    }
+}

@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{57A7878E-F268-46F2-9DBF-5E7F394D2B17}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>jk.plaveninycz</RootNamespace>
+    <AssemblyName>plaveniny01</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\grafy\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\grafy\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ZedGraph, Version=5.1.4.31904, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ZedGraph\zedgraph_dll_v514_464\zedgraph_dll_v5.1.4\ZedGraph.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataSources\DataUtils.cs" />
+    <Compile Include="DataSources\TimeSeriesDS.cs" />
+    <Compile Include="DataSources\PeriodDS.cs" />
+    <Compile Include="DataSources\RiverDS.cs" />
+    <Compile Include="DataSources\ChannelDS.cs" />
+    <Compile Include="DataSources\StationDS.cs" />
+    <Compile Include="DataSources\StatisticsDS.cs" />
+    <Compile Include="DataSources\VariableDS.cs" />
+    <Compile Include="Entities\Channel.cs" />
+    <Compile Include="Entities\Collections\ChannelList.cs" />
+    <Compile Include="Entities\Collections\StationDetailList.cs" />
+    <Compile Include="Entities\Collections\TimeValueList.cs" />
+    <Compile Include="Entities\Collections\PeriodList.cs" />
+    <Compile Include="Entities\Collections\RiverList.cs" />
+    <Compile Include="Entities\Collections\StationList.cs" />
+    <Compile Include="Entities\Collections\TimeList.cs" />
+    <Compile Include="Entities\Collections\VariableList.cs" />
+    <Compile Include="Entities\StationDetail.cs" />
+    <Compile Include="Entities\River.cs" />
+    <Compile Include="Entities\Station.cs" />
+    <Compile Include="Entities\Statistics.cs" />
+    <Compile Include="Enums\TimeStep.cs" />
+    <Compile Include="GlobalResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GlobalResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\IObservationList.cs" />
+    <Compile Include="Interfaces\ITimeSeries.cs" />
+    <Compile Include="Logic\CultureHelper.cs" />
+    <Compile Include="Logic\RiverManager.cs" />
+    <Compile Include="Logic\StationManager.cs" />
+    <Compile Include="Logic\TimeSeriesManager.cs" />
+    <Compile Include="Logic\PeriodManager.cs" />
+    <Compile Include="Logic\ChannelManager.cs" />
+    <Compile Include="Logic\StatisticsManager.cs" />
+    <Compile Include="Entities\TimeInterval.cs" />
+    <Compile Include="Entities\Collections\TimeSeries.cs" />
+    <Compile Include="Entities\Collections\TimeSeriesCollection.cs" />
+    <Compile Include="Entities\Variable.cs" />
+    <Compile Include="Logic\VariableManager.cs" />
+    <Compile Include="Search\ChannelSearchEngine.cs" />
+    <Compile Include="Search\ChannelSearchResult.cs" />
+    <Compile Include="Logic\MessageWriter.cs" />
+    <Compile Include="Validation\QueryStringValidator.cs" />
+    <Compile Include="Enums\VariableType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GlobalResource.cs.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GlobalResource.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>GlobalResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

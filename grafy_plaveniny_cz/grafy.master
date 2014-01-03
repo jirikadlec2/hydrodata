@@ -1,0 +1,58 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="grafy.master.cs" Inherits="grafy_master" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<head>
+    <meta http-equiv='content-type' content='text/html; charset=utf-8' />
+    <asp:Literal id="meta_language" runat="server" />
+    <asp:Literal id="meta_description" runat="server" />
+    <asp:Literal id="meta_keywords" runat="server" />  
+    <meta name='author' content='Jiří Kadlec' />
+    <link rel='stylesheet' type='text/css' href='/styl/styl_grafy_start.css' />
+	<title><asp:Literal id="head_title" runat="server" text="grafy.plaveniny.cz" /></title>
+</head>
+
+<body>
+    
+<div id="globalWrapper">
+
+<div id="header">
+<asp:HyperLink ID="link_start2" runat="server" NavigateUrl="<%$ Resources:global, Url_Start %>">
+<img id="logo" runat="server" src="/obr/logo3.jpg" alt="grafy.plaveniny.cz" title="<%$ Resources:global, Link_Start_Page %>" />
+</asp:HyperLink>
+</div>
+
+<div id="navigace">
+    <h2><asp:Literal ID="heading_navmenu" runat="server" meta:Resourcekey="heading_navmenu" /></h2>
+    <ul>
+        <asp:repeater ID="rpt_navigace" runat="server">
+            <ItemTemplate>
+            <li><asp:HyperLink ID="nav_link" runat="server"
+                CssClass='<%# Eval("CssClass") %>'
+                NavigateUrl='<%# Eval("Url") %>'
+                Text='<%# Eval("Text") %>' /></li>
+            </ItemTemplate>
+        </asp:repeater>
+    </ul>
+</div>
+
+<!-- vlastni obsah stranky -->
+<div id="hlavni">
+<asp:contentplaceholder id="cph_main" runat="server">
+        </asp:contentplaceholder>
+</div>
+<!-- konec vlastniho obsahu -->
+
+<div id="foot">
+<p>
+<asp:Literal ID="lbl_foot1" runat="server" Text="<%$ Resources:global, Text_LastUpdate %>" />
+<asp:Literal ID="lbl_CurrentTime" runat="server" /> &nbsp;<asp:Literal ID="AuthorName" 
+        runat="server" Text="<%$ Resources:global, Text_AuthorName %>" />&nbsp;Jiří Kadlec</p>
+<a id="toplink" href="http://toplink.miliweb.net" title="Toplink - katalog odkazů"><img src="http://toplink.miliweb.net/prouzek.gif" width="80" height="15" alt="Toplink - katalog odkazů" /></a>
+</div>
+
+</div><!-- konec div globalwrapper -->
+    
+</body>
+</html>

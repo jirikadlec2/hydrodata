@@ -1,0 +1,133 @@
+using System;
+
+namespace jk.plaveninycz.DataSources
+{
+
+    /// <summary>
+    /// This class represents a station-variable combination with most often used
+    /// attributes. The attributes are exposed as public properties
+    /// </summary>
+    public class StationDetails
+    {
+        public StationDetails()
+        {
+            this._name = null;
+            this._url = null;
+            this._location = null;
+            this._elevation = int.MinValue;
+            this._firstDate = DateTime.MinValue;
+            this._lastDate = DateTime.MinValue;
+        }
+        
+        public StationDetails(string name, string url, string location, 
+            int elevation, DateTime firstDate, DateTime lastDate)
+        {
+            this._name = name;
+            this._url = url;
+            this._location = location;
+            this._elevation = elevation;
+            this._firstDate = firstDate;
+            this._lastDate = lastDate;
+        }
+
+        #region Properties
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+        public string Url
+        {
+            get { return _url; }
+            set { _url = value; }
+        }
+        public string Location
+        {
+            get { return _location; }
+            set { _location = value; }
+        }
+        public int Elevation
+        {
+            get { return _elevation; }
+            set { _elevation = value; }
+        }
+        public string ElevationString
+        {
+            get
+            {
+                if ( _elevation > int.MinValue )
+                {
+                    return _elevation.ToString();
+                }
+                else
+                {
+                    return String.Empty;
+                }
+            }
+        }
+        public DateTime FirstDate
+        {
+            get { return _firstDate; }
+            set { _firstDate = value; }
+        }
+        public string FirstDateString
+        {
+            get
+            {
+                if ( DateTime.Compare(_firstDate, DateTime.MinValue) > 0 )
+                {
+                    return _firstDate.ToString("d");
+                }
+                else
+                {
+                    return String.Empty;
+                }
+            }
+        }
+        public DateTime LastDate
+        {
+            get { return _lastDate; }
+            set { _lastDate = value; }
+        }
+        public string LastDateString
+        {
+            get
+            {
+                if ( DateTime.Compare(_lastDate, DateTime.MinValue) > 0 )
+                {
+                    return _lastDate.ToString("d");
+                }
+                else
+                {
+                    return String.Empty;
+                }
+            }
+        }
+
+        public string ObservationPeriodString
+        {
+            get
+            {
+                return _firstDate.ToString("d") + " - " + _lastDate.ToString("d");
+            }
+        }
+        #endregion Properties
+
+        #region Private_Methods
+        private string CreateStationUrl(string DbStoredUrl)
+        {
+            return DbStoredUrl;
+        }
+        #endregion Private_Methods
+
+        #region private members
+        private string _name;
+        private string _url;
+        private string _location;
+        private int _elevation;
+        private DateTime _firstDate;
+        private DateTime _lastDate;
+        #endregion
+    }
+
+}
