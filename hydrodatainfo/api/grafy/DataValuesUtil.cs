@@ -103,7 +103,7 @@ namespace grafy
             }
         }
 
-        public static double[] GetDailyValuesFromDb(int siteId, string varCode, DateTime startDateTime, DateTime endDateTime)
+        public static double[] GetDailyValuesFromDb(int siteId, string varCode, DateTime startDateTime, DateTime endDateTime, bool interpolate)
         {
             string connStr = Helpers.GetConnectionString();            
             string timeStep = "day";
@@ -159,6 +159,18 @@ namespace grafy
                         //now insert the real measurement..
                         vals[valsIndex] = convertValue2(r[obsValueIndex], varId);
                     }
+                }
+            }
+            if (interpolate == true)
+            {
+                if (varCode.ToUpper() != "SRAZKY")
+                {
+                    LinearInterpolator.ReplaceNoDataValues(vals, -9999.0);
+                }
+                else
+                {
+                    //TODO we should probably use nearest stations or one-time DB processing
+                    LinearInterpolator.ReplaceByZero(vals, -9999.0);
                 }
             }
             return vals;
@@ -263,7 +275,16 @@ namespace grafy
             }
         }
 
-        public static double[] GetHourlyValuesFromDb(int siteId, string varCode, DateTime startDateTime, DateTime endDateTime)
+        /// <summary>
+        /// Gets a regular time-series of hourly values from the DB
+        /// </summary>
+        /// <param name="siteId">Site ID from DB</param>
+        /// <param name="varCode">Variable Code (SNIH, SRAZKY, PRUTOK..)</param>
+        /// <param name="startDateTime">start time in UTC</param>
+        /// <param name="endDateTime">end time in UTC</param>
+        /// <param name="interpolate">TRUE if NA values should be interpolated</param>
+        /// <returns>array of the values in hourly time-step</returns>
+        public static double[] GetHourlyValuesFromDb(int siteId, string varCode, DateTime startDateTime, DateTime endDateTime, bool interpolate)
         {
             string timeStep = "hour";
             double noDataVal = -9999.0;
@@ -316,6 +337,17 @@ namespace grafy
                         //now insert the real measurement..
                         vals[valsIndex] = convertValue2(r[obsValueIndex], varId);
                     }
+                }
+            }
+            if (interpolate == true)
+            {
+                if (varCode.ToUpper() != "SRAZKY")
+                {
+                    LinearInterpolator.ReplaceNoDataValues(vals, -9999.0);
+                }
+                else
+                {
+                    LinearInterpolator.ReplaceByZero(vals, -9999.0);
                 }
             }
             return vals;

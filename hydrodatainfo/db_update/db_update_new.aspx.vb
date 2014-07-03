@@ -1,4 +1,5 @@
 ﻿Imports System.Threading
+Imports System.Net
 
 Public Class db_update_new
     Inherits System.Web.UI.Page
@@ -38,7 +39,7 @@ Public Class db_update_new
     Private Sub ProcessUpdate()
 
         Dim Connstr1 As String = _
-        "data source=.\SQLEXPRESS; Initial Catalog=plaveninycz; User Id=plaveninycz; password=Ziqwdwq1"
+        "data source=.\SQLEXPRESS; Initial Catalog=plaveninycz1; User Id=sa; password=2c506bbe"
 
         Dim Connstr3 As String = _
         "Data Source=sql2005.dotnethosting.cz;Initial Catalog=plaveninycz1;User Id=plaveninycz1;Password=Ziqwdwq1;"
@@ -53,11 +54,13 @@ Public Class db_update_new
         End Try
 
         Try
-            LogStr &= dbcn.UpdateTemperature()
-            LogStr &= dbcn.UpdateSnow()
-            LogStr &= dbcn.UpdatePrecipitation_Daily()
-            LogStr &= dbcn.UpdatePrecip_Hourly_Povodi()
-            LogStr &= dbcn.UpdatePrecip_Hourly_CHMU()
+            'LogStr &= dbcn.UpdateTemperature()
+            'LogStr &= dbcn.UpdateSnow()
+            'LogStr &= dbcn.UpdatePrecipitation_Daily()
+            'LogStr &= dbcn.UpdatePrecip_Hourly_Povodi()
+            'LogStr &= dbcn.UpdatePrecip_Hourly_CHMU()
+            ''LogStr &= dbcn.SaveStations_LVS("seso")
+            'LogStr &= dbcn.UpdatePrecipHourly_LVS()
             LogStr &= dbcn.UpdateHydro_povodi()
             LogStr &= dbcn.UpdateHydro_CHMU()
             LogStr &= dbcn.UpdateRadar()
@@ -76,7 +79,7 @@ Public Class db_update_new
 
         'Dim dbc As New DbUpdateClass(Connstr3)
 
-        
+
 
         ''vlastni vypocty
         'Try

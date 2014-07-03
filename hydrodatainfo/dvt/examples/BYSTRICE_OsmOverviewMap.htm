@@ -1,0 +1,417 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0066)http://dvt-info.cz/WEB_BYSTRICE/DvtSite_public/OsmOverviewMap.aspx -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="RadForm RadForm_Vista rfdButton rfdScrollBars rfdZone rfdLabel rfdHeading rfdTextbox rfdTextarea rfdFieldset rfdRadio rfdGrids"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+
+</title>
+    <link rel="stylesheet" href="./BYSTRICE_OsmOverviewMap_files/style.css" type="text/css">
+    <script language="javascript" type="text/javascript" src="./BYSTRICE_OsmOverviewMap_files/OpenLayers.js"></script>
+    
+<link href="./BYSTRICE_OsmOverviewMap_files/WebResource.axd" type="text/css" rel="stylesheet" class="Telerik_stylesheet"><link href="./BYSTRICE_OsmOverviewMap_files/WebResource(1).axd" type="text/css" rel="stylesheet" class="Telerik_stylesheet"><link href="./BYSTRICE_OsmOverviewMap_files/WebResource(2).axd" type="text/css" rel="stylesheet" class="Telerik_stylesheet"><link href="./BYSTRICE_OsmOverviewMap_files/WebResource(3).axd" type="text/css" rel="stylesheet" class="Telerik_stylesheet"></head>
+<body class="BODY">
+    <form method="post" action="./BYSTRICE_OsmOverviewMap_files/BYSTRICE_OsmOverviewMap.htm" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="RadScriptManager1_TSM" id="RadScriptManager1_TSM" value=";;System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35:en-US:33363de7-7c08-435e-ab35-682b2ed2c688:ea597d4b:b25378d2;Telerik.Web.UI, Version=2012.3.1308.40, Culture=neutral, PublicKeyToken=121fae78165ba3d4:en-US:0c62baaa-fecc-4eb5-91ff-e3de59bf8f40:16e4e7cd:86526ba7:874f8ea2:ed16cbdc:58366029:f7645509:24ee1bba:f46195d3">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMjEwMjAzNzA2MA9kFgJmD2QWAgIDD2QWAgIHD2QWAgIBD2QWBAICDxUWB0xlZ2VuZGERaW1nL3VuY2VydGFpbi5wbmcJTmV6bsOhbcO9C1R5cHkgc3RhbmljDWltZy9zdWNoby5wbmcFU3VjaG8QaW1nL3RyaWFuZ2xlLnBuZw9NxJvFmWVuw60gc3RhdnUMaW1nL25vcm0ucG5nD05vcm3DoWxuw60gc3Rhdg5pbWcvc3F1YXJlLnBuZxpNxJvFmWVuw60gc3RhdnUgYSBzcsOhxb5lawxpbWcvc3BhMS5wbmcRMS4gU1BBIChiZMSbbG9zdCkNaW1nL2VtcHR5LnBuZwAMaW1nL3NwYTIucG5nEzIuIFNQQSAocG9ob3Rvdm9zdCkNaW1nL2VtcHR5LnBuZwAMaW1nL3NwYTMucG5nEzMuIFNQQSAob2hyb8W+ZW7DrSlkAgMPPCsADgIAFCsAAQ8WBh4LXyFEYXRhQm91bmRnHhdFbmFibGVBamF4U2tpblJlbmRlcmluZ2geC18hSXRlbUNvdW50AgFkARYCFgsPAgUUKwAFFCsABRYIHgpIZWFkZXJUZXh0BQZQcm9maWweFURhdGFOYXZpZ2F0ZVVybEZpZWxkcxUBDFNpdGVDaGFydFVybB4bRGF0YU5hdmlnYXRlVXJsRm9ybWF0U3RyaW5nBQN7MH0eCERhdGFUeXBlGSsCZBYEHglGb250X0JvbGRnHgRfIVNCAoAQZAUEU2l0ZRQrAAUWBB8DBQNUb2sfBhkrAmQWBB8HZx8IAoAQZAUIV2F0ZXJ3YXkUKwAFFgIfAwUJU3RhdiBbY21dZBYEHwdnHwgCgBBkBQpXYXRlckxldmVsFCsABRYEHwMFB1N0dXBlxYgfBhkrAmQWBB8HZx8IAoAQZAUFU3RhZ2UUKwAFFgQfAwUHU3R1cGXFiB8GGSsCZBYEHwdnHwgCgBBkBQtTdGFnZVN5bWJvbGRlFCsAAAspelRlbGVyaWsuV2ViLlVJLkdyaWRDaGlsZExvYWRNb2RlLCBUZWxlcmlrLldlYi5VSSwgVmVyc2lvbj0yMDEyLjMuMTMwOC40MCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj0xMjFmYWU3ODE2NWJhM2Q0ATwrAAcACyl1VGVsZXJpay5XZWIuVUkuR3JpZEVkaXRNb2RlLCBUZWxlcmlrLldlYi5VSSwgVmVyc2lvbj0yMDEyLjMuMTMwOC40MCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj0xMjFmYWU3ODE2NWJhM2Q0ARYCHgRfZWZzFgIeBF9lY2NkZBYMHwBnHhRJc0JvdW5kVG9Gb3J3YXJkT25seWgeBV9xZWx0GSmSAUdhbGlhbmEuRHZ0U2l0ZS5XZWIuUHVibGljLkFzcE1hcC5PdmVydmlld1RhYmxlSXRlbSwgR2FsaWFuYS5EdnRTaXRlLldlYi5QdWJsaWMuQXNwTWFwLCBWZXJzaW9uPTIwMTIuMi43MjQuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsHghEYXRhS2V5cxYAHgVfIUNJUxcAHwICB2RmFgJmDxQrAAMPZBYCHgVzdHlsZQULd2lkdGg6MTAwJTtkZGQYBAUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgIFF2N0bDAwJFJhZEZvcm1EZWNvcmF0b3IxBSJjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJFJhZEdyaWQxBShjdGwwMCRDb250ZW50UGxhY2VIb2xkZXIxJFJhZEdyaWQxJGN0bDAwDxQrAAMUKwACZBcDBQtfIUl0ZW1Db3VudAIHBQhfIVBDb3VudGQFBl8hRFNJQwIHFgIeA19zZRYCHgJfY2ZkZAUiY3RsMDAkQ29udGVudFBsYWNlSG9sZGVyMSRSYWRHcmlkMQ8UKwACZBcDBQtFZGl0SW5kZXhlcxYABQ9TZWxlY3RlZEluZGV4ZXMWAAUTU2VsZWN0ZWRDZWxsSW5kZXhlcxYAZAURY3RsMDAkU2tpbkNob29zZXIPFCsAAmUFBVZpc3RhZJsPDURpEbaxtEgdpXrYW6z22p/Sp0fmUU7HD+XdqzFr">
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="./BYSTRICE_OsmOverviewMap_files/WebResource(4).axd" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+var vectorLayers = [];
+var allLayers = [];
+
+OpenLayers.Renderer.symbol.rectangle = [0, 0, 6, 0, 6, 10, 0, 10, 0, 0];
+
+var map;
+var selectControl;
+var selectedFeature;
+var currentPopup;
+
+var popupClass = OpenLayers.Class(OpenLayers.Popup.FramedCloud, {
+    "autoSize": true,
+    "minSize": new OpenLayers.Size(300, 50),
+    "maxSize": new OpenLayers.Size(600, 400),
+    "keepInMap": true,
+    "closeOnMove": true
+});
+
+var defaultPointMarkerStyle = new OpenLayers.Style({
+    'fontFamily': 'Arial',
+    'fontWeight': 'bold',
+    'fontSize': '10px',
+    'fontColor': '#000000',
+    "graphicName": "${type}",
+    "strokeColor": "black",
+    "strokeOpacity": 0.7,
+    "strokeWidth": 3,
+    "fillColor": "${fillColor}",
+    "fillOpacity": 0.5,
+    "pointRadius": 7,
+    "label": "${label}",
+    "labelXOffset": 0,
+    "labelYOffset": 15
+});
+
+var selectPointMarkerStyle = new OpenLayers.Style({
+    'fontFamily': 'Arial',
+    'fontWeight': 'bold',
+    'fontSize': '20px',
+    'fontColor': '#000000',
+    "graphicName": "${type}",
+    "strokeColor": "black",
+    "strokeOpacity": 1.0,
+    "strokeWidth": 3,
+    "fillColor": "${fillColor}",
+    "fillOpacity": 1.0,
+    "pointRadius": 20,
+    "label": "${label}",
+    "labelXOffset": 0,
+    "labelYOffset": 30
+});
+
+var styleMap = new OpenLayers.StyleMap({ "default": defaultPointMarkerStyle, "select": selectPointMarkerStyle });
+var mapDivId = "ContentPlaceHolder1_osmmap";
+var startZoomLevel = 12;
+var centerLongitude = 12.8482330171429;
+var centerLatidute = 50.3400544442857;
+HydroLevel = new OpenLayers.Layer.Vector('Vodní stavy', { 'styleMap': styleMap });
+vectorLayers[0] = HydroLevel;
+HydroLevel_Rain = new OpenLayers.Layer.Vector('Vodní stavy a srážky', { 'styleMap': styleMap });
+vectorLayers[1] = HydroLevel_Rain;
+function onPopupClose(evt) {
+    selectControl.unselect(selectedFeature);
+}
+
+function onFeatureSelect(feature) {
+    selectedFeature = feature;
+
+    popup = new OpenLayers.Popup.FramedCloud("popup",
+        feature.geometry.getBounds().getCenterLonLat(),
+        null,
+        feature.attributes.popupHtml,
+        null, true, onPopupClose
+        );
+
+    popup.panMapIfOutOfView = true;
+    popup.autoSize = true;
+    feature.popup = popup;
+    map.addPopup(popup);
+}
+
+function onFeatureUnselect(feature) {
+    map.removePopup(feature.popup);
+    feature.popup.destroy();
+    feature.popup = null;
+}
+
+function addPointMarker(lon, lat, fillColor, label, popupHtml, layer, graphicName) {
+    pointLonLat = new OpenLayers.LonLat(lon, lat).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
+    point = new OpenLayers.Geometry.Point(pointLonLat.lon, pointLonLat.lat);
+    pointFeature = new OpenLayers.Feature.Vector(point, { "type": graphicName });
+    pointFeature.attributes.fillColor = fillColor;
+    pointFeature.attributes.label = label;
+    pointFeature.attributes.popupHtml = popupHtml;
+    pointFeature.popupClass = popupClass;
+    layer.addFeatures([pointFeature]);
+}
+var EnableLayerSwitcher=true;
+var EnableScale=true;
+var EnableScaleLine=true;
+var EnablePanZoomBar=true;
+var EnableNavigation=true;
+
+function addPointMarkers() {
+addPointMarker(12.85322, 50.33498, '#00FFFF', 'BY-03', '<img src="MarkerChart.ashx?site=BY-03" height="192" width="256" /><h6><br/><a href="SiteChartTable.aspx?site=BY-03">Grafy a data</a></h6>', HydroLevel, 'triangle');
+addPointMarker(12.87615, 50.36192, '#00FFFF', 'BY-04', '<img src="MarkerChart.ashx?site=BY-04" height="192" width="256" /><h6><br/><a href="SiteChartTable.aspx?site=BY-04">Grafy a data</a></h6>', HydroLevel, 'triangle');
+addPointMarker(12.87269, 50.30997, '#00FFFF', 'BY-07', '<img src="MarkerChart.ashx?site=BY-07" height="192" width="256" /><h6><br/><a href="SiteChartTable.aspx?site=BY-07">Grafy a data</a></h6>', HydroLevel, 'triangle');
+addPointMarker(12.85877, 50.31514, '#00FFFF', 'BY-06', '<img src="MarkerChart.ashx?site=BY-06" height="192" width="256" /><h6><br/><a href="SiteChartTable.aspx?site=BY-06">Grafy a data</a></h6>', HydroLevel, 'triangle');
+addPointMarker(12.86387, 50.32513, '#00FFFF', 'BY-05', '<img src="MarkerChart.ashx?site=BY-05" height="192" width="256" /><h6><br/><a href="SiteChartTable.aspx?site=BY-05">Grafy a data</a></h6>', HydroLevel, 'triangle');
+addPointMarker(12.78405, 50.36395, '#00FFFF', 'BY-01', '<img src="MarkerChart.ashx?site=BY-01" height="192" width="256" /><h6><br/><a href="SiteChartTable.aspx?site=BY-01">Grafy a data</a></h6>', HydroLevel_Rain, 'square');
+addPointMarker(12.82888, 50.36929, '#00FFFF', 'BY-02', '<img src="MarkerChart.ashx?site=BY-02" height="192" width="256" /><h6><br/><a href="SiteChartTable.aspx?site=BY-02">Grafy a data</a></h6>', HydroLevel_Rain, 'square');
+}
+function initMap() {
+    map = new OpenLayers.Map(mapDivId);
+    layerOsm = new OpenLayers.Layer.OSM("OSM Map");
+    layerOsm.transitionEffect = "resize";
+    layerOsm.displayInLayerSwitcher = false;
+    map.addLayer(layerOsm);
+
+    map.setCenter(
+                new OpenLayers.LonLat(centerLongitude, centerLatidute).transform(
+                    new OpenLayers.Projection("EPSG:4326"),
+                    map.getProjectionObject()
+                ), startZoomLevel
+            );
+
+    addPointMarkers();
+    map.addLayers(vectorLayers);
+    selectControl = new OpenLayers.Control.SelectFeature(vectorLayers, { onSelect: onFeatureSelect, onUnselect: onFeatureUnselect });
+
+    var overviewMap = new OpenLayers.Control.OverviewMap();
+    overviewMap.maximized = true;
+    map.addControl(overviewMap);
+
+    if (EnableScale) map.addControl(new OpenLayers.Control.Scale());
+    if (EnableScaleLine) map.addControl(new OpenLayers.Control.ScaleLine());
+    if (EnableLayerSwitcher) map.addControl(new OpenLayers.Control.LayerSwitcher());
+    if (EnablePanZoomBar) map.addControl(new OpenLayers.Control.PanZoomBar());
+    if (EnableNavigation) map.addControl(new OpenLayers.Control.Navigation());
+
+    var mousePosition = new OpenLayers.Control.MousePosition();
+    mousePosition.displayProjection = new OpenLayers.Projection("EPSG:4326");
+    map.addControl(mousePosition);
+
+    map.addControl(selectControl);
+
+    selectControl.activate();
+}
+//]]>
+</script>
+
+<script src="./BYSTRICE_OsmOverviewMap_files/Telerik.Web.UI.WebResource.axd" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEWAgKYnMaSAgKQ7KozmgxOjWdMT4ur4Wx/wN1UwSvoHxiXDEqG5HUwlAcIuAo=">
+</div>
+    <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$RadScriptManager1', 'form1', ['tctl00$ContentPlaceHolder1$ctl00$ContentPlaceHolder1$RadAjaxPanel1Panel',''], [], [], 90, 'ctl00');
+//]]>
+</script>
+
+    <div id="ctl00_RadFormDecorator1" class="RadFormDecorator" style="display:none;">
+	<!-- 2012.3.1308.40 --><script type="text/javascript">
+//<![CDATA[
+if (typeof(WebForm_AutoFocus) != 'undefined')
+{
+	var old_WebForm_AutoFocus = WebForm_AutoFocus;
+	WebForm_AutoFocus = function(arg)
+	{
+		Sys.Application.add_load(function()
+		{
+			old_WebForm_AutoFocus(arg);
+			WebForm_AutoFocus = old_WebForm_AutoFocus;
+		});
+	}
+}
+if (typeof(Telerik) != 'undefined')
+{
+	if (Telerik.Web.UI.RadFormDecorator)
+	{
+		Telerik.Web.UI.RadFormDecorator.initializePage("ctl00_RadFormDecorator1", "", "Vista", 16382);
+	}
+}
+//]]>
+</script><input id="ctl00_RadFormDecorator1_ClientState" name="ctl00_RadFormDecorator1_ClientState" type="hidden">
+</div>
+    
+    <div align="center" style="width: 1200px; height: 700px">
+        
+    <div style="width: 1200px; height: 700px; text-align: left; background-color: #EFF0EF;">
+        <div id="ctl00_ContentPlaceHolder1_ctl00_ContentPlaceHolder1_RadAjaxPanel1Panel" style="height: 100%; width: 100%;">
+	<div id="ctl00_ContentPlaceHolder1_RadAjaxPanel1" style="height: 100%;">
+		
+            <table style="width: 100%;" cellpadding="0" cellspacing="0">
+                <tbody><tr>
+                    <td colspan="0" rowspan="0" width="800px">
+                        <div id="ContentPlaceHolder1_osmmap" style="width: 800px; height: 700px" class="olMap">
+                        <div id="OpenLayers.Map_12_OpenLayers_ViewPort" class="olMapViewport olControlDragPanActive olControlZoomBoxActive olControlPinchZoomActive olControlNavigationActive olControlMousePositionActive olControlSelectFeatureActive" style="position: relative; overflow: hidden; width: 100%; height: 100%;"><div id="OpenLayers.Map_12_OpenLayers_Container" style="position: absolute; width: 100px; height: 100px; z-index: 749; left: 0px; top: 0px;"><div id="OpenLayers.Layer.OSM_28" dir="ltr" class="olLayerDiv olLayerGrid" style="position: absolute; width: 100%; height: 100%; z-index: 100; left: 0%; top: 0%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1383.png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 353%; top: 325%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1382.png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 353%; top: 69%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1383(1).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 97%; top: 325%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1382(1).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 97%; top: 69%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1383(2).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 609%; top: 325%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1384.png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 353%; top: 581%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1382(2).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 609%; top: 69%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1384(1).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 97%; top: 581%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1381.png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 353%; top: -187%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1383(3).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: -159%; top: 325%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1381(1).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 97%; top: -187%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1382(3).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: -159%; top: 69%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1384(2).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 609%; top: 581%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1381(2).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 609%; top: -187%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1384(3).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: -159%; top: 581%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1381(3).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: -159%; top: -187%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1383(4).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 865%; top: 325%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1382(4).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 865%; top: 69%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1384(4).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 865%; top: 581%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/1381(4).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 865%; top: -187%; width: 256%; height: 256%;"></div><div id="OpenLayers.Layer.Vector_8" dir="ltr" class="olLayerDiv" style="position: absolute; width: 100%; height: 100%; z-index: 330; left: 0px; top: 0px;"><svg id="OpenLayers.Layer.Vector_8_svgRoot" width="800" height="700" viewBox="0 0 800 700" style="display: block;"><defs id="OpenLayers.Layer.Vector_8_defs"><symbol id="OpenLayers.Layer.Vector_8-triangle" viewBox="-10 -10 30 30"><polygon points="0 , 10 10 , 10 5 , 0 0 , 10"></polygon></symbol></defs></svg></div><div id="OpenLayers.Layer.Vector_10" dir="ltr" class="olLayerDiv" style="position: absolute; width: 100%; height: 100%; z-index: 335; left: 0px; top: 0px;"><svg id="OpenLayers.Layer.Vector_10_svgRoot" width="800" height="700" viewBox="0 0 800 700" style="display: block;"><defs id="OpenLayers.Layer.Vector_10_defs"><symbol id="OpenLayers.Layer.Vector_10-square" viewBox="-1 -1 3 3"><polygon points="0 , 0 0 , 1 1 , 1 1 , 0 0 , 0"></polygon></symbol></defs></svg></div><div id="OpenLayers.Layer.Vector.RootContainer_72" dir="ltr" class="olLayerDiv" style="position: absolute; width: 100%; height: 100%; z-index: 725; left: 0px; top: 0px;"><svg id="OpenLayers.Layer.Vector.RootContainer_72_svgRoot" width="800" height="700" viewBox="0 0 800 700" style="display: block;"><g id="OpenLayers.Layer.Vector.RootContainer_72_root" transform="" style="visibility: visible;"><g id="OpenLayers.Layer.Vector.RootContainer_72_vroot"></g><g id="OpenLayers.Layer.Vector.RootContainer_72_troot"></g></g><g id="OpenLayers.Layer.Vector_8_root" transform="" style="visibility: visible;"><g id="OpenLayers.Layer.Vector_8_vroot"><svg id="OpenLayers.Geometry.Point_50" cx="414.5256403780513" cy="373.15717804266023" r="1" viewBox="-10 -10 30 30" width="42" height="42" x="393.5256403780513" y="352.15717804266023" fill="#00FFFF" fill-opacity="0.5" stroke="black" stroke-opacity="0.7" stroke-width="2.142857142857143" stroke-linecap="round" stroke-linejoin="round"><polygon points="0 , 10 10 , 10 5 , 0 0 , 10"></polygon></svg><svg id="OpenLayers.Geometry.Point_52" cx="481.31410615583445" cy="250.18843853435828" r="1" viewBox="-10 -10 30 30" width="42" height="42" x="460.31410615583445" y="229.18843853435828" fill="#00FFFF" fill-opacity="0.5" stroke="black" stroke-opacity="0.7" stroke-width="2.142857142857143" stroke-linecap="round" stroke-linejoin="round"><polygon points="0 , 10 10 , 10 5 , 0 0 , 10"></polygon></svg><svg id="OpenLayers.Geometry.Point_54" cx="471.236125711388" cy="487.2539530158392" r="1" viewBox="-10 -10 30 30" width="42" height="42" x="450.236125711388" y="466.2539530158392" fill="#00FFFF" fill-opacity="0.5" stroke="black" stroke-opacity="0.7" stroke-width="2.142857142857143" stroke-linecap="round" stroke-linejoin="round"><polygon points="0 , 10 10 , 10 5 , 0 0 , 10"></polygon></svg><svg id="OpenLayers.Geometry.Point_56" cx="430.69118704471475" cy="463.6730961854337" r="1" viewBox="-10 -10 30 30" width="42" height="42" x="409.69118704471475" y="442.6730961854337" fill="#00FFFF" fill-opacity="0.5" stroke="black" stroke-opacity="0.7" stroke-width="2.142857142857143" stroke-linecap="round" stroke-linejoin="round"><polygon points="0 , 10 10 , 10 5 , 0 0 , 10"></polygon></svg><svg id="OpenLayers.Geometry.Point_58" cx="445.54601371138415" cy="418.1004996294505" r="1" viewBox="-10 -10 30 30" width="42" height="42" x="424.54601371138415" y="397.1004996294505" fill="#00FFFF" fill-opacity="0.5" stroke="black" stroke-opacity="0.7" stroke-width="2.142857142857143" stroke-linecap="round" stroke-linejoin="round"><polygon points="0 , 10 10 , 10 5 , 0 0 , 10"></polygon></svg></g><g id="OpenLayers.Layer.Vector_8_troot"><text id="OpenLayers.Feature.Vector_51_label" x="414.5256403780513" y="358.15717804266023" fill="#000000" font-family="Arial" font-size="10px" font-weight="bold" pointer-events="none" text-anchor="middle"><tspan id="OpenLayers.Feature.Vector_51_label_tspan_0" baseline-shift="-35%" x="414.5256403780513" dy="0em">BY-03</tspan></text><text id="OpenLayers.Feature.Vector_53_label" x="481.31410615583445" y="235.18843853435828" fill="#000000" font-family="Arial" font-size="10px" font-weight="bold" pointer-events="none" text-anchor="middle"><tspan id="OpenLayers.Feature.Vector_53_label_tspan_0" baseline-shift="-35%" x="481.31410615583445" dy="0em">BY-04</tspan></text><text id="OpenLayers.Feature.Vector_55_label" x="471.236125711388" y="472.2539530158392" fill="#000000" font-family="Arial" font-size="10px" font-weight="bold" pointer-events="none" text-anchor="middle"><tspan id="OpenLayers.Feature.Vector_55_label_tspan_0" baseline-shift="-35%" x="471.236125711388" dy="0em">BY-07</tspan></text><text id="OpenLayers.Feature.Vector_57_label" x="430.69118704471475" y="448.6730961854337" fill="#000000" font-family="Arial" font-size="10px" font-weight="bold" pointer-events="none" text-anchor="middle"><tspan id="OpenLayers.Feature.Vector_57_label_tspan_0" baseline-shift="-35%" x="430.69118704471475" dy="0em">BY-06</tspan></text><text id="OpenLayers.Feature.Vector_59_label" x="445.54601371138415" y="403.1004996294505" fill="#000000" font-family="Arial" font-size="10px" font-weight="bold" pointer-events="none" text-anchor="middle"><tspan id="OpenLayers.Feature.Vector_59_label_tspan_0" baseline-shift="-35%" x="445.54601371138415" dy="0em">BY-05</tspan></text></g></g><g id="OpenLayers.Layer.Vector_10_root" transform="" style="visibility: visible;"><g id="OpenLayers.Layer.Vector_10_vroot"><svg id="OpenLayers.Geometry.Point_60" cx="213.0534128224972" cy="240.91959262744058" r="1" viewBox="-1 -1 3 3" width="42" height="42" x="192.0534128224972" y="219.91959262744058" fill="#00FFFF" fill-opacity="0.5" stroke="black" stroke-opacity="0.7" stroke-width="0.21428571428571427" stroke-linecap="round" stroke-linejoin="round"><polygon points="0 , 0 0 , 1 1 , 1 1 , 0 0 , 0"></polygon></svg><svg id="OpenLayers.Geometry.Point_62" cx="343.63025193360227" cy="216.53561207282473" r="1" viewBox="-1 -1 3 3" width="42" height="42" x="322.63025193360227" y="195.53561207282473" fill="#00FFFF" fill-opacity="0.5" stroke="black" stroke-opacity="0.7" stroke-width="0.21428571428571427" stroke-linecap="round" stroke-linejoin="round"><polygon points="0 , 0 0 , 1 1 , 1 1 , 0 0 , 0"></polygon></svg></g><g id="OpenLayers.Layer.Vector_10_troot"><text id="OpenLayers.Feature.Vector_61_label" x="213.0534128224972" y="225.91959262744058" fill="#000000" font-family="Arial" font-size="10px" font-weight="bold" pointer-events="none" text-anchor="middle"><tspan id="OpenLayers.Feature.Vector_61_label_tspan_0" baseline-shift="-35%" x="213.0534128224972" dy="0em">BY-01</tspan></text><text id="OpenLayers.Feature.Vector_63_label" x="343.63025193360227" y="201.53561207282473" fill="#000000" font-family="Arial" font-size="10px" font-weight="bold" pointer-events="none" text-anchor="middle"><tspan id="OpenLayers.Feature.Vector_63_label_tspan_0" baseline-shift="-35%" x="343.63025193360227" dy="0em">BY-02</tspan></text></g></g></svg></div></div><div id="OpenLayers.Control.Zoom_15" class="olControlZoom olControlNoSelect" unselectable="on" style="position: absolute; z-index: 1004;"><a href="http://dvt-info.cz/WEB_BYSTRICE/DvtSite_public/OsmOverviewMap.aspx#zoomIn" class="olControlZoomIn olButton">+</a><a href="http://dvt-info.cz/WEB_BYSTRICE/DvtSite_public/OsmOverviewMap.aspx#zoomOut" class="olControlZoomOut olButton">-</a></div><div id="OpenLayers.Control.ArgParser_16" class="olControlArgParser olControlNoSelect" unselectable="on" style="position: absolute; z-index: 1004;"></div><div id="OpenLayers.Control.Attribution_17" class="olControlAttribution olControlNoSelect" unselectable="on" style="position: absolute; z-index: 1004;">Data CC-By-SA by <a href="http://openstreetmap.org/">OpenStreetMap</a></div><div id="OpenLayers.Control.OverviewMap_79" class="olControlOverviewMap olControlNoSelect olControlOverviewMapContainer" unselectable="on" style="position: absolute; z-index: 1005;"><div class="olControlOverviewMapElement"><div id="overviewMap82" class="olMap" style="width: 180px; height: 90px; position: relative; overflow: hidden;"><div id="OpenLayers.Map_87_OpenLayers_ViewPort" class="olMapViewport" style="position: relative; overflow: hidden; width: 100%; height: 100%;"><div id="OpenLayers.Map_87_OpenLayers_Container" style="position: absolute; width: 100px; height: 100px; z-index: 749; left: 0px; top: 0px;"><div id="OpenLayers.Layer.OSM_80" dir="ltr" class="olLayerDiv olLayerGrid" style="position: absolute; width: 100%; height: 100%; z-index: 100; left: 0%; top: 0%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/172.png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 20%; top: -182%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/173.png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: 20%; top: 74%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/172(1).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: -236%; top: -182%; width: 256%; height: 256%;"><img class="olTileImage" src="./BYSTRICE_OsmOverviewMap_files/173(1).png" crossorigin="anonymous" style="visibility: inherit; opacity: 1; position: absolute; left: -236%; top: 74%; width: 256%; height: 256%;"></div></div><div class="olControlOverviewMapExtentRectangle" style="position: absolute; z-index: 1000; top: 1px; left: 40px; height: 87px; width: 100px;"></div></div></div></div><div id="olControlOverviewMapMaximizeButton" class="olControlOverviewMapMaximizeButton olButton" style="position: absolute; display: none;"><img id="olControlOverviewMapMaximizeButton_innerImage" class="olAlphaImg" src="./BYSTRICE_OsmOverviewMap_files/layer-switcher-maximize.png" style="position: relative;"></div><div id="OpenLayers_Control_minimizeDiv" class="olControlOverviewMapMinimizeButton olButton" style="position: absolute;"><img id="OpenLayers_Control_minimizeDiv_innerImage" class="olAlphaImg" src="./BYSTRICE_OsmOverviewMap_files/layer-switcher-minimize.png" style="position: relative;"></div></div><div id="OpenLayers.Control.Scale_96" class="olControlScale olControlNoSelect" unselectable="on" style="position: absolute; z-index: 1006;"><div>Scale = 1 : 108K</div></div><div id="OpenLayers.Control.ScaleLine_97" class="olControlScaleLine olControlNoSelect" unselectable="on" style="position: absolute; z-index: 1007;"><div class="olControlScaleLineTop" style="visibility: visible; width: 52px;">2 km</div><div class="olControlScaleLineBottom" style="visibility: visible; width: 42px;">1 mi</div></div><div id="OpenLayers.Control.LayerSwitcher_98" class="olControlLayerSwitcher olControlNoSelect" unselectable="on" style="position: absolute; width: 0px; height: 0px; z-index: 1008;"><div id="OpenLayers.Control.LayerSwitcher_98_layersDiv" class="layersDiv" style="display: none;"><div class="baseLbl" style="display: none;">Base Layer</div><div class="baseLayersDiv"></div><div class="dataLbl">Overlays</div><div class="dataLayersDiv"><input id="OpenLayers.Control.LayerSwitcher_98_input_Vodní stavy" name="Vodní stavy" type="checkbox" value="Vodní stavy" checked="" class="olButton"><label class="labelSpan olButton" style="vertical-align: baseline;">Vodní stavy</label><br><input id="OpenLayers.Control.LayerSwitcher_98_input_Vodní stavy a srážky" name="Vodní stavy a srážky" type="checkbox" value="Vodní stavy a srážky" checked="" class="olButton"><label class="labelSpan olButton" style="vertical-align: baseline;">Vodní stavy a srážky</label><br></div></div><div id="OpenLayers_Control_MaximizeDiv" class="maximizeDiv olButton" style="position: absolute;"><img id="OpenLayers_Control_MaximizeDiv_innerImage" class="olAlphaImg" src="./BYSTRICE_OsmOverviewMap_files/layer-switcher-maximize.png" style="position: relative;"></div><div id="OpenLayers_Control_MinimizeDiv" class="minimizeDiv olButton" style="position: absolute; display: none;"><img id="OpenLayers_Control_MinimizeDiv_innerImage" class="olAlphaImg" src="./BYSTRICE_OsmOverviewMap_files/layer-switcher-minimize.png" style="position: relative;"></div></div><div id="OpenLayers.Control.PanZoomBar_103" class="olControlPanZoomBar olControlNoSelect" unselectable="on" style="position: absolute; left: 4px; top: 4px; z-index: 1009;"><div id="OpenLayers.Control.PanZoomBar_103_panup" class="olButton" style="position: absolute; left: 13px; top: 4px; width: 18px; height: 18px; cursor: pointer;"><img id="OpenLayers.Control.PanZoomBar_103_panup_innerImage" class="olAlphaImg" src="./BYSTRICE_OsmOverviewMap_files/north-mini.png" style="position: relative; width: 18px; height: 18px;"></div><div id="OpenLayers.Control.PanZoomBar_103_panleft" class="olButton" style="position: absolute; left: 4px; top: 22px; width: 18px; height: 18px; cursor: pointer;"><img id="OpenLayers.Control.PanZoomBar_103_panleft_innerImage" class="olAlphaImg" src="./BYSTRICE_OsmOverviewMap_files/west-mini.png" style="position: relative; width: 18px; height: 18px;"></div><div id="OpenLayers.Control.PanZoomBar_103_panright" class="olButton" style="position: absolute; left: 22px; top: 22px; width: 18px; height: 18px; cursor: pointer;"><img id="OpenLayers.Control.PanZoomBar_103_panright_innerImage" class="olAlphaImg" src="./BYSTRICE_OsmOverviewMap_files/east-mini.png" style="position: relative; width: 18px; height: 18px;"></div><div id="OpenLayers.Control.PanZoomBar_103_pandown" class="olButton" style="position: absolute; left: 13px; top: 40px; width: 18px; height: 18px; cursor: pointer;"><img id="OpenLayers.Control.PanZoomBar_103_pandown_innerImage" class="olAlphaImg" src="./BYSTRICE_OsmOverviewMap_files/south-mini.png" style="position: relative; width: 18px; height: 18px;"></div><div id="OpenLayers.Control.PanZoomBar_103_zoomin" class="olButton" style="position: absolute; left: 13px; top: 63px; width: 18px; height: 18px; cursor: pointer;"><img id="OpenLayers.Control.PanZoomBar_103_zoomin_innerImage" class="olAlphaImg" src="./BYSTRICE_OsmOverviewMap_files/zoom-plus-mini.png" style="position: relative; width: 18px; height: 18px;"></div><div id="OpenLayers_Control_PanZoomBar_ZoombarOpenLayers.Map_12" class="olButton" style="background-image: url(http://dvt-info.cz/WEB_BYSTRICE/DvtSite_public/OpenLayers/img/zoombar.png); left: 13px; top: 81px; width: 18px; height: 209px; position: absolute; cursor: pointer;"></div><div id="OpenLayers.Control.PanZoomBar_103_OpenLayers.Map_12" style="position: absolute; left: 12px; top: 147px; width: 20px; height: 9px; cursor: move;"><img id="OpenLayers.Control.PanZoomBar_103_OpenLayers.Map_12_innerImage" class="olAlphaImg" src="./BYSTRICE_OsmOverviewMap_files/slider.png" style="position: relative; width: 20px; height: 9px;"></div><div id="OpenLayers.Control.PanZoomBar_103_zoomout" class="olButton" style="position: absolute; left: 13px; top: 290px; width: 18px; height: 18px; cursor: pointer;"><img id="OpenLayers.Control.PanZoomBar_103_zoomout_innerImage" class="olAlphaImg" src="./BYSTRICE_OsmOverviewMap_files/zoom-minus-mini.png" style="position: relative; width: 18px; height: 18px;"></div></div><div id="OpenLayers.Control.MousePosition_129" class="olControlMousePosition olControlNoSelect" unselectable="on" style="position: absolute; z-index: 1011;">12.87673, 50.37554</div><div id="OpenLayers.Control.SelectFeature_71" class="olControlSelectFeature olControlNoSelect" unselectable="on" style="position: absolute; z-index: 1012;"></div></div></div>
+                    </td>
+                    <td colspan="0" rowspan="0" height="700px" width="400px" style="vertical-align: top;
+                        text-align: center">
+                        <div style="width: 400px; height: 150px; text-align: left; font-family: arial; font-size: 10px;">
+                            <fieldset class="rfdRoundedCorners">
+                                <legend>Legenda</legend>
+                                <table style="width: 100%; text-align: left; font-family: arial; font-size: 10px;">
+                                    <tbody><tr>
+                                        <td width="20px">
+                                            <img src="./BYSTRICE_OsmOverviewMap_files/uncertain.png">
+                                        </td>
+                                        <td width="160px">
+                                            Neznámý
+                                        </td>
+                                        <td width="20px">
+                                            &nbsp;
+                                        </td>
+                                        <td width="200px">
+                                            Typy stanic
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20px">
+                                            <img src="./BYSTRICE_OsmOverviewMap_files/sucho.png">
+                                        </td>
+                                        <td width="160px">
+                                            Sucho
+                                        </td>
+                                        <td width="20px">
+                                            <img src="./BYSTRICE_OsmOverviewMap_files/triangle.png">
+                                        </td>
+                                        <td width="200px">
+                                            Měření stavu
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20px">
+                                            <img src="./BYSTRICE_OsmOverviewMap_files/norm.png">
+                                        </td>
+                                        <td width="160px">
+                                            Normální stav
+                                        </td>
+                                        <td width="20px">
+                                            <img src="./BYSTRICE_OsmOverviewMap_files/square.png">
+                                        </td>
+                                        <td width="200px">
+                                            Měření stavu a srážek
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20px">
+                                            <img src="./BYSTRICE_OsmOverviewMap_files/spa1.png">
+                                        </td>
+                                        <td width="160px">
+                                            1. SPA (bdělost)
+                                        </td>
+                                        <td width="20px">
+                                            <img src="./BYSTRICE_OsmOverviewMap_files/empty.png">
+                                        </td>
+                                        <td width="200px">
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20px">
+                                            <img src="./BYSTRICE_OsmOverviewMap_files/spa2.png">
+                                        </td>
+                                        <td width="160px">
+                                            2. SPA (pohotovost)
+                                        </td>
+                                        <td width="20px">
+                                            <img src="./BYSTRICE_OsmOverviewMap_files/empty.png">
+                                        </td>
+                                        <td width="200px">
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20px">
+                                            <img src="./BYSTRICE_OsmOverviewMap_files/spa3.png">
+                                        </td>
+                                        <td width="160px">
+                                            3. SPA (ohrožení)
+                                        </td>
+                                        <td width="20px">
+                                            &nbsp;
+                                        </td>
+                                        <td width="200px">
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                </tbody></table>
+                            </fieldset>
+                        </div>
+                        <div id="ctl00_ContentPlaceHolder1_RadGrid1" class="RadGrid RadGrid_Vista" style="font-size:8pt;height:550px;width:400px;" tabindex="0">
+
+			<div id="ctl00_ContentPlaceHolder1_RadGrid1_GridHeader" class="rgHeaderDiv" style="overflow: hidden;">
+
+<table class="rgMasterTable rgClipCells" id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00_Header" style="width:100%;table-layout:fixed;overflow:hidden;empty-cells:show;">
+	<colgroup>
+		<col style="width:50%">
+		<col style="width:30%">
+		<col style="width:20%">
+	</colgroup>
+<thead>
+		<tr>
+			<th scope="col" class="rgHeader" valign="top" style="font-weight:bold;text-align:center;">Profil</th><th scope="col" class="rgHeader" valign="top" style="font-weight:bold;text-align:center;"><a title="Click here to sort" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$RadGrid1$ctl00$ctl02$ctl00$ctl00','')">Tok</a></th><th scope="col" class="rgHeader" valign="top" style="font-weight:bold;text-align:center;">Stupeň</th>
+		</tr>
+	</thead><tbody style="display:none;"><tr><td colspan="3"></td></tr></tbody>
+</table>
+	</div>
+	<div id="ctl00_ContentPlaceHolder1_RadGrid1_GridData" class="rgDataDiv" style="overflow: auto; width: 100%; height: 524px;">
+
+<table class="rgMasterTable rgClipCells" id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00" style="width:100%;table-layout:fixed;overflow:hidden;empty-cells:show;">
+	<colgroup>
+		<col style="width:50%">
+		<col style="width:30%">
+		<col style="width:20%">
+	</colgroup>
+<tbody>
+	<tr class="rgRow" id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00__0">
+		<td align="left"><a title="BY-01 Pernik" href="http://dvt-info.cz/WEB_BYSTRICE/DvtSite_public/SiteChartTable.aspx?site=BY-01">BY-01 Pernik</a></td><td align="left">Bílá Bystřice</td><td><img id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00_ctl04_imgStageSymbol" src="./BYSTRICE_OsmOverviewMap_files/norm.png"></td>
+	</tr><tr class="rgAltRow" id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00__1">
+		<td align="left"><a title="BY-02 Abertamy" href="http://dvt-info.cz/WEB_BYSTRICE/DvtSite_public/SiteChartTable.aspx?site=BY-02">BY-02 Abertamy</a></td><td align="left">Bystřice</td><td><img id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00_ctl06_imgStageSymbol" src="./BYSTRICE_OsmOverviewMap_files/norm.png"></td>
+	</tr><tr class="rgRow" id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00__2">
+		<td align="left"><a title="BY-03 Merklín (areál G.T. Mandl)" href="http://dvt-info.cz/WEB_BYSTRICE/DvtSite_public/SiteChartTable.aspx?site=BY-03">BY-03 Merklín (areál G.T. Mandl)</a></td><td align="left">Bystřice</td><td><img id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00_ctl08_imgStageSymbol" src="./BYSTRICE_OsmOverviewMap_files/norm.png"></td>
+	</tr><tr class="rgAltRow" id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00__3">
+		<td align="left"><a title="BY-04 Zátiší" href="http://dvt-info.cz/WEB_BYSTRICE/DvtSite_public/SiteChartTable.aspx?site=BY-04">BY-04 Zátiší</a></td><td align="left">Eliášův potok</td><td><img id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00_ctl10_imgStageSymbol" src="./BYSTRICE_OsmOverviewMap_files/norm.png"></td>
+	</tr><tr class="rgRow" id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00__4">
+		<td align="left"><a title="BY-05 Merklín" href="http://dvt-info.cz/WEB_BYSTRICE/DvtSite_public/SiteChartTable.aspx?site=BY-05">BY-05 Merklín</a></td><td align="left">Bystřice</td><td><img id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00_ctl12_imgStageSymbol" src="./BYSTRICE_OsmOverviewMap_files/norm.png"></td>
+	</tr><tr class="rgAltRow" id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00__5">
+		<td align="left"><a title="BY-06 Hroznětín I." href="http://dvt-info.cz/WEB_BYSTRICE/DvtSite_public/SiteChartTable.aspx?site=BY-06">BY-06 Hroznětín I.</a></td><td align="left">Bystřice</td><td><img id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00_ctl14_imgStageSymbol" src="./BYSTRICE_OsmOverviewMap_files/norm.png"></td>
+	</tr><tr class="rgRow" id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00__6">
+		<td align="left"><a title="BY-07 Hroznětín II." href="http://dvt-info.cz/WEB_BYSTRICE/DvtSite_public/SiteChartTable.aspx?site=BY-07">BY-07 Hroznětín II.</a></td><td align="left">Bystřice</td><td><img id="ctl00_ContentPlaceHolder1_RadGrid1_ctl00_ctl16_imgStageSymbol" src="./BYSTRICE_OsmOverviewMap_files/norm.png"></td>
+	</tr>
+	</tbody>
+
+</table>	</div>
+<input id="ctl00_ContentPlaceHolder1_RadGrid1_ClientState" name="ctl00_ContentPlaceHolder1_RadGrid1_ClientState" type="hidden" autocomplete="off">
+			</div>
+		
+                    </td>
+                </tr>
+            </tbody></table>
+        
+	</div>
+</div>
+    </div>
+    <script language="javascript" type="text/javascript">
+        initMap();
+    </script>
+
+    </div>
+    
+
+<script type="text/javascript">
+//<![CDATA[
+Sys.Application.add_init(function() {
+    $create(Telerik.Web.UI.RadFormDecorator, {"clientStateFieldID":"ctl00_RadFormDecorator1_ClientState","decoratedControls":16382,"enabled":true,"skin":"Vista"}, null, null, $get("ctl00_RadFormDecorator1"));
+});
+Sys.Application.add_init(function() {
+    $create(Telerik.Web.UI.RadGrid, {"ClientID":"ctl00_ContentPlaceHolder1_RadGrid1","ClientSettings":{"AllowAutoScrollOnDragDrop":true,"ShouldCreateRows":true,"DataBinding":{},"Selecting":{"CellSelectionMode":0,"AllowRowSelect":true,"EnableDragToSelectRows":true},"Scrolling":{"AllowScroll":true,"SaveScrollPosition":true,"ScrollHeight":"300px","UseStaticHeaders":true},"Resizing":{},"ClientMessages":{},"KeyboardNavigationSettings":{"AllowActiveRowCycle":false,"EnableKeyboardShortcuts":true,"FocusKey":89,"InitInsertKey":73,"RebindKey":82,"ExitEditInsertModeKey":27,"UpdateInsertItemKey":13,"DeleteActiveRow":127,"ExpandDetailTableKey":39,"CollapseDetailTableKey":37},"Animation":{}},"Skin":"Vista","UniqueID":"ctl00$ContentPlaceHolder1$RadGrid1","_activeRowIndex":"","_controlToFocus":"","_currentPageIndex":0,"_editIndexes":"[]","_embeddedSkin":true,"_gridTableViewsData":"[{\"ClientID\":\"ctl00_ContentPlaceHolder1_RadGrid1_ctl00\",\"UniqueID\":\"ctl00$ContentPlaceHolder1$RadGrid1$ctl00\",\"PageSize\":10,\"PageCount\":1,\"EditMode\":\"EditForms\",\"AllowPaging\":false,\"CurrentPageIndex\":0,\"VirtualItemCount\":0,\"AllowMultiColumnSorting\":false,\"AllowNaturalSort\":true,\"AllowFilteringByColumn\":false,\"PageButtonCount\":10,\"HasDetailTables\":false,\"HasMultiHeaders\":false,\"PagerAlwaysVisible\":false,\"IsItemInserted\":false,\"clientDataKeyNames\":[],\"hasDetailItemTemplate\":false,\"_dataBindTemplates\":false,\"_selectedItemStyle\":\"\",\"_selectedItemStyleClass\":\"rgSelectedRow\",\"_columnsData\":[{\"UniqueName\":\"Site\",\"Resizable\":true,\"Reorderable\":true,\"Selectable\":true,\"Groupable\":true,\"ColumnType\":\"GridHyperLinkColumn\",\"ColumnGroupName\":\"\",\"DataTypeName\":\"System.String\",\"DataTextField\":\"SiteLabel\",\"DataTextFormatString\":\"\",\"DataNavigateUrlFields\":[\"SiteChartUrl\"],\"DataNavigateUrlFormatString\":\"/WEB_BYSTRICE/DvtSite_public/{0}\",\"Display\":true},{\"UniqueName\":\"Waterway\",\"Resizable\":true,\"Reorderable\":true,\"Selectable\":true,\"Groupable\":true,\"ColumnType\":\"GridBoundColumn\",\"ColumnGroupName\":\"\",\"DataTypeName\":\"System.String\",\"DataField\":\"Waterway\",\"ReadOnly\":true,\"Display\":true},{\"UniqueName\":\"StageSymbol\",\"Resizable\":true,\"Reorderable\":true,\"Selectable\":true,\"Groupable\":true,\"ColumnType\":\"GridImageColumn\",\"ColumnGroupName\":\"\",\"DataTypeName\":\"System.String\",\"DataAlternateTextField\":\"\",\"DataAlternateTextFormatString\":\"\",\"DataImageUrlFields\":[\"StageSymbolUrl\"],\"DataImageUrlFormatString\":\"/WEB_BYSTRICE/DvtSite_public/{0}\",\"Display\":true}]}]","_masterClientID":"ctl00_ContentPlaceHolder1_RadGrid1_ctl00","_shouldFocusOnPage":false,"allowMultiRowSelection":false,"clientStateFieldID":"ctl00_ContentPlaceHolder1_RadGrid1_ClientState","expandItems":{}}, null, null, $get("ctl00_ContentPlaceHolder1_RadGrid1"));
+});
+Sys.Application.add_init(function() {
+    $create(Telerik.Web.UI.RadAjaxPanel, {"clientEvents":{OnRequestStart:"",OnResponseEnd:""},"enableAJAX":true,"enableHistory":true,"links":[],"loadingPanelID":"","styles":[],"uniqueID":"ctl00$ContentPlaceHolder1$RadAjaxPanel1"}, null, null, $get("ctl00_ContentPlaceHolder1_RadAjaxPanel1"));
+});
+//]]>
+</script>
+</form>
+
+
+</body></html>

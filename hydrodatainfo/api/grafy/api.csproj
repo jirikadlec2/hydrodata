@@ -62,6 +62,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DocHelper.cs" />
+    <Compile Include="LinearInterpolator.cs" />
     <Compile Include="MapHandler.cs" />
     <Compile Include="MapUtil.cs" />
     <Compile Include="VariablesUtil.cs" />

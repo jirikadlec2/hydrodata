@@ -57,10 +57,10 @@ namespace grafy
 
             siteList = SiteUtil.GetSitesFromDb(variableCodes, operatorCode);
 
-            context.Response.Write("id\tname\tlat\tlon\telev\toperator\n");
+            context.Response.Write("id\tname\tlat\tlon\telev\toperator\triver\n");
             foreach (SiteInfo si in siteList)
             {
-                context.Response.Write(String.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\n", si.SiteID, si.SiteName, si.Latitude, si.Longitude, si.Elevation, si.Operator));
+                context.Response.Write(String.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\n", si.SiteID, si.SiteName, si.Latitude, si.Longitude, si.Elevation, si.Operator, si.River));
             }
         }
     }

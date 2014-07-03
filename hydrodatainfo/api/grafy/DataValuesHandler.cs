@@ -18,6 +18,7 @@ namespace grafy
             DateTime start = Convert.ToDateTime("1900-01-01");
             DateTime end = Convert.ToDateTime(DateTime.Now);
             string step = "day";
+            string interpStr = "false";
 
             //siteId, varCode, startDate, endDate
             if (!context.Request.QueryString.HasKeys())
@@ -59,6 +60,13 @@ namespace grafy
                     case "krok":
                         step = context.Request.QueryString.Get(key);
                         break;
+                    case "interpolace":
+                    case "interp":
+                    case "fill":
+                    case "doplnit":
+                        interpStr = context.Request.QueryString.Get(key);
+                        break;
+                        
                 }
             }
 
@@ -69,6 +77,22 @@ namespace grafy
             }
 
             int siteId = Convert.ToInt32(siteCode);
+
+            //interp param
+            bool interpolateOn = false;
+            switch(interpStr)
+            {
+                case "true":
+                case "yes":
+                case "ano":
+                case "lin":
+                case "linear":
+                    interpolateOn = true;
+                    break;
+                default:
+                    interpolateOn = false;
+                    break;
+            }
 
             DateRange range = new DateRange();
             range.Start = start;
@@ -173,7 +197,7 @@ namespace grafy
                 List<int> valArrayLengths = new List<int>();
                 for (int i = 0; i < varCodeList.Length; i++)
                 {
-                    double[] mylist = DataValuesUtil.GetHourlyValuesFromDb(Convert.ToInt32(siteCode), varCodeList[i], start, end);
+                    double[] mylist = DataValuesUtil.GetHourlyValuesFromDb(Convert.ToInt32(siteCode), varCodeList[i], start, end, interpolateOn);
                     valArrays.Add(mylist);
                     valArrayLengths.Add(mylist.Length);           
                 }
@@ -246,7 +270,7 @@ namespace grafy
                 List<int> valArrayLengths = new List<int>();
                 for (int i = 0; i < varCodeList.Length; i++)
                 {
-                    double[] mylist = DataValuesUtil.GetDailyValuesFromDb(Convert.ToInt32(siteCode), varCodeList[i], start, end);
+                    double[] mylist = DataValuesUtil.GetDailyValuesFromDb(Convert.ToInt32(siteCode), varCodeList[i], start, end, interpolateOn);
                     valArrays.Add(mylist);
                     valArrayLengths.Add(mylist.Length);
                 }

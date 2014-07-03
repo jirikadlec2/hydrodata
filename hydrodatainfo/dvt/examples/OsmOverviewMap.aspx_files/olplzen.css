@@ -1,0 +1,40 @@
+﻿.olControlLayerSwitcher
+{
+	width: 250px;
+}
+
+.olControlLayerSwitcher .layersDiv
+{
+	background-color: #ff0028;
+	border-radius: 1em;
+	border-width: 3px 0 3px 3px;
+	border-style: solid;
+	border-color: #ff0028;
+}
+
+.olControlOverviewMapElement
+{
+	background-color: #ff0028;
+	border-radius: 1em 0 0 1em;
+	border-width: 3px 0 3px 3px;
+	border-style: solid;
+	border-color: #ff0028;
+}
+
+.olControlPanPanel div
+{
+    background-image: url(img-plzen-red/img/pan-panel.png);
+    height: 18px;
+    width: 18px;
+    cursor: pointer;
+    position: absolute;
+}
+
+.olControlZoomPanel div
+{
+    background-image: url(img-plzen-red/img/zoom-panel.png);
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    cursor: pointer;
+}

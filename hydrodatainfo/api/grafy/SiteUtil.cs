@@ -46,16 +46,16 @@ namespace grafy
             }
             string cnn = Helpers.GetConnectionString();
             string sql = "SELECT s.st_id, s.st_name, s.lat, s.lon, s.altitude, " +
-                         "s.st_ind, r.riv_name, o.name2 AS 'operator_name'" +
+                         "s.st_ind AS 'st_id2', r.riv_name AS 'river_name', o.name2 AS 'operator_name' " +
                          "FROM plaveninycz.stations s " +
                          "INNER JOIN plaveninycz.operator o ON s.operator_id = o.ID " +
-                         "LEFT JOIN plaveninycz.river on s.riv_id = r.riv.id ";
+                         "LEFT JOIN plaveninycz.river r on s.riv_id = r.riv_id ";
             if (numVariables == 0)
             {
                 sql += "WHERE s.lat IS NOT NULL";
                 if (!string.IsNullOrEmpty(operatorCode))
                 {
-                    sql += string.Format(" AND op.name2 = '{0}'", operatorCode);
+                    sql += string.Format(" AND o.name2 = '{0}'", operatorCode);
                 }
             }
             else if (numVariables == 1)
@@ -65,7 +65,7 @@ namespace grafy
                     "WHERE s.lat IS NOT NULL AND sv.var_id = " + varId;
                 if (!string.IsNullOrEmpty(operatorCode))
                 {
-                    sql += string.Format(" AND op.name2 = '{0}'", operatorCode);
+                    sql += string.Format(" AND o.name2 = '{0}'", operatorCode);
                 }
             }
             else // (numVariables >= 2)
@@ -73,7 +73,7 @@ namespace grafy
                 string operatorSQL = "";
                 if (!string.IsNullOrEmpty(operatorCode))
                 {
-                    sql += string.Format(" AND op.name2 = '{0}'", operatorCode);
+                    sql += string.Format(" AND o.name2 = '{0}'", operatorCode);
                 }
                 sql += string.Format(
                     "INNER JOIN plaveninycz.stationsvariables sv ON s.st_id = sv.st_id " + 
@@ -115,18 +115,18 @@ namespace grafy
 
                         si.Operator = Convert.ToString(dr["operator_name"]);
 
-                        if (dr["st_ind"] == DBNull.Value)
+                        if (dr["st_id2"] != DBNull.Value)
                         {
-                            si.StInd = Convert.ToString(dr["st_ind"]);
+                            si.StInd = Convert.ToString(dr["st_id2"]);
                         }
                         else
                         {
                             si.StInd = "NA";
                         }
 
-                        if (dr["riv_name"] == DBNull.Value)
+                        if (dr["river_name"] != DBNull.Value)
                         {
-                            si.River = Convert.ToString(dr["riv_name"]);
+                            si.River = Convert.ToString(dr["river_name"]);
                         }
                         else
                         {

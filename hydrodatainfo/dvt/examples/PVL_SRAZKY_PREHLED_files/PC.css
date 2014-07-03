@@ -1,0 +1,28 @@
+﻿/* STYLY SPECIFICKE PRO TEMA PC */
+div#horniMenuDiv
+{
+    max-width:1250px; 
+    margin:0px auto; 
+    position:relative; 
+    border: 1px solid #AAAAAA; 
+    border-top: none; 
+    padding-bottom:5px;
+}
+
+div.obsahZuzenyCentrovany
+{
+    max-width:1260px; 
+    margin:0px auto; 
+    position:relative; 
+    border: 1px solid #AAAAAA; 
+    border-top: none; 
+    padding-bottom:5px;
+}
+
+
+
+
+
+
+
+

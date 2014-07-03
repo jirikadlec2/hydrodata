@@ -1,0 +1,331 @@
+﻿body {
+    background-color: white;
+    margin: 0px;
+}
+
+A:Visited {
+    text-decoration: none;
+}
+
+A:Hover {
+    text-decoration: none;
+}
+
+A:Active {
+    text-decoration: none;
+}
+
+a img {
+    border: none;
+}
+
+img {
+    border: 0;
+}
+
+
+
+.zahlavi1 {
+    font-family: verdana;
+    font-size: 8pt;
+    font-weight: normal;
+    color: #3458BE;
+    letter-spacing: -0.8pt;
+    text-decoration: none;
+}
+
+.zahlavi2 {
+    font-family: verdana;
+    font-size: 8pt;
+    font-weight: bold;
+    color: #3458BE;
+    letter-spacing: -1pt;
+    text-decoration: none;
+}
+
+.prehledka {
+    font-family: verdana;
+    font-size: 8pt;
+    font-weight: bold;
+    color: white;
+    background-color: #3458BE;
+    letter-spacing: -1pt;
+    text-decoration: none;
+}
+
+.oddelovac {
+    font-family: verdana;
+    font-size: 8pt;
+    font-weight: normal;
+    color: #000000;
+}
+
+.index1 {
+    font-family: "Small Fonts";
+    font-size: 7pt;
+    font-weight: normal;
+    color: #000000;
+}
+
+.index1bold {
+    font-family: "Small Fonts";
+    font-size: 7pt;
+    font-weight: bold;
+    color: #000000;
+}
+
+.text1 {
+    font-family: "MS Sans Serif",sans-serif;
+    font-size: 8pt;
+    font-weight: normal;
+    color: #000000;
+    /*height: 16px;*/
+}
+
+.text1bold {
+    font-family: "MS Sans Serif",sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+    color: #000000;
+}
+
+.text2bold {
+    font-family: "MS Sans Serif",sans-serif;
+    font-size: 10pt;
+    font-weight: bold;
+    color: #000000;
+}
+
+.text3 {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 11pt;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.text3sm {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 9pt;
+    font-weight: normal;
+    color: #FFFFFF;
+    letter-spacing: 2pt;
+}
+
+.text3s {
+    font-family: "MS Sans Serif",sans-serif;
+    font-size: 9pt;
+    font-weight: bold;
+    color: #FFFFFF;
+    letter-spacing: 1pt;
+}
+
+.text4bold {
+    font-family: "MS Sans Serif",sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+    color: #1C66FF;
+}
+
+.text5bold {
+    font-family: "MS Sans Serif",sans-serif;
+    font-size: 8pt;
+    font-weight: bold;
+    color: red;
+}
+
+.text6bold {
+    font-family: "MS Sans Serif",sans-serif;
+    font-size: 14pt;
+    font-weight: bold;
+    color: #000000;
+}
+
+.textUpozor {
+    font-family: verdana;
+    font-size: 8pt;
+    font-weight: normal;
+    color: #FF0000;
+}
+
+.textLegenda {
+    font-family: "MS Sans Serif",sans-serif;
+    font-size: 8pt;
+    font-weight: normal;
+    color: #000000;
+}
+
+.texthide {
+    font-family: "MS Sans Serif",sans-serif;
+    font-size: 8pt;
+    font-weight: normal;
+    color: #FFFFFF;
+}
+
+.nerozdelovatRadek {
+    page-break-inside: avoid;
+}
+
+.text1NerozdelovatRadek {
+    font-family: "MS Sans Serif",sans-serif;
+    font-size: 8pt;
+    font-weight: normal;
+    color: #000000;
+    page-break-inside: avoid;
+}
+
+.bunkaGridu, .bunkaGriduBold {
+    font-family: "MS Sans Serif",sans-serif;
+    font-size: 8pt;
+    font-weight: normal;
+    color: #000000;
+    border: 1px solid #AAAAAA;
+    /*text-align: right;*/
+}
+
+.bunkaGriduBold {
+    font-weight: bold;
+}
+
+.bunkaFormView {
+    border-color: #AAAAAA;
+    border-width: 1px;
+    border-style: Solid;
+}
+
+.odkazNaStaniciVPrehledu {
+    color: #0080FF;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.miniaturaGrafuVPrehledu {
+    display: inline-block;
+    border-color: #AAAAAA;
+    border-width: 1px;
+    border-style: Solid;
+    height: 38px;
+    width: 60px;
+    margin-top: 2px;
+    margin-bottom: 0px;
+}
+
+/* tabluka s tooltipem */
+
+#tooltipDiv {
+    position: absolute;
+    top: 187px;
+    left: 147px;
+    z-index: 1000;
+    display: none;
+}
+    /* vnejsi tabulka v tooltipu */
+    #tooltipDiv > table {
+        border: 1px solid #AAAAAA;
+        border-collapse: collapse;
+        white-space: nowrap;
+        width: 265px;
+    }
+
+        /* td ve vnejsi tabulce */
+        #tooltipDiv > table > tbody > tr > td {
+            background-color: rgba(204,204,204,1);
+        }
+
+            /* nazev toku a stanice */
+            #tooltipDiv > table > tbody > tr > td:first-child {
+                width: 210px;
+                white-space: nowrap;
+            }
+
+            /* bunka miniatury grafu */
+            #tooltipDiv > table > tbody > tr > td:nth-child(2) {
+                width: 66px;
+                text-align: right;
+            }
+                /* miniatura grafu */
+                #tooltipDiv > table > tbody > tr > td:nth-child(2) > img {
+                    border: 1px solid #AAAAAA;
+                    vertical-align: bottom;
+                    margin-top: 3px;
+                    margin-bottom: 3px;
+                    margin-right: 2px;
+                }
+
+/* vnitrni tabulka tooltipu */
+table.vnitrniTooltip {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.vnitrniTooltip tr:not(:first-child) td:first-child {
+    text-align: right;
+    width: 120px;
+}
+
+/* set borders*/
+.vnitrniTooltip > tbody > tr > td {
+    border: 1px solid #AAAAAA;
+}
+
+/* ostatni bunky */
+.vnitrniTooltip tr td:not(:nth-child(1)) {
+}
+
+
+/* je treba zachovat poradi  */
+.vnitrniTooltip tr:first-child td {
+    text-align: center;
+}
+
+.vnitrniTooltip > tbody > tr > td {
+    background-color: rgba(255, 255, 255, 1);
+    padding: 2px 2px 2px 2px;
+}
+
+/* druha bunka v druhem radku */
+.vnitrniTooltip > tbody > tr:nth-child(2) > td:nth-child(2) {
+    padding: 0px 0px 0px 0px;
+}
+
+.vnitrniTooltip tr:nth-child(2) td:nth-child(2) div {
+    border: 3px solid white;
+}
+
+
+/* tabulka s detaily stanice na strance mereni */
+.tabulkaStaniceMereni {
+    font-family: "MS Sans Serif",sans-serif;
+    font-size: 8pt;
+    font-weight: normal;
+    color: #000000;
+    width: 300px;
+    border-collapse: collapse;
+    border: 1px solid #AAAAAA;
+}
+
+
+    .tabulkaStaniceMereni tr > td {
+        padding: 3px;
+    }
+
+    .tabulkaStaniceMereni > thead > tr > td {
+        font-weight: bold;
+        background-color: #99CCFF;
+    }
+
+    .tabulkaStaniceMereni > tbody > tr > td {
+        border: 1px solid #AAAAAA;
+    }
+
+        .tabulkaStaniceMereni > tbody > tr > td:nth-child(1) {
+            font-weight: bold;
+        }
+
+
+/* tabulka s prehledem stanic */
+.dataMereniGW {
+    font-family: "MS Sans Serif",sans-serif;
+    font-size: 8pt;
+    font-weight: normal;
+    color: #000000;
+}
