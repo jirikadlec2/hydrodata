@@ -54,13 +54,13 @@ Public Class db_update_new
         End Try
 
         Try
-            'LogStr &= dbcn.UpdateTemperature()
-            'LogStr &= dbcn.UpdateSnow()
-            'LogStr &= dbcn.UpdatePrecipitation_Daily()
-            'LogStr &= dbcn.UpdatePrecip_Hourly_Povodi()
-            'LogStr &= dbcn.UpdatePrecip_Hourly_CHMU()
-            ''LogStr &= dbcn.SaveStations_LVS("seso")
-            'LogStr &= dbcn.UpdatePrecipHourly_LVS()
+            LogStr &= dbcn.UpdateTemperature()
+            LogStr &= dbcn.UpdateSnow()
+            LogStr &= dbcn.UpdatePrecipitation_Daily()
+            LogStr &= dbcn.UpdatePrecip_Hourly_Povodi()
+            LogStr &= dbcn.UpdatePrecip_Hourly_CHMU()
+            'LogStr &= dbcn.SaveStations_LVS("seso")
+            LogStr &= dbcn.UpdatePrecipHourly_LVS()
             LogStr &= dbcn.UpdateHydro_povodi()
             LogStr &= dbcn.UpdateHydro_CHMU()
             LogStr &= dbcn.UpdateRadar()
