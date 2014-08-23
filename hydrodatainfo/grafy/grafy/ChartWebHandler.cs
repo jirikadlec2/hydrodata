@@ -8,7 +8,6 @@ using jk.plaveninycz.BO;
 using jk.plaveninycz.Bll;
 using jk.plaveninycz.search;
 using jk.plaveninycz.graph;
-using ZedGraph;
 using System.Xml;
 
 namespace grafy
@@ -21,6 +20,8 @@ namespace grafy
     {
         public void ProcessRequest(HttpContext context)
         {
+            bool saveToDisk = false;
+
             //declaration of local variables
             string path = context.Request.Path.ToLower();
             System.Collections.Specialized.NameValueCollection queryParams = context.Request.QueryString;
@@ -36,28 +37,33 @@ namespace grafy
             //TODO: change configuration reading to improve testability .....
             //string TempDir = @"D:\jirka\temp\";
             //string TempDir = System.Web.Configuration.WebConfigurationManager.AppSettings["ImageDirectory"];
-
-            string physicalPath = HttpContext.Current.Request.PhysicalApplicationPath;
-            string parent = physicalPath.Substring(0, physicalPath.LastIndexOf("\\"));
-            string TempDir = (Directory.GetParent(physicalPath)).FullName + "\\charts\\";
-
-
-
             System.Drawing.Bitmap bmp;
+            ChartEngine engine = new ChartEngine();
 
-            // process the query string parameters
-            string ImagePath = System.IO.Path.Combine(TempDir, imageName + ".png");
-
-            if (File.Exists(ImagePath))
+            if (saveToDisk)
             {
-                // is the image already exists, return the existing file
-                bmp = new System.Drawing.Bitmap(ImagePath);
+
+                string physicalPath = HttpContext.Current.Request.PhysicalApplicationPath;
+                string parent = physicalPath.Substring(0, physicalPath.LastIndexOf("\\"));
+                string TempDir = (Directory.GetParent(physicalPath)).FullName + "\\charts\\";
+
+                // process the query string parameters
+                string ImagePath = System.IO.Path.Combine(TempDir, imageName + ".png");
+
+                if (File.Exists(ImagePath))
+                {
+                    // is the image already exists, return the existing file
+                    bmp = new System.Drawing.Bitmap(ImagePath);
+                }
+                else
+                {
+                    bmp = engine.GenerateImage(imageName);
+                    SaveImageToDisk(bmp, ImagePath);
+                }
             }
             else
             {
-                ChartEngine engine = new ChartEngine();
                 bmp = engine.GenerateImage(imageName);
-                SaveImageToDisk(bmp, ImagePath);
             }
 
             //ProcessBitmap will send the bitmap as a http binary stream

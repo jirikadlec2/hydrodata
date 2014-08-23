@@ -11,6 +11,7 @@ using jk.plaveninycz.Validation;
 using jk.plaveninycz.Bll;
 using ZedGraph;
 using grafy.Properties;
+using System.Collections.Generic;
 
 namespace jk.plaveninycz.graph
 {
@@ -167,6 +168,7 @@ namespace jk.plaveninycz.graph
                     //}
 
                     ts = TimeSeriesManager.GetTimeSeries(ch, interval);
+                    
 
                     if (ts.Count == 0) //this also means 'no data for time series'
                     {
@@ -400,22 +402,15 @@ namespace jk.plaveninycz.graph
         {
             if ( ts.Count > 0 )
             {
-                TimeInterval interval = new TimeInterval(ts.Start, ts.End);
-              
-                //Main creation of curve
-                LineItem myCurve = myPane.AddCurve("", ts, Color.Blue, SymbolType.None);
-                myCurve.Line.Width = 1F;
-                myCurve.Line.Fill = new Fill(Color.FromArgb(128, Color.Blue));
+                List<HydroTimeSeries> tsList = TimeSeriesManager.SplitTimeSeries(ts);
+                //ts = TimeSeriesManager.FillDataGaps(ts, TimeStep.Day);
 
-                //if ( ( (TimeSpan) ( MaxDate - MinDate ) ).TotalDays < 31 )
-                //{
-                //    myCurve.Line.Width = 2F;
-                //}
-                //else
-                //{
-                //    myCurve.Line.Width = 1F;
-                //    myCurve.Line.Fill = new Fill(Color.FromArgb(128, Color.Blue));
-                //}
+                foreach (HydroTimeSeries ts2 in tsList)
+                {
+                    LineItem myCurve = myPane.AddCurve("", ts2, Color.Blue, SymbolType.None);
+                    myCurve.Line.Width = 1F;
+                    myCurve.Line.Fill = new Fill(Color.FromArgb(128, Color.Blue));
+                }
             }
         }
 
@@ -426,14 +421,20 @@ namespace jk.plaveninycz.graph
         /// <param name="myPane"></param>
         private void PlotDischarge(ITimeSeries ts, GraphPane myPane)
         {
-            TimeInterval interval = new TimeInterval(ts.Start, ts.End);
+            //TimeInterval interval = new TimeInterval(ts.Start, ts.End);
             
             if ( ts.Count > 0 )
             {
                 //Main creation of curve
-                LineItem myCurve = myPane.AddCurve("", ts, Color.Blue, SymbolType.None);
-                myCurve.Line.Width = 1F;
-                myCurve.Line.Fill = new Fill(Color.FromArgb(128, Color.Blue));
+                List<HydroTimeSeries> tsList = TimeSeriesManager.SplitTimeSeries(ts);
+                //ts = TimeSeriesManager.FillDataGaps(ts, TimeStep.Day);
+
+                foreach (HydroTimeSeries ts2 in tsList)
+                {
+                    LineItem myCurve = myPane.AddCurve("", ts2, Color.Blue, SymbolType.None);
+                    myCurve.Line.Width = 1F;
+                    myCurve.Line.Fill = new Fill(Color.FromArgb(128, Color.Blue));
+                }
 
                 //if ( interval.Length.TotalDays < 31 )
                 //{
@@ -505,7 +506,10 @@ namespace jk.plaveninycz.graph
             if (ts.Count > 0)
             {
                 //Main creation of curve
-                LineItem myCurve = myPane.AddCurve("", ts, Color.Blue, SymbolType.None);
+                TimeInterval interv = new TimeInterval(ts.Start, ts.End);
+                TimeStep step = TimeSeriesManager.GetDefaultTimeStep(VariableEnum.Temperature, interv);
+                ITimeSeries ts2 = TimeSeriesManager.FillDataGaps(ts, step);
+                LineItem myCurve = myPane.AddCurve("", ts2, Color.Blue, SymbolType.None);
                 myCurve.Line.Width = 0.5F;
             }
         }

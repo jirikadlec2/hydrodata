@@ -1,30 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "grafy", "grafy\grafy.csproj", "{DE30A007-86D9-4A42-8AA9-4483F9343D8B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "plaveniny01", "plaveniny01\plaveniny01.csproj", "{57A7878E-F268-46F2-9DBF-5E7F394D2B17}"
-EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "grafy_plaveniny_cz_website", "grafy_plaveniny_cz_website\", "{1BE8EC88-0902-4693-981C-B9DCB0C13964}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv2.0"
-		ProjectReferences = "{57a7878e-f268-46f2-9dbf-5e7f394d2b17}|plaveniny01.dll;"
-		Debug.AspNetCompiler.VirtualPath = "/grafy_plaveniny_cz_website"
-		Debug.AspNetCompiler.PhysicalPath = "grafy_plaveniny_cz_website\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\grafy_plaveniny_cz_website\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/grafy_plaveniny_cz_website"
-		Release.AspNetCompiler.PhysicalPath = "grafy_plaveniny_cz_website\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\grafy_plaveniny_cz_website\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "53598"
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Presentation\Presentation.csproj", "{417CDCA6-43DB-4AC2-B426-58DB4725FD2D}"
 EndProject
@@ -42,10 +21,6 @@ Global
 		{57A7878E-F268-46F2-9DBF-5E7F394D2B17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57A7878E-F268-46F2-9DBF-5E7F394D2B17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57A7878E-F268-46F2-9DBF-5E7F394D2B17}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1BE8EC88-0902-4693-981C-B9DCB0C13964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BE8EC88-0902-4693-981C-B9DCB0C13964}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1BE8EC88-0902-4693-981C-B9DCB0C13964}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BE8EC88-0902-4693-981C-B9DCB0C13964}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{417CDCA6-43DB-4AC2-B426-58DB4725FD2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{417CDCA6-43DB-4AC2-B426-58DB4725FD2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{417CDCA6-43DB-4AC2-B426-58DB4725FD2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
