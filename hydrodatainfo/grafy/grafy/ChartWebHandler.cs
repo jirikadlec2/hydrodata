@@ -20,12 +20,14 @@ namespace grafy
     {
         public void ProcessRequest(HttpContext context)
         {
+            //set this to TRUE if files are to be saved on the disk
             bool saveToDisk = false;
 
             //declaration of local variables
             string path = context.Request.Path.ToLower();
             System.Collections.Specialized.NameValueCollection queryParams = context.Request.QueryString;
 
+            // process the query string parameters
             string imageName = path;
             int slashIndex = path.LastIndexOf("/");
             if (slashIndex >= 0)
@@ -34,20 +36,15 @@ namespace grafy
             }
 
             string Name = string.Empty;
-            //TODO: change configuration reading to improve testability .....
-            //string TempDir = @"D:\jirka\temp\";
-            //string TempDir = System.Web.Configuration.WebConfigurationManager.AppSettings["ImageDirectory"];
             System.Drawing.Bitmap bmp;
             ChartEngine engine = new ChartEngine();
 
             if (saveToDisk)
             {
-
                 string physicalPath = HttpContext.Current.Request.PhysicalApplicationPath;
                 string parent = physicalPath.Substring(0, physicalPath.LastIndexOf("\\"));
                 string TempDir = (Directory.GetParent(physicalPath)).FullName + "\\charts\\";
 
-                // process the query string parameters
                 string ImagePath = System.IO.Path.Combine(TempDir, imageName + ".png");
 
                 if (File.Exists(ImagePath))
@@ -119,7 +116,6 @@ namespace grafy
         /// <param name="imagePath">the path of request</param>
         private void SaveImageToDisk(Bitmap bmp, string imagePath)
         {
-            //TODO: do the save operation in a separate thread
             imagePath = imagePath.Replace(@"/", @"\");
             try
             {

@@ -16,6 +16,8 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,7 +54,6 @@
     <Compile Include="DataSources\RiverDS.cs" />
     <Compile Include="DataSources\ChannelDS.cs" />
     <Compile Include="DataSources\StationDS.cs" />
-    <Compile Include="DataSources\StatisticsDS.cs" />
     <Compile Include="DataSources\VariableDS.cs" />
     <Compile Include="Entities\Channel.cs" />
     <Compile Include="Entities\Collections\ChannelList.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="Entities\StationDetail.cs" />
     <Compile Include="Entities\River.cs" />
     <Compile Include="Entities\Station.cs" />
-    <Compile Include="Entities\Statistics.cs" />
     <Compile Include="Enums\TimeStep.cs" />
     <Compile Include="GlobalResource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -81,7 +81,6 @@
     <Compile Include="Logic\TimeSeriesManager.cs" />
     <Compile Include="Logic\PeriodManager.cs" />
     <Compile Include="Logic\ChannelManager.cs" />
-    <Compile Include="Logic\StatisticsManager.cs" />
     <Compile Include="Entities\TimeInterval.cs" />
     <Compile Include="Entities\Collections\TimeSeries.cs" />
     <Compile Include="Entities\Collections\TimeSeriesCollection.cs" />
@@ -111,6 +110,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

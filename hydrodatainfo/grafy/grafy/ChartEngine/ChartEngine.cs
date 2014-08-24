@@ -103,7 +103,6 @@ namespace jk.plaveninycz.graph
             ChartEngine ChartGen = new ChartEngine();
             Width = 600;
             Height = 275;
-            //ChartGen.Height = 375;
             ShowText = true;
 
             QueryStringValidator QVal = new QueryStringValidator(ImagePath);
@@ -148,25 +147,7 @@ namespace jk.plaveninycz.graph
                         var = VariableEnum.Precip;
                     }
 
-                    // old code no longer needed: now we don't check the periods for now!!!
-                    // TODO: probably we should re-calculate the periods...
-                    //if (!(var == VariableEnum.Stage || var == VariableEnum.Discharge))
-                    //{
-                    //    PeriodList periods = PeriodManager.GetListByChannelAndTime(ch, interval.Start, interval.End);
-                    //    if (!periods.HasObservations)
-                    //    {
-                    //        //no available data for the selected interval
-                    //        bmp = ChartGen.CreateErrorChart
-                    //            (writer.WriteErrorMessage(MessageType.NoDataForPeriod));
-                    //    }
-                    //
-                    //    ts = TimeSeriesManager.GetTimeSeries(ch, periods);
-                    //}
-                    //else
-                    //{
-                    //    ts = TimeSeriesManager.GetTimeSeries(ch, interval);
-                    //}
-
+                    //here we retrieve the time series
                     ts = TimeSeriesManager.GetTimeSeries(ch, interval);
                     
 
@@ -224,10 +205,10 @@ namespace jk.plaveninycz.graph
                 switch (varEnum)
                 {
                     case VariableEnum.Stage:
-                        PlotStage(ts, pane);
+                        PlotStageDischarge(ts, pane);
                         break;
                     case VariableEnum.Discharge:
-                        PlotDischarge(ts, pane);
+                        PlotStageDischarge(ts, pane);
                         break;
                     case VariableEnum.Snow:
                         PlotSnow(ts, pane);
@@ -398,55 +379,32 @@ namespace jk.plaveninycz.graph
         }
 
         // plot the stage!
-        private void PlotStage(ITimeSeries ts, GraphPane myPane)
+        private void PlotStageDischarge(ITimeSeries ts, GraphPane myPane)
         {
+            TimeInterval interval = new TimeInterval(ts.Start, ts.End);
+
             if ( ts.Count > 0 )
             {
                 List<HydroTimeSeries> tsList = TimeSeriesManager.SplitTimeSeries(ts);
-                //ts = TimeSeriesManager.FillDataGaps(ts, TimeStep.Day);
-
+                
                 foreach (HydroTimeSeries ts2 in tsList)
                 {
                     LineItem myCurve = myPane.AddCurve("", ts2, Color.Blue, SymbolType.None);
                     myCurve.Line.Width = 1F;
                     myCurve.Line.Fill = new Fill(Color.FromArgb(128, Color.Blue));
                 }
-            }
-        }
-
-        /// <summary>
-        /// Plot the discharge !!!!
-        /// </summary>
-        /// <param name="ts"></param>
-        /// <param name="myPane"></param>
-        private void PlotDischarge(ITimeSeries ts, GraphPane myPane)
-        {
-            //TimeInterval interval = new TimeInterval(ts.Start, ts.End);
-            
-            if ( ts.Count > 0 )
-            {
-                //Main creation of curve
-                List<HydroTimeSeries> tsList = TimeSeriesManager.SplitTimeSeries(ts);
-                //ts = TimeSeriesManager.FillDataGaps(ts, TimeStep.Day);
-
-                foreach (HydroTimeSeries ts2 in tsList)
+                //mark missing data points
+                if (tsList.Count > 1)
                 {
-                    LineItem myCurve = myPane.AddCurve("", ts2, Color.Blue, SymbolType.None);
-                    myCurve.Line.Width = 1F;
-                    myCurve.Line.Fill = new Fill(Color.FromArgb(128, Color.Blue));
-                }
+                    TimeStep step = TimeSeriesManager.GetDefaultTimeStep(VariableEnum.Stage, interval);
 
-                //if ( interval.Length.TotalDays < 31 )
-                //{
-                //    myCurve.Line.Width = 2F;
-                //}
-                //else
-                //{
-                //    myCurve.Line.Width = 1F;
-                //    myCurve.Line.Fill = new Fill(Color.FromArgb(128, Color.Blue));
-                //}
+                    HydroTimeSeries missingTs = TimeSeriesManager.GetMissingValuesHydro(ts, ts.Start, ts.End, step);
+                    PlotMissingData(missingTs, myPane);
+
+                }
             }
         }
+
 
         /// <summary>
         /// Plot the snow !!!!
@@ -505,7 +463,6 @@ namespace jk.plaveninycz.graph
         {
             if (ts.Count > 0)
             {
-                //Main creation of curve
                 TimeInterval interv = new TimeInterval(ts.Start, ts.End);
                 TimeStep step = TimeSeriesManager.GetDefaultTimeStep(VariableEnum.Temperature, interv);
                 ITimeSeries ts2 = TimeSeriesManager.FillDataGaps(ts, step);
@@ -590,13 +547,17 @@ namespace jk.plaveninycz.graph
             //double yAxisH = myPane.YAxis.Scale.ReverseTransform(crossSize);
             double yAxisH = myPane.YAxis.Scale.Max / 25.0;
 
-            ITimeSeries ts2 = ts.ShowUnknown(yAxisH);
-
-            if ( ts2 != null )
+            //ITimeSeries ts2 = ts.ShowUnknown(yAxisH);
+            for (int i = 0; i < ts.Count; i++ )
             {
-                if ( ts2.Count > 0 )
+                ts[i].Y = yAxisH;
+            }
+
+            if ( ts != null )
+            {
+                if ( ts.Count > 0 )
                 { 
-                    LineItem missingCurve = myPane.AddCurve(noDataText, ts2, Color.Red, SymbolType.XCross);
+                    LineItem missingCurve = myPane.AddCurve(noDataText, ts, Color.Red, SymbolType.XCross);
                     missingCurve.Line.IsVisible = false;
                     missingCurve.Symbol.Size = crossSize;
                     missingCurve.Symbol.IsVisible = true;

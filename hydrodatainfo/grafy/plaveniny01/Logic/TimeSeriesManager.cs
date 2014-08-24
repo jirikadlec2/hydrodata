@@ -100,10 +100,10 @@ namespace jk.plaveninycz.Bll
         /// <summary>
         /// Makes a regular time-series with all of the data being equal to NO-DATA
         /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <param name="step"></param>
-        /// <returns></returns>
+        /// <param name="start">start time</param>
+        /// <param name="end">end time</param>
+        /// <param name="step">the time step: TimeStep.Day or TimeStep.Hour</param>
+        /// <returns>The time-series object with No-Data at all data points</returns>
         public static ITimeSeries MakeRegularTimeSeries(DateTime start, DateTime end, TimeStep step)
         {
             HydroTimeSeries myTs = new HydroTimeSeries(start, end);
@@ -128,20 +128,54 @@ namespace jk.plaveninycz.Bll
             return myTs;
         }
 
+        public static HydroTimeSeries GetMissingValuesHydro(ITimeSeries ts, DateTime start, DateTime end, TimeStep step)
+        {
+            HydroTimeSeries missingTs = new HydroTimeSeries(start, end);
+            List<int> breakIx = GetDataBreaks(ts);
+
+            //TODO missing points before series start
+            foreach (int begIndex in breakIx)
+            {
+                if (begIndex < ts.Count - 1)
+                {
+                    DateTime begDate = DateTime.FromOADate(ts[begIndex].X);
+                    DateTime endDate = DateTime.FromOADate(ts[begIndex + 1].X);
+                    if (step == TimeStep.Day)
+                    {
+                        int nd = (int)endDate.Subtract(begDate).TotalDays;
+                        for (int i = 0; i < nd; i++)
+                        {
+                            DateTime newTime = begDate.AddDays(i);
+                            missingTs.AddUnknownValue(newTime);
+                        }
+                    }
+                    else
+                    {
+                        int nh = (int)endDate.Subtract(begDate).TotalHours;
+                        for (int i = 0; i < nh; i++)
+                        {
+                            DateTime newTime = begDate.AddHours(i);
+                            missingTs.AddUnknownValue(newTime);
+                        }
+                    }
+                }
+            }
+            return missingTs;
+        }
+
+        
+        /// <summary>
+        /// Splits a regular time-series with data gaps into two or more sub-series
+        /// The maximum allowed gap size is determined by GetDefaultTimeStep()
+        /// Use this function for stage and discharge
+        /// </summary>
+        /// <param name="ts">The time series</param>
+        /// <returns>the list of splitted regular time-series</returns>
         public static List<HydroTimeSeries> SplitTimeSeries(ITimeSeries ts)
         {
             List<HydroTimeSeries> hsList = new List<HydroTimeSeries>();
-            List<int> breakIx = new List<int>();
+            List<int> breakIx = GetDataBreaks(ts);
 
-            for (int i = 0; i < ts.Count - 1; i++)
-            {
-                double x1 = ts[i].X;
-                double x2 = ts[i+1].X;
-                if (x2 - x1 > 1.1)
-                {
-                    breakIx.Add(i);
-                }
-            }
             if (breakIx.Count > 0)
             {
                 //for the final segment
@@ -153,12 +187,8 @@ namespace jk.plaveninycz.Bll
                 int begIndex = 0;
                 for (int i = 0; i < breakIx.Count; i++)
                 {
-                    //all data before break
+                    //all data before each break
                     int endIndex = breakIx[i];
-                    //if (i == breakIx.Count - 1)
-                    //{
-                    //    endIndex = ts.Count - 1;
-                    //}
                     DateTime begDate = DateTime.FromOADate(ts[begIndex].X);
                     DateTime endDate = DateTime.FromOADate(ts[endIndex].X);
                     HydroTimeSeries newTs = new HydroTimeSeries(begDate, endDate);
@@ -180,144 +210,7 @@ namespace jk.plaveninycz.Bll
             return hsList;
         }
 
-        /// <summary>
-        /// Returns a time series corresponding to the specific channel and interval
-        /// the 'missing data' (periodList) is also internally loaded for all variables
-        /// except stage and discharge.
-        /// </summary>
-        /// <param name="channel"></param>
-        /// <param name="interval"></param>
-        /// <returns></returns>
-        public static ITimeSeries GetTimeSeries(Station st, Variable va, TimeInterval interval)
-        {
-            VariableEnum v = va.VarEnum;
-            TimeStep step = GetDefaultTimeStep(v, interval);
-            ITimeSeries ts;
-
-            if (v == VariableEnum.Stage || v == VariableEnum.Discharge)
-            {
-                ts = new HydroTimeSeries(interval.Start, interval.End);
-            }
-            else
-            {
-                PeriodList periods = PeriodManager.GetListByChannelAndTime(st.Id, va.Id, interval.Start, interval.End);
-                //PeriodList periods = PeriodManager.GetListByChannelAndTime(ch, interval.Start, interval.End);
-                ts = new MyTimeSeries(periods, step);
-            }
-
-            if (v == VariableEnum.Precip || v == VariableEnum.PrecipHour)
-            {
-                TimeSeriesDS.LoadObservationsPrecip(st.Id, va.Id, interval.Start,
-                    interval.End, step, (IObservationList)ts);
-            }
-            else if (v == VariableEnum.Discharge)
-            {
-                TimeSeriesDS.LoadObservationsDischarge(st.Id, va.Id, interval.Start,
-                   interval.End, step, (IObservationList)ts);
-            }
-            else if (v == VariableEnum.Temperature)
-            {
-                TimeSeriesDS.LoadObservationsTemperature(st.Id, va.Id, interval.Start,
-                   interval.End, step, (IObservationList)ts);
-            }
-            else
-            {
-                TimeSeriesDS.LoadObservations(st.Id, va.Id, interval.Start,
-                    interval.End, step, (IObservationList)ts);
-            }
-           
-            return ts;
-        }
-
-        /// <summary>
-        /// Returns a time series corresponding to specific channel and interval.
-        /// Use this method in case you have the period collection already available.
-        /// </summary>
-        /// <param name="channel"></param>
-        /// <param name="interval"></param>
-        /// <param name="periods"></param>
-        /// <returns></returns>
-        public static ITimeSeries GetTimeSeries(Channel ch, PeriodList periods)
-        {
-            VariableEnum v = ch.Variable.VarEnum;
-            TimeStep step = GetDefaultTimeStep(v, new TimeInterval(periods.StartTime, periods.Endtime));
-            ITimeSeries ts;
-            if (v == VariableEnum.Stage || v == VariableEnum.Discharge)
-            {
-                ts = new HydroTimeSeries(periods);
-            }
-            else if (v == VariableEnum.Snow)
-            {
-                ts = new MeteoTimeSeries(periods, step);
-            }
-            else
-            {
-                ts = new MyTimeSeries(periods, step);
-            }
-
-
-            if (v == VariableEnum.Precip || v == VariableEnum.PrecipHour)
-            {
-                TimeSeriesDS.LoadObservationsPrecip(ch.StationId, ch.VariableId, periods.StartTime,
-                    periods.Endtime, step, (IObservationList)ts);
-            }
-            else if (v == VariableEnum.Discharge)
-            {
-                TimeSeriesDS.LoadObservationsDischarge(ch.StationId, ch.VariableId, periods.StartTime,
-                   periods.Endtime, step, (IObservationList)ts);
-            }
-            else
-            {
-                TimeSeriesDS.LoadObservations(ch.StationId, ch.VariableId, periods.StartTime,
-                   periods.Endtime, step, (IObservationList)ts);
-            }
-
-            return ts;
-        }
-
-        public static ITimeSeries GetTimeSeries(int stationID, int variableID, PeriodList periods)
-        {
-            Variable v = VariableManager.GetItemById(variableID);
-            
-            //VariableEnum v = ch.Variable.VarEnum;
-            TimeStep step = GetDefaultTimeStep(v.VarEnum, new TimeInterval(periods.StartTime, periods.Endtime));
-            ITimeSeries ts;
-
-            if (variableID == 4 || variableID == 5 || variableID == 6 || variableID == 7)
-            {
-                ts = new HydroTimeSeries(periods);
-            }
-            else if (variableID == 8)
-            {
-                ts = new MeteoTimeSeries(periods, step);
-            }
-            else
-            {
-                ts = new MyTimeSeries(periods, step);
-            }
-            
-            if (variableID == 2 || variableID == 1)
-            {
-                TimeSeriesDS.LoadObservationsPrecip(stationID, variableID, periods.StartTime,
-                    periods.Endtime, step, (IObservationList)ts);
-            }
-            else if (variableID == 5 || variableID == 6 || variableID == 7)
-            {
-                TimeSeriesDS.LoadObservationsDischarge(stationID, variableID, periods.StartTime,
-                   periods.Endtime, step, (IObservationList)ts);
-            }
-            else
-            {
-                TimeSeriesDS.LoadObservations(stationID,variableID, periods.StartTime,
-                   periods.Endtime, step, (IObservationList)ts);
-            }
-            return ts;
-        }
-
-        #endregion
-
-        #region Private Methods
-
+        
         //get the default time step
         //TODO: obtain the time step from 'Variable' class instead
         public static TimeStep GetDefaultTimeStep(VariableEnum v, TimeInterval interval)
@@ -339,5 +232,23 @@ namespace jk.plaveninycz.Bll
         }
 
         #endregion
+
+        private static List<int> GetDataBreaks(ITimeSeries ts)
+        {
+            double breakTresholdDays = 1.1;
+            List<int> breakIx = new List<int>();
+
+            for (int i = 0; i < ts.Count - 1; i++)
+            {
+                double x1 = ts[i].X;
+                double x2 = ts[i + 1].X;
+                if (x2 - x1 > breakTresholdDays)
+                {
+                    breakIx.Add(i);
+                }
+            }
+            return breakIx;
+        }
+
     }
 }
