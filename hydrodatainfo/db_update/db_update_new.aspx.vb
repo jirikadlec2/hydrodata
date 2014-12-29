@@ -63,7 +63,7 @@ Public Class db_update_new
             LogStr &= dbcn.UpdatePrecipHourly_LVS()
             LogStr &= dbcn.UpdateHydro_povodi()
             LogStr &= dbcn.UpdateHydro_CHMU()
-            LogStr &= dbcn.UpdateRadar()
+            'LogStr &= dbcn.UpdateRadar()
 
         Catch ex As Exception
             ExStr = ex.Message
