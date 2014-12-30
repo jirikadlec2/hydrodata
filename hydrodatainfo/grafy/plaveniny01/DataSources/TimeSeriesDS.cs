@@ -167,6 +167,46 @@ namespace jk.plaveninycz.DataSources
             }
         }
 
+        public static void LoadObservationsSnow(int stationId, int variableId, DateTime start, DateTime end,
+            TimeStep step, IObservationList observations)
+        {
+            //observations.Clear();
+            SqlCommand cmd = DataUtils.CreateCommand();
+            cmd.CommandText = "plaveninycz.new_query_observations";
+            cmd.CommandType = CommandType.StoredProcedure;
+            SetCmdParameters(cmd, stationId, variableId, start, end, step);
+            SqlDataReader rdr;
+            double val;
+            DateTime t;
+
+            try
+            {
+                cmd.Connection.Open();
+                rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                while (rdr.Read())
+                {
+                    if (!rdr.IsDBNull(1))
+                    {
+                        t = Convert.ToDateTime(rdr[0]);
+                        val = Convert.ToDouble(rdr[1]);
+                        if (val > -9999)
+                        {
+                            observations.AddObservation(t, val);
+                        }
+                        else
+                        {
+                            observations.AddUnknownValue(t);
+                        }
+                    }
+                }
+                rdr.Close();
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+
         /// <summary>
         /// Retrieves a time series of discharge observations from the database
         /// (only measured, non-zero values are retrieved)

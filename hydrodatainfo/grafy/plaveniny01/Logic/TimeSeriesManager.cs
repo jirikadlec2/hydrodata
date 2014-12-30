@@ -31,8 +31,7 @@ namespace jk.plaveninycz.Bll
             ITimeSeries ts;
 
             if (v == VariableEnum.Stage)
-            {
-                
+            { 
                 ts = new HydroTimeSeries(interval.Start, interval.End);
                 TimeSeriesDS.LoadObservations(ch.StationId, ch.VariableId, interval.Start,
                     interval.End, step, (IObservationList)ts);
@@ -49,21 +48,23 @@ namespace jk.plaveninycz.Bll
                 //step = TimeStep.Hour;
                 TimeSeriesDS.LoadObservationsTemperature(ch.StationId, ch.VariableId, interval.Start, interval.End, step, (IObservationList)ts);
             }
+            else if (v == VariableEnum.Snow)
+            {
+                ts = new HydroTimeSeries(interval.Start, interval.End);
+                TimeSeriesDS.LoadObservationsSnow(ch.StationId, ch.VariableId, interval.Start, interval.End, step, (IObservationList)ts);
+            }
             else if (v == VariableEnum.PrecipHour || v == VariableEnum.Precip || v == VariableEnum.PrecipSum)
             {
-                PeriodList periods = PeriodManager.GetListByChannelAndTime(ch, interval.Start, interval.End);
-                ts = new MyTimeSeries(periods, step);
+                ts = new MyTimeSeries(interval.Start, interval.End, step);
                 TimeSeriesDS.LoadObservationsPrecip(ch.StationId, ch.VariableId, interval.Start,
                     interval.End, step, (IObservationList)ts);
             }
             else
             {
-                PeriodList periods = PeriodManager.GetListByChannelAndTime(ch, interval.Start, interval.End);
-                ts = new MyTimeSeries(periods, step);
-                TimeSeriesDS.LoadObservations(ch.StationId, ch.VariableId, interval.Start,
-                    interval.End, step, (IObservationList)ts);
+                //snow
+                ts = new HydroTimeSeries(interval.Start, interval.End);
+                TimeSeriesDS.LoadObservationsSnow(ch.StationId, ch.VariableId, interval.Start, interval.End, step, (IObservationList)ts);
             }
-            
             return ts;
         }
 

@@ -30,13 +30,6 @@ namespace jk.plaveninycz.BO
             _data = new TimeValueList(new TimeInterval(start, end), step, PointPair.Missing);
         }
 
-        public MeteoTimeSeries(PeriodList periods, TimeStep step)
-        {
-            _data = new TimeValueList(new TimeInterval(periods.StartTime, periods.Endtime),
-                step, 0.0);
-            AddMissingDataPoints(periods, step);
-        }
-
         private MeteoTimeSeries()
         { }
 
@@ -47,15 +40,6 @@ namespace jk.plaveninycz.BO
         #endregion
 
         #region Private Methods
-
-        private void AddMissingDataPoints(PeriodList periods, TimeStep step)
-        {
-            TimeList missingList = periods.GetMissingTimes(step);
-            foreach (DateTime t in missingList)
-            {
-                _data[t] = PointPair.Missing;
-            }
-        }
 
         private double CalcPercentAvailableData()
         {
@@ -218,36 +202,12 @@ namespace jk.plaveninycz.BO
             _data = new PointPairList();
         }
 
-        public HydroTimeSeries(PeriodList periods)
-        {
-            _start = periods.StartTime;
-            _end = periods.Endtime;
-            _data = new PointPairList();
-            AddMissingDataPoints(periods);
-        }
-
         private HydroTimeSeries()
         { }
 
         #endregion
 
         #region Private Methods
-
-        /// <summary>
-        /// Adds a PointPair.Missing before and after each
-        /// period in the time series
-        /// </summary>
-        /// <param name="periods"></param>
-        private void AddMissingDataPoints(PeriodList periods)
-        {
-            for (int i = 1; i < periods.Count - 1; ++i)
-            {
-                DateTime missingStart = periods[i].Start.AddHours(-1);
-                DateTime missingEnd = periods[i].Start.AddHours(1);
-                this.AddUnknownValue(missingStart);
-                this.AddUnknownValue(missingEnd);
-            }
-        }
 
         private double CalcPercentAvailableData()
         {
@@ -443,15 +403,7 @@ namespace jk.plaveninycz.BO
             _data = new PointPairList();
         }
 
-        public MyTimeSeries(PeriodList periods, TimeStep step)
-        {
-            _step = step;
-            _start = periods.StartTime;
-            _end = periods.Endtime;
-            _data = new PointPairList();
-            AddMissingDataPoints(periods, step);
-        }
-
+        
         private MyTimeSeries()
         { }
 
@@ -459,19 +411,7 @@ namespace jk.plaveninycz.BO
 
         #region Private Methods
 
-        /// <summary>
-        /// Adds a PointPair.Missing before and after each
-        /// period in the time series
-        /// </summary>
-        /// <param name="periods">the period list</param>
-        private void AddMissingDataPoints(PeriodList periods, TimeStep step)
-        {
-            TimeList missingTimes = periods.GetMissingTimes(step);
-            foreach (DateTime t in missingTimes)
-            {
-                this.AddUnknownValue(t);
-            }
-        }
+        
 
         /// <summary>
         /// Calculated the time step expressed as fraction of days
