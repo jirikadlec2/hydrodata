@@ -1,0 +1,90 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="grafy.master.cs" Inherits="grafy" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<head>
+    <meta http-equiv='content-type' content='text/html; charset=utf-8' />
+    <asp:Literal id="meta_language" runat="server" />
+    <asp:Literal id="meta_description" runat="server" />
+    <asp:Literal id="meta_keywords" runat="server" />  
+    <meta name='author' content='Jiří Kadlec' />
+    <link rel='stylesheet' type='text/css' href='/plaveninycz/styl_grafy_start.css' />
+	<title><asp:Literal id="head_title" runat="server" text="grafy.plaveniny.cz" /></title>
+
+    <script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=6.3"></script>
+
+
+    <!-- Bing Maps Javascript -->
+    <script type="text/javascript">
+        var map = null;
+        var pinid = 1;
+        //var lats = new Array();
+        //var longs = new Array();
+        //lats[0] = 48.9502778; longs[0] = 17.4638889; lats[1] = 49.3186111; longs[1] = 17.5733333; lats[2] = 49.2997222; longs[2] = 17.3780556; lats[3] = 49.2997222; longs[3] = 17.3780556; lats[4] = 49.4772222; longs[4] = 16.8316667; lats[5] = 49.0741667; longs[5] = 17.9716667; lats[6] = 48.9027778; longs[6] = 17.7011111; lats[7] = 48.8991667; longs[7] = 17.3380556; lats[8] = 48.8991667; longs[8] = 17.3380556; lats[9] = 49.0313889; longs[9] = 17.6627778; lats[10] = 49.0313889; longs[10] = 17.6627778; lats[11] = 49.2230556; longs[11] = 17.8438889; lats[12] = 49.2230556; longs[12] = 17.8438889; lats[13] = 48.8741667; longs[13] = 16.5352778; lats[14] = 49.1597222; longs[14] = 16.6955556; lats[15] = 49.2166667; longs[15] = 16.5661111; lats[16] = 49.1250000; longs[16] = 15.3236111; lats[17] = 49.0958333; longs[17] = 16.1344444; lats[18] = 48.7733333; longs[18] = 16.2975000; lats[19] = 49.7305556; longs[19] = 16.4872222; lats[20] = 49.0172222; longs[20] = 15.5805556; lats[21] = 49.0172222; longs[21] = 15.5805556; lats[22] = 49.1600000; longs[22] = 15.4391667; lats[23] = 48.8825000; longs[23] = 16.0863889; lats[24] = 49.6350000; longs[24] = 16.3100000; lats[25] = 49.5658333; longs[25] = 16.0813889; lats[26] = 49.0177778; longs[26] = 15.7741667; lats[27] = 49.4619444; longs[27] = 15.9644444; lats[28] = 49.1666667; longs[28] = 16.1166667; lats[29] = 49.2111111; longs[29] = 15.8555556; lats[30] = 49.2111111; longs[30] = 15.8555556; lats[31] = 49.2944444; longs[31] = 15.4800000; lats[32] = 49.5183333; longs[32] = 15.9708333; lats[33] = 49.2900000; longs[33] = 16.2252778; lats[34] = 49.3538889; longs[34] = 16.0086111; lats[35] = 49.3538889; longs[35] = 16.0086111; lats[36] = 49.3538889; longs[36] = 16.0086111; lats[37] = 48.9086111; longs[37] = 16.8244444; lats[38] = 49.3963889; longs[38] = 15.7311111; lats[39] = 49.1236111; longs[39] = 14.0827778; lats[40] = 49.4166667; longs[40] = 13.8833333; lats[41] = 48.7366667; longs[41] = 14.1083333; lats[42] = 49.0683333; longs[42] = 13.6130556; lats[43] = 49.0261111; longs[43] = 13.5200000; lats[44] = 49.0397222; longs[44] = 13.9927778; lats[45] = 49.2708333; longs[45] = 13.8250000; lats[46] = 49.2708333; longs[46] = 13.8250000; lats[47] = 49.4669444; longs[47] = 13.8408333; lats[48] = 49.2980556; longs[48] = 13.4341667; lats[49] = 49.2980556; longs[49] = 13.4341667; lats[50] = 48.9230556; longs[50] = 13.8036111; lats[51] = 48.9230556; longs[51] = 13.8036111; lats[52] = 49.2513889; longs[52] = 13.9244444; lats[53] = 49.1966667; longs[53] = 14.3416667; lats[54] = 49.3822222; longs[54] = 14.1247222; lats[55] = 49.2666667; longs[55] = 14.5000000; lats[56] = 49.2666667; longs[56] = 14.5000000; lats[57] = 48.9191667; longs[57] = 14.2252778; lats[58] = 48.9191667; longs[58] = 14.2252778; lats[59] = 48.8155556; longs[59] = 14.8002778; lats[60] = 48.7333333; longs[60] = 14.7333333; lats[61] = 49.1602778; longs[61] = 14.9558333; lats[62] = 49.2555556; longs[62] = 14.7033333; lats[63] = 49.2555556; longs[63] = 14.7033333; lats[64] = 49.0741667; longs[64] = 14.9688889; lats[65] = 49.5166667; longs[65] = 14.4666667; lats[66] = 48.7908333; longs[66] = 14.7825000; lats[67] = 48.6730556; longs[67] = 14.6475000; lats[68] = 48.7469444; longs[68] = 14.5344444; lats[69] = 49.4136111; longs[69] = 14.6691667; lats[70] = 48.6497222; longs[70] = 14.3138889; lats[71] = 48.6497222; longs[71] = 14.3138889; lats[72] = 50.6166667; longs[72] = 16.1166667; lats[73] = 50.6625000; longs[73] = 15.8177778; lats[74] = 50.6625000; longs[74] = 15.8177778; lats[75] = 50.7700000; longs[75] = 15.5452778; lats[76] = 50.6922222; longs[76] = 15.7286111; lats[77] = 50.7469444; longs[77] = 15.8227778; lats[78] = 50.5063889; longs[78] = 16.0116667; lats[79] = 50.3544444; longs[79] = 15.8386111; lats[80] = 50.6241667; longs[80] = 15.6408333; lats[81] = 50.3033333; longs[81] = 16.3527778; lats[82] = 50.0811111; longs[82] = 16.7691667; lats[83] = 50.3113889; longs[83] = 16.4280556; lats[84] = 50.3113889; longs[84] = 16.4280556; lats[85] = 50.1725000; longs[85] = 16.2683333; lats[86] = 50.1725000; longs[86] = 16.2683333; lats[87] = 50.1372222; longs[87] = 16.3883333; lats[88] = 50.1372222; longs[88] = 16.3883333; lats[89] = 49.9833333; longs[89] = 16.4333333; lats[90] = 50.0816667; longs[90] = 16.4652778; lats[91] = 50.0816667; longs[91] = 16.4652778; lats[92] = 50.0816667; longs[92] = 16.4652778; lats[93] = 50.2491667; longs[93] = 16.4083333; lats[94] = 49.9419444; longs[94] = 15.3858333; lats[95] = 49.8188889; longs[95] = 15.4741667; lats[96] = 50.1761111; longs[96] = 15.8386111; lats[97] = 50.2455556; longs[97] = 15.8433333; lats[98] = 49.7441667; longs[98] = 15.7047222; lats[99] = 49.7730556; longs[99] = 16.1911111; lats[100] = 50.0161111; longs[100] = 15.7405556; lats[101] = 49.8458333; longs[101] = 15.9922222; lats[102] = 49.7350000; longs[102] = 16.0336111; lats[103] = 50.2480556; longs[103] = 15.1980556; lats[104] = 50.3747222; longs[104] = 15.5772222; lats[105] = 50.4422222; longs[105] = 15.3600000; lats[106] = 50.4422222; longs[106] = 15.3600000; lats[107] = 50.2416667; longs[107] = 15.5080556; lats[108] = 50.2416667; longs[108] = 15.5080556; lats[109] = 50.1452778; longs[109] = 15.1127778; lats[110] = 50.1066667; longs[110] = 15.3686111; lats[111] = 50.6041667; longs[111] = 16.3333333; lats[112] = 49.2644444; longs[112] = 13.3033333; lats[113] = 49.3672222; longs[113] = 12.8602778; lats[114] = 49.4452778; longs[114] = 12.9227778; lats[115] = 49.4452778; longs[115] = 12.9227778; lats[116] = 49.2088889; longs[116] = 13.1988889; lats[117] = 49.3922222; longs[117] = 13.3016667; lats[118] = 49.4841667; longs[118] = 13.5833333; lats[119] = 49.7872222; longs[119] = 13.3877778; lats[120] = 49.7352778; longs[120] = 13.3766667; lats[121] = 49.5880556; longs[121] = 13.5047222; lats[122] = 49.1769444; longs[122] = 13.2319444; lats[123] = 49.5530556; longs[123] = 13.0688889; lats[124] = 49.5530556; longs[124] = 13.0688889; lats[125] = 49.1369444; longs[125] = 13.2419444; lats[126] = 49.9938889; longs[126] = 13.0600000; lats[127] = 49.8850000; longs[127] = 12.9777778; lats[128] = 50.2136111; longs[128] = 13.6736111; lats[129] = 49.9888889; longs[129] = 13.4941667; lats[130] = 49.9166667; longs[130] = 13.5438889; lats[131] = 49.9166667; longs[131] = 13.5438889; lats[132] = 49.9902778; longs[132] = 12.6958333; lats[133] = 49.9333333; longs[133] = 13.3827778; lats[134] = 49.9333333; longs[134] = 13.3827778; lats[135] = 49.6694444; longs[135] = 12.6794444; lats[136] = 49.7550000; longs[136] = 12.9994444; lats[137] = 49.7550000; longs[137] = 12.9994444; lats[138] = 49.7550000; longs[138] = 12.9994444; lats[139] = 49.7991667; longs[139] = 12.6241667; lats[140] = 49.9022222; longs[140] = 13.7086111; lats[141] = 50.0822222; longs[141] = 12.8377778; lats[142] = 50.3966667; longs[142] = 12.9697222; lats[143] = 50.2019444; longs[143] = 12.9130556; lats[144] = 50.2519444; longs[144] = 12.4125000; lats[145] = 50.3708333; longs[145] = 12.6172222; lats[146] = 50.3183333; longs[146] = 12.5972222; lats[147] = 49.5875000; longs[147] = 17.8050000; lats[148] = 49.5027778; longs[148] = 18.5388889; lats[149] = 49.4550000; longs[149] = 18.5247222; lats[150] = 49.9197222; longs[150] = 18.3455556; lats[151] = 49.9197222; longs[151] = 18.3455556; lats[152] = 49.7775000; longs[152] = 17.5419444; lats[153] = 49.5958333; longs[153] = 18.7433333; lats[154] = 49.5958333; longs[154] = 18.7433333; lats[155] = 50.3944444; longs[155] = 17.0016667; lats[156] = 50.2166667; longs[156] = 17.2166667; lats[157] = 50.0083333; longs[157] = 17.6277778; lats[158] = 49.8688889; longs[158] = 17.4166667; lats[159] = 49.7311111; longs[159] = 18.4425000; lats[160] = 49.5461111; longs[160] = 18.4477778; lats[161] = 49.6941667; longs[161] = 18.1200000; lats[162] = 49.6666667; longs[162] = 18.7666667; lats[163] = 49.6655556; longs[163] = 17.8397222; lats[164] = 49.6655556; longs[164] = 17.8397222; lats[165] = 49.9305556; longs[165] = 17.8783333; lats[166] = 49.9305556; longs[166] = 17.8783333; lats[167] = 50.2833333; longs[167] = 17.7166667; lats[168] = 50.2833333; longs[168] = 17.7166667; lats[169] = 49.8252778; longs[169] = 18.1588889; lats[170] = 50.2000000; longs[170] = 17.0666667; lats[171] = 50.0316667; longs[171] = 17.3977778; lats[172] = 49.7444444; longs[172] = 18.6283333; lats[173] = 50.3833333; longs[173] = 17.1666667; lats[174] = 50.3833333; longs[174] = 17.1666667; lats[175] = 50.0452778; longs[175] = 16.7394444; lats[176] = 49.8263889; longs[176] = 16.7180556; lats[177] = 49.8666667; longs[177] = 16.7666667; lats[178] = 49.9152778; longs[178] = 16.6008333; lats[179] = 50.0333333; longs[179] = 17.0333333; lats[180] = 49.6525000; longs[180] = 16.9536111; lats[181] = 49.5752778; longs[181] = 17.2847222; lats[182] = 49.8088889; longs[182] = 17.2311111; lats[183] = 49.7250000; longs[183] = 17.2972222; lats[184] = 49.7947222; longs[184] = 16.6791667; lats[185] = 49.9580556; longs[185] = 16.9716667; lats[186] = 49.9580556; longs[186] = 16.9716667; lats[187] = 49.2994444; longs[187] = 18.1261111; lats[188] = 49.4333333; longs[188] = 17.4000000; lats[189] = 49.4166667; longs[189] = 18.1055556; lats[190] = 49.4638889; longs[190] = 17.9750000; lats[191] = 49.4638889; longs[191] = 17.9750000; lats[192] = 49.3333333; longs[192] = 17.9833333; lats[193] = 49.3333333; longs[193] = 17.9833333; lats[194] = 49.9558333; longs[194] = 14.0713889; lats[195] = 49.9558333; longs[195] = 14.0713889; lats[196] = 50.1166667; longs[196] = 13.9500000; lats[197] = 49.8530556; longs[197] = 14.0372222; lats[198] = 50.0675000; longs[198] = 14.4186111; lats[199] = 50.1216667; longs[199] = 14.5425000; lats[200] = 50.0083333; longs[200] = 14.4480556; lats[201] = 50.1008333; longs[201] = 14.2577778; lats[202] = 50.2252778; longs[202] = 14.0730556; lats[203] = 50.4805556; longs[203] = 14.9391667; lats[204] = 50.4805556; longs[204] = 14.9391667; lats[205] = 50.1897222; longs[205] = 14.6613889; lats[206] = 50.1897222; longs[206] = 14.6613889; lats[207] = 50.6855556; longs[207] = 14.9805556; lats[208] = 50.7897222; longs[208] = 15.3191667; lats[209] = 50.7827778; longs[209] = 15.2327778; lats[210] = 50.5383333; longs[210] = 15.3800000; lats[211] = 50.7313889; longs[211] = 15.4244444; lats[212] = 50.5466667; longs[212] = 15.5436111; lats[213] = 50.6869444; longs[213] = 15.4033333; lats[214] = 49.3472222; longs[214] = 15.1438889; lats[215] = 49.6741667; longs[215] = 15.5816667; lats[216] = 49.5380556; longs[216] = 15.3538889; lats[217] = 49.5597222; longs[217] = 15.1111111; lats[218] = 49.6319444; longs[218] = 14.4422222; lats[219] = 49.3858333; longs[219] = 15.3650000; lats[220] = 49.9108333; longs[220] = 14.7811111; lats[221] = 49.5827778; longs[221] = 15.7625000; lats[222] = 49.4983333; longs[222] = 15.5875000; lats[223] = 50.7330556; longs[223] = 13.7619444; lats[224] = 50.4586111; longs[224] = 14.1705556; lats[225] = 50.3763889; longs[225] = 13.3280556; lats[226] = 50.5547222; longs[226] = 13.9313889; lats[227] = 50.5927778; longs[227] = 13.4830556; lats[228] = 50.4205556; longs[228] = 14.2688889; lats[229] = 50.3083333; longs[229] = 13.8566667; lats[230] = 50.6338889; longs[230] = 13.8147222; lats[231] = 50.6825000; longs[231] = 14.0413889; lats[232] = 50.3325000; longs[232] = 13.5472222; lats[233] = 50.8150000; longs[233] = 15.1372222; lats[234] = 50.7400000; longs[234] = 14.2994444; lats[235] = 50.7400000; longs[235] = 14.2994444; lats[236] = 50.6911111; longs[236] = 14.5425000; lats[237] = 50.6911111; longs[237] = 14.5425000; lats[238] = 50.8366667; longs[238] = 14.8702778; lats[239] = 50.8522222; longs[239] = 14.5244444; lats[240] = 50.5641667; longs[240] = 14.6641667; lats[241] = 50.7691667; longs[241] = 15.0250000; lats[242] = 50.8050000; longs[242] = 14.6827778; lats[243] = 50.7583333; longs[243] = 14.5511111; lats[244] = 50.7033333; longs[244] = 14.8083333; lats[245] = 50.7033333; longs[245] = 14.8083333; lats[246] = 50.9138889; longs[246] = 14.6225000; lats[247] = 50.9138889; longs[247] = 14.6225000; lats[248] = 50.6580556; longs[248] = 14.3047222; lats[249] = 50.6063889; longs[249] = 14.5066667; //]]>
+
+        function getMap() {
+            map = new VEMap('bing_map_1');
+            map.SetCredentials("Ar2o2i1P4fc_pgginN7goaZqbMUktGxupjrGXyPpMh2CYnykgQW8cxb0W6_n1ved");
+
+            map.LoadMap();
+            map.SetCenterAndZoom(new VELatLong(50, 15), 8);
+        }
+
+        function LoadPushPins() {
+            for (var i = 0; i < lats.length; i++) {
+                var pp = new VEShape(VEShapeType.Pushpin, new VELatLong(lats[i], longs[i]));
+                pp.SetTitle(names[i]);
+                pp.SetDescription("This is the " + i + " element in the array");
+                pp.SetPhotoURL('http://img.plaveniny.cz/en-' + variableCode + '-' + ids[i] + '-' + startDate + '-' + endDate + '.ashx');
+                map.AddShape(pp);
+            }
+        }
+        
+
+   </script>
+</head>
+
+<body onload="getMap();">
+    
+<div id="globalWrapper">
+
+<div id="header">
+<asp:HyperLink ID="link_start2" runat="server" NavigateUrl="<%$ Resources:global, Url_Start %>">
+<img id="logo" runat="server" src="/obr/logo3.jpg" alt="grafy.plaveniny.cz" title="<%$ Resources:global, Link_Start_Page %>" />
+</asp:HyperLink>
+</div>
+
+<div id="navigace">
+    <h2><asp:Literal ID="heading_navmenu" runat="server" meta:Resourcekey="heading_navmenu" /></h2>
+    <ul>
+        <asp:repeater ID="rpt_navigace" runat="server">
+            <ItemTemplate>
+            <li><asp:HyperLink ID="nav_link" runat="server"
+                CssClass='<%# Eval("CssClass") %>'
+                NavigateUrl='<%# Eval("Url") %>'
+                Text='<%# Eval("Text") %>' /></li>
+            </ItemTemplate>
+        </asp:repeater>
+    </ul>
+</div>
+
+<!-- vlastni obsah stranky -->
+<div id="hlavni">
+<asp:contentplaceholder id="cph_main" runat="server">
+        </asp:contentplaceholder>
+</div>
+<!-- konec vlastniho obsahu -->
+
+<div id="foot">
+<p>
+<asp:Literal ID="lbl_foot1" runat="server" Text="<%$ Resources:global, Text_LastUpdate %>" />
+<asp:Literal ID="lbl_CurrentTime" runat="server" /> &nbsp;<asp:Literal ID="AuthorName" 
+        runat="server" Text="<%$ Resources:global, Text_AuthorName %>" />&nbsp;Jiří Kadlec</p>
+<a id="toplink" href="http://toplink.miliweb.net" title="Toplink - katalog odkazů"><img src="http://toplink.miliweb.net/prouzek.gif" width="80" height="15" alt="Toplink - katalog odkazů" /></a>
+</div>
+
+</div><!-- konec div globalwrapper -->
+    
+</body>
+</html>

@@ -1,0 +1,72 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<head>
+    <meta http-equiv='content-type' content='text/html; charset=utf-8' />
+    
+    
+      
+    <meta name='author' content='Jiří Kadlec' />
+    <link rel='stylesheet' type='text/css' href='/plaveninycz/styl_grafy_start.css' />
+	<title>grafy.plaveniny.cz</title>
+
+    <!-- Bing Maps Javascript -->
+    <script type="text/javascript">
+    var map = new VEMap('bing_map_1');
+    map.LoadMap();
+    map.SetCredentials("Ar2o2i1P4fc_pgginN7goaZqbMUktGxupjrGXyPpMh2CYnykgQW8cxb0W6_n1ved");
+
+    //to zoom to the specific location
+    map.SetCenterAndZoom(new VELatLong(43.70, -111.89), 8);
+   </script>
+</head>
+
+<body onload="getMap()">
+    
+<div id="globalWrapper">
+
+<div id="header">
+<a id="ctl00_link_start2" href="en/"><img src="/obr/logo3.jpg" id="ctl00_logo" alt="grafy.plaveniny.cz" title="Grafy.plaveniny.cz - go to start page" /></a>
+</div>
+
+<div id="navigace">
+    <h2>Site Navigation</h2>
+    <ul>
+        
+            <li><a id="ctl00_rpt_navigace_ctl00_nav_link" class="current" href="en/">Start</a></li>
+            
+            <li><a id="ctl00_rpt_navigace_ctl01_nav_link" href="en/snow/">Graphs</a></li>
+            
+            <li><a id="ctl00_rpt_navigace_ctl02_nav_link" href="en/stations/">List of stations</a></li>
+            
+            <li><a id="ctl00_rpt_navigace_ctl03_nav_link" href="en/about/">About this web</a></li>
+            
+            <li><a id="ctl00_rpt_navigace_ctl04_nav_link" class="cs" href="cz/">Česky</a></li>
+            
+    </ul>
+</div>
+
+<!-- vlastni obsah stranky -->
+<div id="hlavni">
+
+
+<h1>Bing Map Test</h1>
+<div id="bing_map_1" style="width:400px; height:300px"></div>
+
+
+</div>
+<!-- konec vlastniho obsahu -->
+
+<div id="foot">
+<p>
+Last update: 
+1/20/2011 &nbsp;author:&nbsp;Jiří Kadlec</p>
+<a id="toplink" href="http://toplink.miliweb.net" title="Toplink - katalog odkazů"><img src="http://toplink.miliweb.net/prouzek.gif" width="80" height="15" alt="Toplink - katalog odkazů" /></a>
+</div>
+
+</div><!-- konec div globalwrapper -->
+    
+</body>
+</html>

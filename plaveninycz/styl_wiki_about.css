@@ -1,0 +1,234 @@
+﻿body
+{
+    margin: 0;
+    padding: 0;
+    position: relative;
+    font: x-small sans-serif;
+	background: #f9f9f9;
+}
+
+/* scale back up to a sane default */
+#globalWrapper 
+{
+	position: relative;
+	font-size: 127%;
+	width: 100%;
+	margin: 0;
+	padding: 0 1em;
+}
+
+hr
+    {
+        visibility: hidden;
+    }
+    
+    #header
+    {
+        width: 683px;
+        height: 62px;
+        margin-bottom: 4.5em;      
+    }
+    
+    
+    #hlavni
+    {
+        float: left;
+        padding: 0.5em 1em;
+        margin: 0 1em 1em 0;
+        
+        background: white;
+	    color: black;
+	    border: 1px solid #aaa;
+	    line-height: 1.5em;        
+    }
+    
+    a 
+    {
+	text-decoration: none;
+	color: #002bb8;
+	background: none;
+    }
+a:visited 
+{
+	color: #5a3696;
+}
+a:active 
+{
+	color: #faa700;
+}
+a:hover 
+{
+	text-decoration: underline;
+}
+
+p {
+		margin: .4em 0 .5em 0;
+		line-height: 1.5em;
+	}
+    
+    h1, h2, h3, h4, h5, h6 {
+	color: black;
+	background: none;
+	font-weight: normal;
+	margin: 0;
+	padding-top: .5em;
+	padding-bottom: .17em;
+	border-bottom: 1px solid #aaa;
+}
+h1, h2 { margin-bottom: 0.5em; }
+
+h1 { font-size: 188%; }
+
+
+h2 { font-size: 150%; }
+
+
+h3, h4, h5, h6 {
+	border-bottom: none;
+	font-weight: bold;
+}
+h3 { font-size: 132%; }
+h3 { font-size: 124%; }
+h4 { font-size: 116%; }
+
+h5 { font-size: 100%; }
+
+h6 { font-size: 80%;  }
+
+    
+    /* ----- STYLY PRO TABULKY ----- */
+    table 
+    {
+        border-top: 1px solid #999;
+        border-left: 1px solid #999;
+        border-collapse: collapse;
+        font-size: smaller;
+    }
+    
+    caption
+    {
+        color: #933;
+        background-color: #fff;
+        padding-bottom: 6px;
+        font-family: Verdana, Sans-Serif;
+        font-size: larger;
+        font-style: italic;
+    }
+    
+    th, td
+    {
+        padding: 8px;
+        border-right: 1px solid #999;
+        border-bottom: 1px solid #999;
+    }
+    
+    th
+    {
+        font-family: Verdana, Sans-Serif;
+        background-color: #ccc;
+    }
+    
+     /* ----- STYLY PRO NAVIGACI    ----- */
+    
+    #navigace
+    {     
+        position: absolute;
+        top: 62px;
+        left: 1em;
+        float: left;
+        clear: both;
+        padding-top: 1em;
+        width: 54em;
+             
+    }
+    
+    #navigace h2
+    {
+        display: none;
+    }
+    
+    #navigace ul
+    {     
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        font-family: Georgia, Serif;
+        
+        font-size: medium; 
+    }
+    
+    #navigace li
+    {        
+        display: inline;     
+    }
+    
+    
+    #navigace li a
+    {
+        float: left;
+        display: block;
+        padding: 0.5em;
+        margin: 0;
+        width: 7em;
+        border: 1px solid #090;
+        border-right: 0;
+        color: #00f;
+        background-color: #ffc;
+        text-decoration: underline;
+    }
+    
+    #navigace li a.current
+    {
+        color: #000;
+        background-color: #fc0;
+        text-decoration: none;
+    }
+    #navigace li a.cs, #navigace li a.en
+    {
+        padding-left: 2em;
+        border-right: 1px solid #090;
+    }
+    
+    #navigace li a.cs
+    {
+        background: #ffc url("vlajky_cz.gif") no-repeat center left;
+        background-position: 0.5em 0.8em;
+    }
+    
+    #navigace li a.en
+    {
+        background: #ffc url("vlajky_en.gif") no-repeat center left;
+        background-position: 0.5em 0.8em;
+    }
+    
+    #navigace li a:active, #navigace li a:hover, #navigace li a.cs:hover, #navigace li a.en:hover
+    {
+        color: #000;
+        text-decoration: underline;
+        background-color: #9f6;
+    }
+    
+    #navigace li a.current, #navigace li a.current:hover
+    {
+        text-decoration: none;
+        color: #000;
+        background-color: #fc0;
+    }
+    
+    /* ----- STYLY PRO ZAPATI STRANKY    ----- */
+    #foot
+    {        
+        
+        padding-bottom: 1em;            
+    }
+    
+    #foot p
+    {
+        display: inline;
+        margin: 0;
+        line-height: 1em;
+        padding: 0.5em;
+        color: black;
+        background-color: #ffc;
+        border: 1px solid #00f;
+    }

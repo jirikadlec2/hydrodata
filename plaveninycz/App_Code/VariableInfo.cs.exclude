@@ -1,0 +1,325 @@
+using System;
+using System.Data;
+using System.Configuration;
+using jk.plaveninycz;
+
+namespace jk.plaveninycz.DataSources
+{
+    /// <summary>
+    /// Ennumerates all possible attributes of the observation
+    /// type (url, name, short name, ...)
+    /// used in the constructor of VariableInfo to set the
+    /// correct parameter
+    /// </summary>
+    public enum VariableInfoEnum
+    {
+        Url,
+        Name,
+        ShortName
+    }
+    
+    
+    /// <summary>
+    /// Encapsulates methods for correct variable
+    /// (observation type) identification
+    /// the requested attributes are returned according to
+    /// current culture (English or Czech)
+    /// </summary>
+    public class VariableInfo
+    {
+        public VariableInfo(int id)
+        {
+            _id = id;
+        }
+        public VariableInfo(VariableInfoEnum attribute, string value)
+        {
+            switch ( attribute )
+            {
+                case VariableInfoEnum.Name:
+                    this.Name = value;
+                    break;
+                case VariableInfoEnum.ShortName:
+                    this.ShortName = value;
+                    break;
+                case VariableInfoEnum.Url:
+                    this.Url = value;
+                    break;
+            }
+        }
+
+        public VariableInfo(VariableEnum varEnum)
+        {
+            this.VarEnum = varEnum;
+        }
+
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+        // variable as part of the url (without "/" on either size)
+        public string Url
+        {
+            get
+            {
+                string str = string.Empty;
+                switch ( culture.ToString() )
+                {
+                    case "cs-CZ":
+                        switch ( _id )
+                        {
+                            case 8:
+                                str = "snih";
+                                break;
+                            case 2:
+                                str = "srazky";
+                                break;
+                            case 4:
+                                str = "vodni-stav";
+                                break;
+                            case 5:
+                                str = "prutok";
+                                break;
+                        }
+                        break;
+                    default:
+                        switch ( _id )
+                        {
+                            case 8:
+                                str = "snow";
+                                break;
+                            case 2:
+                                str = "precip";
+                                break;
+                            case 4:
+                                str = "water-stage";
+                                break;
+                            case 5:
+                                str = "flow";
+                                break;
+                        }
+                        break;
+                }
+                return str;
+            }
+            set
+            {
+                switch ( value )
+                {
+                    case "snih":
+                    case "snow":
+                        _id = 8;
+                        break;
+                    case "srazky":
+                    case "dest":
+                    case "rain":
+                    case "precip":
+                        _id = 2;
+                        break;
+                    case "vodni-stav":
+                    case "hladina":
+                    case "water-stage":
+                    case "stage":
+                        _id = 4;
+                        break;
+                    case "prutok":
+                    case "flow":
+                    case "discharge":
+                        _id = 5;
+                        break;
+                }
+            }
+        }
+        // commonly used name in the current language
+        public string Name
+        {
+            get 
+            {
+                string str = string.Empty;
+                switch ( culture.ToString() )
+                {
+                    case "cs-CZ":
+                        switch ( _id )
+                        {
+                            case 8:
+                                str = "snÌh";
+                                break;
+                            case 2:
+                                str = "sr·ûky";
+                                break;
+                            case 4:
+                                str = "vodnÌ stav";
+                                break;
+                            case 5:
+                                str = "pr˘tok";
+                                break;
+                        }
+                        break;
+                    default:
+                    {
+                        switch ( _id )
+                        {
+                            case 8:
+                                str = "snow";
+                                break;
+                            case 2:
+                                str = "precipitation";
+                                break;
+                            case 4:
+                                str = "water stage";
+                                break;
+                            case 5:
+                                str = "flow";
+                                break;
+                        }
+                    }
+                    break;
+                }
+                if ( str == String.Empty )
+                {
+                    throw new System.InvalidOperationException("bad input argument");
+                }
+                return str;
+            }
+            set
+            {
+                switch ( value )
+                {
+                    case "snÌh":
+                    case "snow":
+                        _id = 8;
+                        break;
+                    case "sr·ûky":
+                    case "dÈöù":
+                    case "rain":
+                    case "precipitation":
+                        _id = 2;
+                        break;
+                    case "vodnÌ stav":
+                    case "hladina":
+                    case "water stage":
+                    case "stage":
+                        _id = 4;
+                        break;
+                    case "pr˘tok":
+                    case "flow":
+                    case "discharge":
+                        _id = 5;
+                        break;
+                }
+            }
+        }
+        // short name like wtr, snw, pcp
+        public string ShortName
+        {
+            get
+            {
+                String str = string.Empty;
+                switch ( _id )
+                {
+                    case 8:
+                        str = "snw";
+                        break;
+                    case 2:
+                        str = "pcp";
+                        break;
+                    case 4:
+                        str = "wtr";
+                        break;
+                    case 5:
+                        str = "flw";
+                        break;
+                }
+                return str;
+            }
+            set
+            {
+                switch ( value )
+                {
+                    case "snw":
+                        _id = 8;
+                        break;
+                    case "pcp":
+                        _id = 2;
+                        break;
+                    case "wtr":
+                        _id = 4;
+                        break;
+                    case "flw":
+                        _id = 5;
+                        break;
+                }
+            }
+        }
+        public VariableEnum VarEnum
+        {
+            get
+            {
+                VariableEnum v;
+                switch ( _id )
+                {
+                    case 8:
+                        v = VariableEnum.Snow;
+                        break;
+                    case 2:
+                        v = VariableEnum.Precip;
+                        break;
+                    case 4:
+                        v = VariableEnum.Stage;
+                        break;
+                    case 5:
+                        v = VariableEnum.Discharge;
+                        break;
+                    default:
+                        v = VariableEnum.Stage;
+                        break;
+                }
+                return v;
+            }
+            set
+            {
+                switch ( value )
+                {
+                    case VariableEnum.Snow:
+                        _id = 8;
+                        break;
+                    case VariableEnum.Precip:
+                        _id = 2;
+                        break;
+                    case VariableEnum.Stage:
+                        _id = 4;
+                        break;
+                    case VariableEnum.Discharge:
+                        _id = 5;
+                        break;
+                }
+            }
+        }
+        public string UrlLang
+        {
+            get
+            {
+                string str;
+                switch ( culture.ToString() )
+                {
+                    case "cs-CZ":
+                        str = "cz";
+                        break;
+                    default:
+                        str = "en";
+                        break;
+                }
+                return str;
+            }
+        }
+        
+
+        #region Private_Members
+        private int _id;
+        private System.Globalization.CultureInfo culture = System.Threading.Thread.CurrentThread.CurrentCulture;
+        #endregion
+    }
+
+
+
+}
