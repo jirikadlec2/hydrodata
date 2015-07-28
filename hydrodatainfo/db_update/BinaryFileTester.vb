@@ -12,8 +12,11 @@
         'Dim out As List(Of TimeValuePair) = bfm.OpenBinaryFile("C:\temp\data\flw_0089.dat", startTime, endTime)
 
         'try to save all files
-        Dim folder As String = "C:\temp\data\h\prutok"
-        bfm.SaveBinaryFiles(folder, "prutok", "h")
+
+        bfm.SaveBinaryFiles("C:\temp\data\h\vodstav", "vodstav", "h")
+        bfm.SaveBinaryFiles("C:\temp\data\h\srazky", "srazky", "h")
+        bfm.SaveBinaryFiles("C:\temp\data\d\srazky", "srazky", "d")
+        bfm.SaveBinaryFiles("C:\temp\data\d\snih", "snih", "d")
     End Sub
 
 End Class
