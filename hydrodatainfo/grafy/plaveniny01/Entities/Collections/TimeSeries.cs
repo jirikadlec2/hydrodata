@@ -209,6 +209,20 @@ namespace jk.plaveninycz.BO
 
         #region Private Methods
 
+        private double CalcPercentAvailableData2()
+        {
+            int cnt = this.Count;
+            int missingCnt = 0;
+            foreach (PointPair pp in _data)
+            {
+                if (pp.IsMissing)
+                {
+                    missingCnt++;
+                }
+            }
+            return 100 * (1 - (double)missingCnt / cnt);
+        }
+
         private double CalcPercentAvailableData()
         {
             double missingSpan = 0.0;

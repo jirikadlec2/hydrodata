@@ -5,9 +5,10 @@ Imports System.IO
 Public Class BinaryFileManager
 
     'gets the existing data from the API
-    Public Function GetDataFromAPI(ByVal siteID As String, ByVal czechVarName As String) As List(Of TimeValuePair)
+    'timeStep can be "h" for hourly or "d" for daily
+    Public Function GetDataFromAPI(ByVal siteID As String, ByVal czechVarName As String, ByVal timeStep As String) As List(Of TimeValuePair)
 
-        Dim url As String = "http://hydrodata.info/api/values?site=" & siteID & "&variable=" & czechVarName & "&step=h"
+        Dim url As String = "http://hydrodata.info/api/values?site=" & siteID & "&variable=" & czechVarName & "&step=" & timeStep
 
         Dim request As HttpWebRequest = DirectCast(WebRequest.Create(url), HttpWebRequest)
         Dim response As HttpWebResponse = DirectCast(request.GetResponse(), HttpWebResponse)
@@ -16,28 +17,89 @@ Public Class BinaryFileManager
 
         'reads each line from the request
         Dim output As New List(Of TimeValuePair)
+
+        If timeStep = "h" Then
+
+            While line IsNot Nothing
+
+                line = reader.ReadLine()
+
+                If line IsNot Nothing Then
+
+                    Dim tv() As String = line.Split(vbTab)
+                    Dim t As String = tv(0)
+                    Dim y As Integer = CInt(t.Substring(0, 4))
+                    Dim m As Integer = CInt(t.Substring(5, 2))
+                    Dim d As Integer = CInt(t.Substring(8, 2))
+                    Dim h As Integer = CInt(t.Substring(11, 2))
+                    Dim dt As New DateTime(y, m, d, h, 0, 0)
+
+                    Dim v As String = tv(1)
+                    Dim val As Single = -9999.0
+                    If (v <> "NA") Then
+                        val = CSng(v)
+                    End If
+                    Dim tvp As New TimeValuePair(dt, val)
+
+                    output.Add(tvp)
+                End If
+
+            End While
+
+        Else
+
+            While line IsNot Nothing
+
+                line = reader.ReadLine()
+
+                If line IsNot Nothing Then
+
+                    Dim tv() As String = line.Split(vbTab)
+                    Dim t As String = tv(0)
+                    Dim y As Integer = CInt(t.Substring(0, 4))
+                    Dim m As Integer = CInt(t.Substring(5, 2))
+                    Dim d As Integer = CInt(t.Substring(8, 2))
+
+                    Dim dt As New DateTime(y, m, d, 0, 0, 0)
+
+                    Dim v As String = tv(1)
+                    Dim val As Single = -9999.0
+                    If (v <> "NA") Then
+                        val = CSng(v)
+                    End If
+                    Dim tvp As New TimeValuePair(dt, val)
+
+                    output.Add(tvp)
+                End If
+
+            End While
+
+        End If
+
+        Return output
+    End Function
+
+    'gets the existing data from the API
+    Public Function GetSitesFromAPI(ByVal czechVarName As String) As List(Of Integer)
+
+        Dim url As String = "http://hydrodata.info/api/sites?variable=" & czechVarName
+
+        Dim request As HttpWebRequest = DirectCast(WebRequest.Create(url), HttpWebRequest)
+        Dim response As HttpWebResponse = DirectCast(request.GetResponse(), HttpWebResponse)
+        Dim reader As New StreamReader(response.GetResponseStream())
+        Dim line As String = reader.ReadLine()
+
+        'reads each line from the request
+        Dim output As New List(Of Integer)
         While line IsNot Nothing
 
             line = reader.ReadLine()
 
             If line IsNot Nothing Then
 
-                Dim tv() As String = line.Split(vbTab)
-                Dim t As String = tv(0)
-                Dim y As Integer = CInt(t.Substring(0, 4))
-                Dim m As Integer = CInt(t.Substring(5, 2))
-                Dim d As Integer = CInt(t.Substring(8, 2))
-                Dim h As Integer = CInt(t.Substring(11, 2))
-                Dim dt As New DateTime(y, m, d, h, 0, 0)
-
-                Dim v As String = tv(1)
-                Dim val As Single = -9999.0
-                If (v <> "NA") Then
-                    val = CSng(v)
-                End If
-                Dim tvp As New TimeValuePair(dt, val)
-
-                output.Add(tvp)
+                Dim row() As String = line.Split(vbTab)
+                Dim siteID As String = row(0)
+                output.Add(CInt(siteID))
             End If
 
         End While
@@ -72,6 +134,28 @@ Public Class BinaryFileManager
             fs.Flush()
 
         End Using
+    End Sub
+
+    'saves all of the binary files for the given variable
+    'use "h" or "d" for time step
+    Public Sub SaveBinaryFiles(ByVal folder As String, ByVal variable As String, ByVal timeStep As String)
+
+        'first of all fetch all sites who measure this variable
+        Dim siteIDs As List(Of Integer) = GetSitesFromAPI(variable)
+        For Each Site As Integer In siteIDs
+            Dim siteCode As String = Site.ToString("D4")
+            Dim fileName As String = timeStep & "_" & variable & "_" & siteCode & ".dat"
+            Dim filePath As String = System.IO.Path.Combine(folder, fileName)
+
+            Try
+                Dim data As List(Of TimeValuePair) = GetDataFromAPI(Site, variable, timeStep)
+                SaveToBinaryFile(data, filePath)
+            Catch ex As Exception
+                Console.WriteLine(ex.Message)
+            End Try
+
+        Next
+
     End Sub
 
     'reads the data from the binary file

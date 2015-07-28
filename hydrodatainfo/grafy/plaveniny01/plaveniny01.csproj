@@ -73,6 +73,7 @@
     </Compile>
     <Compile Include="Interfaces\IObservationList.cs" />
     <Compile Include="Interfaces\ITimeSeries.cs" />
+    <Compile Include="Logic\BinaryFileHelper.cs" />
     <Compile Include="Logic\CultureHelper.cs" />
     <Compile Include="Logic\RiverManager.cs" />
     <Compile Include="Logic\StationManager.cs" />

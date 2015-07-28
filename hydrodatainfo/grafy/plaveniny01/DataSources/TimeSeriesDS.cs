@@ -5,6 +5,8 @@ using System.Collections;
 using System.Text;
 using jk.plaveninycz.Interfaces;
 using jk.plaveninycz.BO;
+using System.IO;
+using jk.plaveninycz.Logic;
 
 namespace jk.plaveninycz.DataSources
 {
@@ -207,6 +209,34 @@ namespace jk.plaveninycz.DataSources
             }
         }
 
+        /// <summary>
+        /// Loads DISCHARGE observations related to hydrodata.cz from the binary files
+        /// </summary>
+        /// <param name="stationID"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="step"></param>
+        /// <param name="observations"></param>
+        public static void LoadObservationsDischarge2(int stationID, DateTime startTime, DateTime endTime, TimeStep step, IObservationList observations)
+        {
+            //the base directory where files are stored
+            string baseDir = @"C:\temp\data";
+            
+            //the czech variable name
+            string varName = "prutok";
+            
+            //find the file name to read the data from
+            string stepName = (step == TimeStep.Hour) ? "h" : "d";
+
+            string stationCode = stationID.ToString("D4");
+
+            string file = string.Format(@"{0}\{1}\{0}_{1}_{2}.dat", stepName, varName, stationCode);
+            string fileName = Path.Combine(baseDir, file);
+
+            BinaryFileHelper.ReadBinaryFile(fileName, startTime, endTime, step, false, observations);
+
+        }
+        
         /// <summary>
         /// Retrieves a time series of discharge observations from the database
         /// (only measured, non-zero values are retrieved)

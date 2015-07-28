@@ -39,7 +39,7 @@ namespace jk.plaveninycz.Bll
             else if (v == VariableEnum.Discharge)
             {
                 ts = new HydroTimeSeries(interval.Start, interval.End);
-                TimeSeriesDS.LoadObservationsDischarge(ch.StationId, ch.VariableId, interval.Start,
+                TimeSeriesDS.LoadObservationsDischarge2(ch.StationId, interval.Start,
                     interval.End, step, (IObservationList)ts);
             }
             else if (v == VariableEnum.Temperature)
