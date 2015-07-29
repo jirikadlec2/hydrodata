@@ -363,7 +363,7 @@ namespace grafy
                     return (dVal >= 0) ? (dVal * 0.1).ToString("0.0") : "NA";
                 case 4:
                     // water stag
-                    return (dVal >= 0) ? (dVal * 0.1).ToString("0.0") : "NA";
+                    return (dVal >= 0) ? dVal.ToString("0.0") : "NA";
                 case 5:
                     // discharge
                     return (dVal >= 0) ? dVal.ToString("0.0000") : "NA";
@@ -391,7 +391,7 @@ namespace grafy
                     return (dVal >= 0) ? (dVal * 0.1) : noDataVal;
                 case 4:
                     // water stag
-                    return (dVal >= 0) ? (dVal * 0.1): noDataVal;
+                    return (dVal >= 0) ? dVal: noDataVal;
                 case 5:
                     // discharge
                     return (dVal >= 0) ? dVal : noDataVal;

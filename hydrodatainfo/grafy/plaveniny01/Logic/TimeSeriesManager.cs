@@ -33,7 +33,7 @@ namespace jk.plaveninycz.Bll
             if (v == VariableEnum.Stage)
             { 
                 ts = new HydroTimeSeries(interval.Start, interval.End);
-                TimeSeriesDS.LoadObservations(ch.StationId, ch.VariableId, interval.Start,
+                TimeSeriesDS.LoadObservationsStage2(ch.StationId, interval.Start,
                     interval.End, step, (IObservationList)ts);
             }
             else if (v == VariableEnum.Discharge)
@@ -46,7 +46,7 @@ namespace jk.plaveninycz.Bll
             {
                 ts = new HydroTimeSeries(interval.Start, interval.End);
                 //step = TimeStep.Hour;
-                TimeSeriesDS.LoadObservationsTemperature(ch.StationId, ch.VariableId, interval.Start, interval.End, step, (IObservationList)ts);
+                TimeSeriesDS.LoadObservationsTemperature2(ch.StationId, interval.Start, interval.End, step, (IObservationList)ts);
             }
             else if (v == VariableEnum.Snow)
             {

@@ -129,6 +129,46 @@ namespace jk.plaveninycz.DataSources
             }
         }
 
+        public static void LoadObservationsPrecip2(int stationID, DateTime startTime, DateTime endTime,
+            TimeStep step, IObservationList observations)
+        {
+            //the base directory where files are stored
+            string baseDir = @"C:\temp\data";
+
+            //the czech variable name
+            string varName = "srazky";
+
+            //find the file name to read the data from
+            string stepName = (step == TimeStep.Hour) ? "h" : "d";
+
+            string stationCode = stationID.ToString("D4");
+
+            string file = string.Format(@"{0}\{1}\{0}_{1}_{2}.dat", stepName, varName, stationCode);
+            string fileName = Path.Combine(baseDir, file);
+
+            BinaryFileHelper.ReadBinaryFile(fileName, startTime, endTime, step, true, observations);
+        }
+
+        public static void LoadObservationsTemperature2(int stationID, DateTime startTime, DateTime endTime,
+            TimeStep step, IObservationList observations)
+        {
+            //the base directory where files are stored
+            string baseDir = @"C:\temp\data";
+
+            //the czech variable name
+            string varName = "teplota";
+
+            //find the file name to read the data from
+            string stepName = (step == TimeStep.Hour) ? "h" : "d";
+
+            string stationCode = stationID.ToString("D4");
+
+            string file = string.Format(@"{0}\{1}\{0}_{1}_{2}.dat", stepName, varName, stationCode);
+            string fileName = Path.Combine(baseDir, file);
+
+            BinaryFileHelper.ReadBinaryFile(fileName, startTime, endTime, step, true, observations);
+        }
+
         public static void LoadObservationsTemperature(int stationId, int variableId, DateTime start, DateTime end,
             TimeStep step, IObservationList observations)
         {
@@ -225,6 +265,26 @@ namespace jk.plaveninycz.DataSources
             //the czech variable name
             string varName = "prutok";
             
+            //find the file name to read the data from
+            string stepName = (step == TimeStep.Hour) ? "h" : "d";
+
+            string stationCode = stationID.ToString("D4");
+
+            string file = string.Format(@"{0}\{1}\{0}_{1}_{2}.dat", stepName, varName, stationCode);
+            string fileName = Path.Combine(baseDir, file);
+
+            BinaryFileHelper.ReadBinaryFile(fileName, startTime, endTime, step, false, observations);
+
+        }
+
+        public static void LoadObservationsStage2(int stationID, DateTime startTime, DateTime endTime, TimeStep step, IObservationList observations)
+        {
+            //the base directory where files are stored
+            string baseDir = @"C:\temp\data";
+
+            //the czech variable name
+            string varName = "vodstav";
+
             //find the file name to read the data from
             string stepName = (step == TimeStep.Hour) ? "h" : "d";
 
