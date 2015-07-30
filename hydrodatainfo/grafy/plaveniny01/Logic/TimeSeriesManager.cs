@@ -51,7 +51,7 @@ namespace jk.plaveninycz.Bll
             else if (v == VariableEnum.Snow)
             {
                 ts = new HydroTimeSeries(interval.Start, interval.End);
-                TimeSeriesDS.LoadObservationsSnow(ch.StationId, ch.VariableId, interval.Start, interval.End, step, (IObservationList)ts);
+                TimeSeriesDS.LoadObservationsSnow2(ch.StationId, interval.Start, interval.End, (IObservationList)ts);
             }
             else if (v == VariableEnum.PrecipHour || v == VariableEnum.Precip || v == VariableEnum.PrecipSum)
             {
@@ -63,7 +63,7 @@ namespace jk.plaveninycz.Bll
             {
                 //snow
                 ts = new HydroTimeSeries(interval.Start, interval.End);
-                TimeSeriesDS.LoadObservationsSnow(ch.StationId, ch.VariableId, interval.Start, interval.End, step, (IObservationList)ts);
+                TimeSeriesDS.LoadObservationsSnow2(ch.StationId, interval.Start, interval.End, (IObservationList)ts);
             }
             return ts;
         }

@@ -169,6 +169,26 @@ namespace jk.plaveninycz.DataSources
             BinaryFileHelper.ReadBinaryFile(fileName, startTime, endTime, step, true, observations);
         }
 
+        public static void LoadObservationsSnow2(int stationID, DateTime startTime, DateTime endTime,
+            IObservationList observations)
+        {
+            //the base directory where files are stored
+            string baseDir = @"C:\temp\data";
+
+            //the czech variable name
+            string varName = "snih";
+
+            //find the file name to read the data from
+            string stepName = "d";
+
+            string stationCode = stationID.ToString("D4");
+
+            string file = string.Format(@"{0}\{1}\{0}_{1}_{2}.dat", stepName, varName, stationCode);
+            string fileName = Path.Combine(baseDir, file);
+
+            BinaryFileHelper.ReadBinaryFile(fileName, startTime, endTime, TimeStep.Day, true, observations);
+        }
+
         public static void LoadObservationsTemperature(int stationId, int variableId, DateTime start, DateTime end,
             TimeStep step, IObservationList observations)
         {
