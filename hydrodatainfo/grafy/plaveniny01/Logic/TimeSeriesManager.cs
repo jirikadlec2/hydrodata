@@ -56,7 +56,7 @@ namespace jk.plaveninycz.Bll
             else if (v == VariableEnum.PrecipHour || v == VariableEnum.Precip || v == VariableEnum.PrecipSum)
             {
                 ts = new MyTimeSeries(interval.Start, interval.End, step);
-                TimeSeriesDS.LoadObservationsPrecip(ch.StationId, ch.VariableId, interval.Start,
+                TimeSeriesDS.LoadObservationsPrecip2(ch.StationId, interval.Start,
                     interval.End, step, (IObservationList)ts);
             }
             else
