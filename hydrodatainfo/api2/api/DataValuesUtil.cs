@@ -62,7 +62,7 @@ namespace api
         public static string GetBinaryFileName(int siteId, string varCode, string timeStep)
         {
             //construct fileName
-            string baseDir = @"C:\temp\data";
+            string baseDir = Helpers.GetDataDirectory();
             string stepName = "h";
             string stationCode = siteId.ToString("D4");
             float noDataValue = -9999.0f;

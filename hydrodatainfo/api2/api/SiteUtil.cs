@@ -45,11 +45,10 @@ namespace api
                 numVariables = 0;
             }
             string cnn = Helpers.GetConnectionString();
-            string sql = "SELECT s.st_id, s.st_name, s.lat, s.lon, s.altitude, " +
-                         "s.st_ind AS 'st_id2', r.riv_name AS 'river_name', o.name2 AS 'operator_name' " +
-                         "FROM plaveninycz.stations s " +
-                         "INNER JOIN plaveninycz.operator o ON s.operator_id = o.ID " +
-                         "LEFT JOIN plaveninycz.river r on s.riv_id = r.riv_id ";
+            string sql = @"SELECT s.st_id, s.st_name, s.lat, s.lon, s.altitude,
+                           s.st_ind AS 'st_id2', r.riv_name AS 'river_name', o.name2 AS 'operator_name' FROM plaveninycz.stations s 
+                           LEFT JOIN plaveninycz.operator o ON s.operator_id = o.ID
+                           LEFT JOIN plaveninycz.river r on s.riv_id = r.riv_id ";
             if (numVariables == 0)
             {
                 sql += "WHERE s.lat IS NOT NULL";
@@ -113,7 +112,14 @@ namespace api
 
                         si.SiteID = Convert.ToInt32(dr["st_id"]);
 
-                        si.Operator = Convert.ToString(dr["operator_name"]);
+                        if (dr["operator_name"] != DBNull.Value)
+                        {
+                            si.Operator = Convert.ToString(dr["operator_name"]);
+                        }
+                        else
+                        {
+                            si.Operator = "NA";
+                        }
 
                         if (dr["st_id2"] != DBNull.Value)
                         {

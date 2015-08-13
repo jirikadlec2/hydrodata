@@ -12,5 +12,10 @@ namespace api
         {
             return ConfigurationManager.ConnectionStrings["OdmConnection"].ConnectionString;
         }
+
+        public static string GetDataDirectory()
+        {
+            return ConfigurationManager.ConnectionStrings["FileConnection1"].ConnectionString;
+        }
     }
 }
