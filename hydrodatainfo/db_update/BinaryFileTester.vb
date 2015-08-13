@@ -13,7 +13,9 @@
 
         'try to save all files
 
-        'bfm.SaveBinaryFiles("C:\temp\data\h\vodstav", "vodstav", "h")
+        bfm.SaveBinaryFiles("C:\temp\data\h\vodstav", "vodstav", "h")
+        bfm.SaveBinaryFiles("C:\temp\data\h\prutok", "prutok", "h")
+        bfm.SaveBinaryFiles("C:\temp\data\h\teplota", "teplota", "h")
         bfm.SaveBinaryFiles("C:\temp\data\h\srazky", "srazky", "h")
         bfm.SaveBinaryFiles("C:\temp\data\d\srazky", "srazky", "d")
         bfm.SaveBinaryFiles("C:\temp\data\d\snih", "snih", "d")

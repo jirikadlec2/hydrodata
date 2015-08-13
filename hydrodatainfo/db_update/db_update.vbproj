@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="BinaryFileManager.vb" />
     <Compile Include="BinaryFileTester.vb" />
+    <Compile Include="DBManager.vb" />
     <Compile Include="sqlserver_scripts.vb" />
     <Compile Include="db_lib_new.vb" />
     <Compile Include="db_update2.aspx.designer.vb">

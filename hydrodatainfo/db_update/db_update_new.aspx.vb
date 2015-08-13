@@ -41,8 +41,11 @@ Public Class db_update_new
         Dim Connstr1 As String = _
         "data source=.\SQLEXPRESS; Initial Catalog=plaveninycz1; User Id=sa; password=2c506bbe"
 
-        Dim Connstr3 As String = _
+        Dim Connstr2 As String = _
         "Data Source=sql2005.dotnethosting.cz;Initial Catalog=plaveninycz1;User Id=plaveninycz1;Password=Ziqwdwq1;"
+
+        Dim Connstr3 As String = _
+            "Data Source=sql4.aspone.cz;Initial Catalog=db1856;User Id=db1856;Password=2c506bbe;"
 
         Dim LogStr As String = vbCrLf & vbCrLf & DateTime.Now.ToString
         Dim ExStr As String = ""
@@ -55,7 +58,10 @@ Public Class db_update_new
 
         Try
             Dim bft As New BinaryFileTester
-            bft.RunBinaryFileTest()
+            'bft.RunBinaryFileTest()
+            Dim dbm As New DBManager(Connstr3, "C:\Temp\data")
+            dbm.UpdateStationsVariables()
+
             'LogStr &= dbcn.UpdateTemperature()
             'LogStr &= dbcn.UpdateSnow()
             'LogStr &= dbcn.UpdatePrecipitation_Daily()
