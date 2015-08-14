@@ -60,9 +60,9 @@ Public Class db_update_new
             Dim bft As New BinaryFileTester
             'bft.RunBinaryFileTest()
             Dim dbm As New DBManager(Connstr3, "C:\Temp\data")
-            dbm.UpdateStationsVariables()
+            'dbm.UpdateStationsVariables()
 
-            'LogStr &= dbcn.UpdateTemperature()
+            LogStr &= dbcn.UpdateTemperature()
             'LogStr &= dbcn.UpdateSnow()
             'LogStr &= dbcn.UpdatePrecipitation_Daily()
             'LogStr &= dbcn.UpdatePrecip_Hourly_Povodi()

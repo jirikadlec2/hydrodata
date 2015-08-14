@@ -158,6 +158,101 @@ Public Class BinaryFileManager
 
     End Sub
 
+    'adds extra values to the binary file
+    'checks for duplicate data and for gaps
+    Public Sub AddValues(ByVal fileName As String, ByVal values As List(Of TimeValuePair), ByVal timeStep As String)
+
+        'constants
+        Dim SIZEOF_FLOAT As Integer = 4
+        Dim SIZEOF_LONG As Integer = 8
+
+        Dim endDateFromFile As DateTime
+        'first step: find the last date from the file'
+        Using stream As New FileStream(fileName, FileMode.Open, FileAccess.Read)
+
+            'reads the startDate
+            Dim startDateBytes(7) As Byte
+            stream.Read(startDateBytes, 0, SIZEOF_LONG)
+            Dim startDateBinary(0) As Long
+            Buffer.BlockCopy(startDateBytes, 0, startDateBinary, 0, SIZEOF_LONG)
+            Dim startDateFromFile As DateTime = DateTime.FromBinary(startDateBinary(0))
+
+            Dim numHoursInFile = CInt((stream.Length - SIZEOF_LONG) / SIZEOF_FLOAT)
+            endDateFromFile = startDateFromFile.AddHours(numHoursInFile)
+        End Using
+
+        'second step: make input data regular, with daily / hourly time step, suitable to add to the file
+        Dim newData() As Single
+        Dim endDateNew As DateTime
+        If timeStep = "h" Then
+            endDateNew = endDateFromFile.AddHours(1)
+            newData = MakeRegularTimeSeries_h(endDateNew, values)
+        Else
+            endDateNew = endDateFromFile.AddDays(1)
+            newData = MakeRegularTimeSeries_d(endDateNew, values)
+        End If
+
+        Using stream2 As New FileStream(fileName, FileMode.Append, FileAccess.Write)
+            Dim N As Integer = newData.Length
+            Dim NBytes As Integer = SIZEOF_FLOAT * N
+            Dim bytesOriginal(NBytes - 1) As Byte
+            System.Buffer.BlockCopy(newData, 0, bytesOriginal, 0, NBytes)
+
+            'write to binary file
+            stream2.Write(bytesOriginal, 0, NBytes)
+            stream2.Flush()
+        End Using
+
+
+
+    End Sub
+
+    'makes a hourly regular time series from the input list
+    Public Function MakeRegularTimeSeries_h(ByVal startDate As DateTime, input As List(Of TimeValuePair)) As Single()
+        'first step: regular hourly times, values
+        Dim endTime As DateTime = input.Last().DateTime
+        Dim numTimes As Integer = CInt((endTime - startDate).TotalHours)
+        Dim times(numTimes) As DateTime
+        Dim vals(numTimes) As Single
+
+        For i = 0 To numTimes
+            times(i) = startDate.AddHours(i)
+            vals(i) = -9999.0F
+        Next
+
+        For Each tvp As TimeValuePair In input
+            Dim index As Integer = CInt((tvp.DateTime - startDate).TotalHours)
+            If index > 0 And index <= numTimes Then
+                vals(index) = CSng(tvp.Value)
+            End If
+        Next
+        Return vals
+    End Function
+
+    'makes a daily regular time series from the input list
+    'in FUTURE: support making daily avg, min, max, or sum
+    Public Function MakeRegularTimeSeries_d(ByVal startDate As DateTime, input As List(Of TimeValuePair)) As Single()
+        'first step: regular hourly times, values
+        Dim endTime As DateTime = input.Last().DateTime
+        Dim numTimes As Integer = CInt((endTime - startDate).TotalDays)
+        Dim times(numTimes) As DateTime
+        Dim vals(numTimes) As Single
+
+        For i = 0 To numTimes
+            times(i) = startDate.AddDays(i)
+            vals(i) = -9999.0F
+        Next
+
+        For Each tvp As TimeValuePair In input
+            Dim index As Integer = CInt((tvp.DateTime - startDate).TotalDays)
+            If index > 0 And index <= numTimes Then
+                vals(index) = CSng(tvp.Value)
+            End If
+        Next
+        Return vals
+    End Function
+
+
     'reads the data from the binary file
     Public Function OpenBinaryFile(ByVal fileName As String, ByVal startTime As DateTime, ByVal endTime As DateTime) As List(Of TimeValuePair)
 
