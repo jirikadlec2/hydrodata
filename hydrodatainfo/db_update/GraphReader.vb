@@ -281,15 +281,45 @@ Public Class GraphReader
             End If
         Next
 
+        'find pixel coordinates of multiples-of-12
+        'these markers are 2-pixel wide
+        Dim halfPixel1 As Integer = 0
+        Dim halfPixel2 As Integer = 0
+        For xPixel = 0 To bmp.Width - 2
+            If bmp.GetPixel(xPixel, baseAxisY) = blackColor Then
+                If bmp.GetPixel(xPixel + 1, baseAxisY) = blackColor And bmp.GetPixel(xPixel - 1, baseAxisY) <> blackColor And bmp.GetPixel(xPixel + 2, baseAxisY) <> blackColor Then
+                    If halfPixel1 = 0 Then
+                        halfPixel1 = xPixel
+                    ElseIf halfPixel2 = 0 Then
+                        halfPixel2 = xPixel
+                        Exit For
+                    Else
+                        Exit For
+                    End If
+                End If
+            End If
+        Next
+
         'beginBasePixel and endBasePixel must be found
-        If beginBasePixel = 0 Or endBasePixel = 0 Then
+        If beginBasePixel = 0 Or halfPixel1 = 0 Or halfPixel2 = 0 Then
             Throw New InvalidOperationException("BeginBasePixel (24 hour marker) or EndBasePixel were not found.")
         End If
 
+
         'find exact times corresponding to the multiples-of-12
         Dim cetNow = DateTime.UtcNow.AddHours(1)
-        endBaseTime = cetNow.Date
-        beginBaseTime = endBaseTime.AddDays(-1)
+
+        'only one BasePixel was found...special case
+        If beginBasePixel > 0 And endBasePixel = 0 And halfPixel1 > 0 And halfPixel2 > 0 Then
+            Dim cetNow1 = DateTime.UtcNow.AddHours(1)
+            endBaseTime = cetNow1.Date.AddHours(12)
+            beginBaseTime = endBaseTime.AddDays(-1)
+            beginBasePixel = halfPixel1
+            endBasePixel = halfPixel2
+        Else
+            endBaseTime = cetNow.Date
+            beginBaseTime = endBaseTime.AddDays(-1)
+        End If
 
         'find whole-hour pixels
         Dim pixelSpan As Integer = endBasePixel - beginBasePixel

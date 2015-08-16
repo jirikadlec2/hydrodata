@@ -1,0 +1,5 @@
+insert into plaveninycz.variables(var_id, var_name, var_units, scalefactor, enum) values (1, 'precipitation', 'mm', 1, 'srazky');
+insert into plaveninycz.variables(var_id, var_name, var_units, scalefactor, enum) values (4, 'stage', 'cm', 1, 'vodstav');
+insert into plaveninycz.variables(var_id, var_name, var_units, scalefactor, enum) values (5, 'discharge', 'm^3/s', 1, 'prutok');
+insert into plaveninycz.variables(var_id, var_name, var_units, scalefactor, enum) values (8, 'snow', 'cm', 1, 'snih');
+insert into plaveninycz.variables(var_id, var_name, var_units, scalefactor, enum) values (16, 'temperature', 'degC', 1, 'teplota');
