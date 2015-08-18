@@ -524,3 +524,139 @@ UPDATE plaveninycz.stations SET operator_id=6, meteo_code='300280053', division_
 UPDATE plaveninycz.stations SET operator_id=6, meteo_code='300044843', division_name='2' WHERE st_id=175;
 UPDATE plaveninycz.stations SET operator_id=6, meteo_code='300280091', division_name='2' WHERE st_id=1098;
 UPDATE plaveninycz.stations SET operator_id=6, meteo_code='300280059', division_name='2' WHERE st_id=1107;
+
+#CHMI - srazky HPPS
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20293175 WHERE st_id=801;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=2540088 WHERE st_id=223;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307422 WHERE st_id=52;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307377 WHERE st_id=1;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20792696 WHERE st_id=301;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307416 WHERE st_id=23;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307401 WHERE st_id=529;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307414 WHERE st_id=676;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=21702817 WHERE st_id=940;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307379 WHERE st_id=530;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20706783 WHERE st_id=222;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20888343 WHERE st_id=922;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20149417 WHERE st_id=744;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20888674 WHERE st_id=923;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20792693 WHERE st_id=842;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20149414 WHERE st_id=924;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307415 WHERE st_id=677;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20888340 WHERE st_id=925;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=27289729 WHERE st_id=1163;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=2724205 WHERE st_id=531;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307399 WHERE st_id=532;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=27979289 WHERE st_id=1169;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307506 WHERE st_id=47;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307378 WHERE st_id=2;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307408 WHERE st_id=678;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20688989 WHERE st_id=926;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=24803732 WHERE st_id=1060;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20018508 WHERE st_id=219;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20757820 WHERE st_id=1037;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307430 WHERE st_id=244;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=10053433 WHERE st_id=220;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307406 WHERE st_id=679;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=2063875 WHERE st_id=845;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307512 WHERE st_id=53;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307485 WHERE st_id=24;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20971858 WHERE st_id=901;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307404 WHERE st_id=25;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307454 WHERE st_id=3;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20311896 WHERE st_id=218;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307456 WHERE st_id=75;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20706833 WHERE st_id=846;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=2659085 WHERE st_id=642;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307489 WHERE st_id=245;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307486 WHERE st_id=246;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=10053454 WHERE st_id=553;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307484 WHERE st_id=26;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=22861126 WHERE st_id=889;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=23191202 WHERE st_id=865;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307443 WHERE st_id=62;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=2659113 WHERE st_id=643;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20233037 WHERE st_id=745;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20706695 WHERE st_id=849;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20710595 WHERE st_id=850;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307385 WHERE st_id=4;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=2724203 WHERE st_id=680;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20719125 WHERE st_id=851;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20709999 WHERE st_id=852;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=10053439 WHERE st_id=221;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307437 WHERE st_id=255;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=28459453 WHERE st_id=1166;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307412 WHERE st_id=27;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=24928159 WHERE st_id=1038;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307476 WHERE st_id=247;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307502 WHERE st_id=48;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20063617 WHERE st_id=719;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20864703 WHERE st_id=929;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20706704 WHERE st_id=638;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307420 WHERE st_id=54;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307500 WHERE st_id=533;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20710573 WHERE st_id=853;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20710598 WHERE st_id=854;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20710609 WHERE st_id=855;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=24928106 WHERE st_id=1039;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20063629 WHERE st_id=720;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=2659091 WHERE st_id=644;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20706127 WHERE st_id=856;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307450 WHERE st_id=76;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=27668385 WHERE st_id=1170;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20063635 WHERE st_id=721;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20706813 WHERE st_id=928;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307383 WHERE st_id=5;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=2659099 WHERE st_id=645;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307405 WHERE st_id=28;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=307465 WHERE st_id=77;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20710550 WHERE st_id=858;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=20186002 WHERE st_id=859;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=2724223 WHERE st_id=535;
+UPDATE plaveninycz.stations SET operator_id=1, st_seq=10053445 WHERE st_id=552;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

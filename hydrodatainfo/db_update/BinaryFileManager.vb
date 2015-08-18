@@ -160,8 +160,44 @@ Public Class BinaryFileManager
 
     'adds extra values to the binary file
     'checks for duplicate data and for gaps
-    Public Sub AddValues(ByVal fileName As String, ByVal values As List(Of TimeValuePair), ByVal timeStep As String)
+    'returns number of added values
+    Public Function AddValues(ByVal fileName As String, ByVal values As List(Of TimeValuePair), ByVal timeStep As String) As Integer
 
+        'constants
+        Dim SIZEOF_FLOAT As Integer = 4
+        Dim SIZEOF_LONG As Integer = 8
+
+        Dim endDateFromFile As DateTime = GetLastDateInFile(fileName)
+
+        'second step: make input data regular, with daily / hourly time step, suitable to add to the file
+        Dim newData() As Single
+        Dim endDateNew As DateTime
+        If timeStep = "h" Then
+            endDateNew = endDateFromFile.AddHours(1)
+            newData = MakeRegularTimeSeries_h(endDateNew, values)
+        Else
+            endDateNew = endDateFromFile.AddDays(1)
+            newData = MakeRegularTimeSeries_d(endDateNew, values)
+        End If
+        Dim rowsToAdd As Integer = newData.Count
+
+        Using stream2 As New FileStream(fileName, FileMode.Append, FileAccess.Write)
+            Dim N As Integer = newData.Length
+            Dim NBytes As Integer = SIZEOF_FLOAT * N
+            Dim bytesOriginal(NBytes - 1) As Byte
+            System.Buffer.BlockCopy(newData, 0, bytesOriginal, 0, NBytes)
+
+            'write to binary file
+            stream2.Write(bytesOriginal, 0, NBytes)
+            stream2.Flush()
+        End Using
+
+        Return rowsToAdd
+
+    End Function
+
+    'gets the last date in the binary file
+    Public Function GetLastDateInFile(ByVal fileName As String) As DateTime
         'constants
         Dim SIZEOF_FLOAT As Integer = 4
         Dim SIZEOF_LONG As Integer = 8
@@ -180,32 +216,8 @@ Public Class BinaryFileManager
             Dim numHoursInFile = CInt((stream.Length - SIZEOF_LONG) / SIZEOF_FLOAT)
             endDateFromFile = startDateFromFile.AddHours(numHoursInFile)
         End Using
-
-        'second step: make input data regular, with daily / hourly time step, suitable to add to the file
-        Dim newData() As Single
-        Dim endDateNew As DateTime
-        If timeStep = "h" Then
-            endDateNew = endDateFromFile.AddHours(1)
-            newData = MakeRegularTimeSeries_h(endDateNew, values)
-        Else
-            endDateNew = endDateFromFile.AddDays(1)
-            newData = MakeRegularTimeSeries_d(endDateNew, values)
-        End If
-
-        Using stream2 As New FileStream(fileName, FileMode.Append, FileAccess.Write)
-            Dim N As Integer = newData.Length
-            Dim NBytes As Integer = SIZEOF_FLOAT * N
-            Dim bytesOriginal(NBytes - 1) As Byte
-            System.Buffer.BlockCopy(newData, 0, bytesOriginal, 0, NBytes)
-
-            'write to binary file
-            stream2.Write(bytesOriginal, 0, NBytes)
-            stream2.Flush()
-        End Using
-
-
-
-    End Sub
+        Return endDateFromFile
+    End Function
 
     'makes a hourly regular time series from the input list
     Public Function MakeRegularTimeSeries_h(ByVal startDate As DateTime, input As List(Of TimeValuePair)) As Single()

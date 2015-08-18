@@ -121,6 +121,7 @@
     <Compile Include="BinaryFileManager.vb" />
     <Compile Include="BinaryFileTester.vb" />
     <Compile Include="DBManager.vb" />
+    <Compile Include="PrecipStation.vb" />
     <Compile Include="sqlserver_scripts.vb" />
     <Compile Include="db_lib_new.vb" />
     <Compile Include="db_update2.aspx.designer.vb">
@@ -183,6 +184,7 @@
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="TemperatureStation.vb" />
     <Compile Include="TimeValuePair.vb" />
     <Compile Include="WebForm1.aspx.designer.vb">
       <DependentUpon>WebForm1.aspx</DependentUpon>
