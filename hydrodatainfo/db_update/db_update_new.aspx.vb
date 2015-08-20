@@ -62,13 +62,14 @@ Public Class db_update_new
             Dim dbm As New DBManager(Connstr3, "C:\Temp\data")
             'dbm.UpdateStationsVariables()
             'Dim stTable As DataTable = dbcn.DownloadPrecipMetadata(-7)
+            Dim hydroStTable As DataTable = dbcn.DownloadHydroMetadata()
             'LogStr &= dbcn.SaveStations_LVS("seso")
 
             'LogStr &= dbcn.UpdateTemperature()
             'LogStr &= dbcn.UpdateSnow()
             'LogStr &= dbcn.UpdatePrecipitation_Daily()
             'LogStr &= dbcn.UpdatePrecip_Hourly_Povodi()
-            LogStr &= dbcn.UpdatePrecip_Hourly_CHMU()
+            'LogStr &= dbcn.UpdatePrecip_Hourly_CHMU()
 
             'LogStr &= dbcn.UpdatePrecipHourly_LVS()
             'LogStr &= dbcn.UpdateHydro_povodi()
