@@ -64,9 +64,8 @@ namespace WaterOneFlow.odws
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
-                    string sql = "SELECT st.st_id, st_name, lat, lon, altitude FROM Stations st " +            
-                    "WHERE lat is not NULL AND ( (operator_id = 1 AND st.st_id IN (SELECT st_id FROM Stationsvariables WHERE var_id in (1, 8, 16) ) " +
-                    "OR st.st_id IN (SELECT st.st_id FROM Stationsvariables WHERE var_id in (4, 5) )))";
+                    string sql = "SELECT DISTINCT st.st_id, st.st_name, st.lat, st.lon, st.altitude FROM plaveninycz.Stations st " +
+"INNER JOIN plaveninycz.stationsvariables stv ON st.st_id = stv.st_id WHERE st.lat is not NULL AND stv.var_id IN (1, 4, 5, 16);";
 
                     cmd.CommandText = sql;
                     cmd.Connection = conn;
@@ -287,41 +286,19 @@ namespace WaterOneFlow.odws
             }
         }
 
-        public static seriesCatalogTypeSeries GetSeriesCatalogFromDb(int siteId, int variableId)
+        internal static SourceType GetSourceForSite(int siteId)
         {
-            seriesCatalogTypeSeries s = new seriesCatalogTypeSeries();
+            SourceType s = new SourceType();
+            s.citation = "CHMI";
+            s.organization = "CHMI";
+            s.sourceCode = "1";
+            s.sourceDescription = " measured by CHMI professional stations";
+            s.sourceID = 1;
+            s.sourceIDSpecified = true;
+
+            string sql = "SELECT op.id, op.name, op.url FROM plaveninycz.operator op " +
+                String.Format("INNER JOIN plaveninycz.stations s ON op.id = s.operator_id WHERE s.st_id = {0}", siteId);
             string connStr = GetConnectionString();
-
-            s.generalCategory = "Climate";
-            s.valueType = "Field Observation";
-
-            //method
-            s.method = GetMethodForVariable(variableId);
-            s.method = new MethodType();            
-
-            //qc level
-            s.qualityControlLevel = new QualityControlLevelType();
-            s.qualityControlLevel.definition = "raw data";
-            s.qualityControlLevel.explanation = "raw data";
-            s.qualityControlLevel.qualityControlLevelCode = "1";
-            s.qualityControlLevel.qualityControlLevelID = 1;
-            s.qualityControlLevel.qualityControlLevelIDSpecified = true;
-
-            //source
-            s.source = new SourceType();
-            s.source.citation = "CHMI";
-            s.source.organization = "CHMI";
-            s.source.sourceCode = "1";
-            s.source.sourceDescription = "original data source is from CHMI website, measured by CHMI professional stations";
-            s.source.sourceID = 1;
-            s.source.sourceIDSpecified = true;       
-   
-            //table name
-            string tableName = GetTableName(variableId);
-
-            //value count, begin time, end time
-
-            string sql = string.Format(Resources.SqlQueries.query_seriescatalog_new, tableName, siteId);
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 using (SqlCommand cmd = new SqlCommand(sql, conn))
@@ -332,45 +309,101 @@ namespace WaterOneFlow.odws
                     if (dr.HasRows)
                     {
                         dr.Read();
-
-                        //check for DbNull
-                        object beginTimeObj = dr["BeginDate"];
-                        object endTimeObj = dr["EndDate"];
-                        if (beginTimeObj == DBNull.Value || endTimeObj == DBNull.Value)
-                        {
-                            //in this case database has no data.
-                            return null;
-                        }
-
-                        s.variableTimeInterval = new TimeIntervalType();
-                        s.variableTimeInterval.beginDateTime = Convert.ToDateTime(beginTimeObj);
-                        s.variableTimeInterval.beginDateTimeUTC = s.variableTimeInterval.beginDateTime.AddHours(-1);
-                        s.variableTimeInterval.beginDateTimeUTCSpecified = true;
-
-                        s.variableTimeInterval.endDateTime = Convert.ToDateTime(endTimeObj);
-                        s.variableTimeInterval.endDateTimeUTC = s.variableTimeInterval.endDateTime.AddHours(-1);
-                        s.variableTimeInterval.endDateTimeUTCSpecified = true;
-
-                        double totalDays = (s.variableTimeInterval.endDateTime.Subtract(s.variableTimeInterval.beginDateTime)).TotalDays;
-                        s.valueCount = new seriesCatalogTypeSeriesValueCount();
-                        s.valueCount.Value = (int)(Math.Round(totalDays));
-
-                        //if no values --> series doesn't exist
-                        if (s.valueCount.Value == 0)
-                        {
-                            return null;
-                        }
+                        s.citation = Convert.ToString(dr["name"]);
+                        s.organization = Convert.ToString(dr["name"]);
+                        s.sourceCode = Convert.ToString(dr["id"]);
+                        s.sourceLink = new string[1];
+                        s.sourceLink[0] = Convert.ToString(dr["url"]);
+                        s.sourceID = Convert.ToInt32(dr["id"]);
                     }
                 }
             }
+            return s;
+        }
+
+        public static seriesCatalogTypeSeries GetSeriesCatalogFromDb(int siteId, int variableId)
+        {
+            seriesCatalogTypeSeries s = new seriesCatalogTypeSeries();
+            string connStr = GetConnectionString();
+
+            s.generalCategory = "Climate";
+            s.valueType = "Field Observation";
+
+            //method
+            s.method = GetMethodForVariable(variableId);
+
+            //qc level
+            s.qualityControlLevel = new QualityControlLevelType();
+            s.qualityControlLevel.definition = "raw data";
+            s.qualityControlLevel.explanation = "raw data";
+            s.qualityControlLevel.qualityControlLevelCode = "1";
+            s.qualityControlLevel.qualityControlLevelID = 1;
+            s.qualityControlLevel.qualityControlLevelIDSpecified = true;
+
+            //source
+            s.source = GetSourceForSite(siteId);
+
+            //table name
+            //foldername
+            string variableFolder = "prutok";
+            switch (variableId)
+            {
+                case 1:
+                    variableFolder = "srazky";
+                    break;
+                case 2:
+                    variableFolder = "srayky";
+                    break;
+                case 4:
+                    variableFolder = "vodstav";
+                    break;
+                case 5:
+                    variableFolder = "prutok";
+                    break;
+                case 8:
+                    variableFolder = "snih";
+                    break;
+                case 16:
+                case 17:
+                case 18:
+                    variableFolder = "teplota";
+                    break;
+            }
+
+            //value count, begin time, end time
+            string binFileName = BinaryFileHelper.GetBinaryFileName(siteId, variableFolder, "d");
+            DateRange beginEndTime = BinaryFileHelper.BinaryFileDateRange(binFileName, "d");
+            if (beginEndTime.Start == null || beginEndTime.End == null)
+            {
+                return null;
+            }
+
+            s.variableTimeInterval = new TimeIntervalType();
+            s.variableTimeInterval.beginDateTime = beginEndTime.Start;
+            s.variableTimeInterval.beginDateTimeUTC = s.variableTimeInterval.beginDateTime.AddHours(-1);
+            s.variableTimeInterval.beginDateTimeUTCSpecified = true;
+
+            s.variableTimeInterval.endDateTime = beginEndTime.End;
+            s.variableTimeInterval.endDateTimeUTC = s.variableTimeInterval.endDateTime.AddHours(-1);
+            s.variableTimeInterval.endDateTimeUTCSpecified = true;
+
+            double totalDays = (s.variableTimeInterval.endDateTime.Subtract(s.variableTimeInterval.beginDateTime)).TotalDays;
+            s.valueCount = new seriesCatalogTypeSeriesValueCount();
+            s.valueCount.Value = (int)(Math.Round(totalDays));
+
+            //if no values --> series doesn't exist
+            if (s.valueCount.Value == 0)
+            {
+                return null;
+            }
 
             //variable
-             s.variable = GetVariableInfoFromDb(VariableIDToCode(variableId));
+            s.variable = GetVariableInfoFromDb(VariableIDToCode(variableId));
 
             //data type, sample medium
-             s.dataType = s.variable.dataType;
-             s.sampleMedium = s.variable.sampleMedium;
-             s.generalCategory = s.variable.generalCategory;
+            s.dataType = s.variable.dataType;
+            s.sampleMedium = s.variable.sampleMedium;
+            s.generalCategory = s.variable.generalCategory;
             return s;
         }
 
@@ -677,7 +710,7 @@ namespace WaterOneFlow.odws
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
-                    string sql = "SELECT var_id FROM StationsVariables WHERE st_id=" + siteId + "AND var_id in (1, 4, 5, 8, 16)";
+                    string sql = "SELECT var_id FROM plaveninycz.StationsVariables WHERE st_id=" + siteId + "AND var_id in (1, 4, 5, 8, 16)";
 
                     cmd.CommandText = sql;
                     cmd.Connection = conn;

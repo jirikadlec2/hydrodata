@@ -112,21 +112,18 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="query_operatorid" xml:space="preserve">
-    <value>SELECT operator_id FROM Stations WHERE st_id = {0}</value>
-  </data>
-  <data name="query_seriescatalog_new" xml:space="preserve">
-    <value>select min({0}.time_utc) as 'BeginDate', max({0}.time_utc) as 'EndDate' from {0} where station_id={1}</value>
+    <value>SELECT operator_id FROM plaveninycz.Stations WHERE st_id = {0}</value>
   </data>
   <data name="query_sitebyid" xml:space="preserve">
-    <value>SELECT st.st_id, st_name, lat, lon FROM ( SELECT Stations.st_id, st_name, lat, lon FROM Stations INNER JOIN StationsVariables stv ON Stations.st_id = stv.st_id WHERE var_id={1} AND Stations.st_id={0} ) st</value>
+    <value>SELECT st.st_id, st_name, lat, lon FROM ( SELECT plaveninycz.Stations.st_id, st_name, lat, lon FROM plaveninycz.Stations INNER JOIN plaveninycz.StationsVariables stv ON plaveninycz.Stations.st_id = stv.st_id WHERE var_id={1} AND plaveninycz.Stations.st_id={0} ) st</value>
   </data>
   <data name="query_sitebyid2" xml:space="preserve">
-    <value>SELECT st.st_id, st_name, st.lat, st.lon FROM ( SELECT Stations.st_id, st_name, lat, lon FROM Stations INNER JOIN StationsVariables stv ON Stations.st_id = stv.st_id WHERE Stations.st_id={0} ) st</value>
+    <value>SELECT st.st_id, st_name, st.lat, st.lon FROM ( SELECT plaveninycz.Stations.st_id, st_name, lat, lon FROM plaveninycz.Stations INNER JOIN plaveninycz.StationsVariables stv ON plaveninycz.Stations.st_id = stv.st_id WHERE plaveninycz.Stations.st_id={0} ) st</value>
   </data>
 </root>
