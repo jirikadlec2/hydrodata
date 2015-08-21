@@ -834,113 +834,86 @@ namespace WaterOneFlow.odws
             s.source[0].sourceID = 1;
             s.source[0].sourceIDSpecified = true;
 
+            string variableFolder = "prutok";
+            switch (Convert.ToInt32(variableCode))
+            {
+                case 1:
+                    variableFolder = "srazky";
+                    break;
+                case 2:
+                    variableFolder = "srayky";
+                    break;
+                case 4:
+                    variableFolder = "vodstav";
+                    break;
+                case 5:
+                    variableFolder = "prutok";
+                    break;
+                case 8:
+                    variableFolder = "snih";
+                    break;
+                case 16:
+                case 17:
+                case 18:
+                    variableFolder = "teplota";
+                    break;
+            }
+
             //values: get from database...
-            string connStr = GetConnectionString();
+            string binFileName = BinaryFileHelper.GetBinaryFileName(Convert.ToInt32(siteId), variableFolder, "d");
+            BinaryFileData dataValues = BinaryFileHelper.ReadBinaryFileDaily(binFileName, startDateTime, endDateTime, true);
+
             List<ValueSingleVariable> valuesList = new List<ValueSingleVariable>();
-            using (SqlConnection cnn = new SqlConnection(connStr))
+            int N = dataValues.Data.Length;
+            DateTime startValueDate = dataValues.BeginDateTime;
+            for (int i = 0; i < N; i++)
             {
-                using (SqlCommand cmd = new SqlCommand("plaveninycz.new_query_observations", cnn))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(new SqlParameter("@st_id", SqlDbType.SmallInt));
-                    cmd.Parameters.Add(new SqlParameter("@var_id", SqlDbType.SmallInt));
-                    cmd.Parameters.Add(new SqlParameter("@start_time", SqlDbType.SmallDateTime));
-                    cmd.Parameters.Add(new SqlParameter("@end_time", SqlDbType.SmallDateTime));
-                    cmd.Parameters.Add(new SqlParameter("@time_step", SqlDbType.VarChar));
-                    cmd.Parameters.Add(new SqlParameter("@group_function", SqlDbType.VarChar));
-
-                    cmd.Parameters["@st_id"].Value = Convert.ToInt32(siteId);
-                    cmd.Parameters["@var_id"].Value = varId;
-                    cmd.Parameters["@start_time"].Value = startDateTime;
-                    cmd.Parameters["@end_time"].Value = endDateTime;
-                    cmd.Parameters["@time_step"].Value = timeStep;
-                    cmd.Parameters["@group_function"].Value = "sum";
-
-                    cnn.Open();
-
-                    SqlDataReader r = cmd.ExecuteReader();
-                    int obsTimeIndex = r.GetOrdinal("obs_time");
-                    int obsValueIndex = r.GetOrdinal("obs_value");
-                    while (r.Read())
-                    {
-                        ValueSingleVariable v = new ValueSingleVariable();
-                        v.censorCode = "nc";
-                        v.dateTime = Convert.ToDateTime(r["obs_time"]);
-                        v.dateTimeUTC = v.dateTime.AddHours(-1);
-                        v.dateTimeUTCSpecified = true;
-                        v.methodCode = s.method[0].methodCode;
-                        v.methodID = v.methodCode;
-                        v.offsetValueSpecified = false;
-                        v.qualityControlLevelCode = "1";
-                        v.sourceCode = "1";
-                        v.sourceID = "1";
-                        v.timeOffset = "01:00";
-                        v.Value = convertValue(r["obs_value"], varId);
-                        valuesList.Add(v);
-                    }
-                }
+                ValueSingleVariable v = new ValueSingleVariable();
+                v.censorCode = "nc";
+                v.dateTime = startValueDate.AddDays(i);
+                v.dateTimeUTC = v.dateTime.AddHours(-1);
+                v.dateTimeUTCSpecified = true;
+                v.methodCode = s.method[0].methodCode;
+                v.methodID = v.methodCode;
+                v.offsetValueSpecified = false;
+                v.qualityControlLevelCode = "1";
+                v.sourceCode = "1";
+                v.sourceID = "1";
+                v.timeOffset = "01:00";
+                v.Value = convertValue(dataValues.Data[i], varId);
+                valuesList.Add(v);
             }
 
-            //convert list to array for temperature
-            if (varId == 16 || varId == 17 || varId == 18)
-            {
-                s.value = valuesList.ToArray();
-            }
-            else
-            {
-                //convert list to array - for precip, snow, discharge, stage
-                DateTime beginDate = valuesList[0].dateTime;
-                DateTime endDate = valuesList[valuesList.Count - 1].dateTime;
-                int numDays = endDate.Subtract(beginDate).Days;
-                ValueSingleVariable[] valuesArray = new ValueSingleVariable[numDays];
-                int valueIndex = 0;
+            s.value = valuesList.ToArray();
 
-                DateTime curDate = beginDate;
-                foreach (ValueSingleVariable val in valuesList)
-                {
-                    if (valueIndex >= valuesArray.Length) break;
-
-                    while (curDate < val.dateTime)
-                    {
-                        valuesArray[valueIndex] = CreateNoDataValue(curDate,s, varId);
-                        curDate = curDate.AddDays(1);
-                        valueIndex++;
-                    }
-
-                    if (valueIndex >= valuesArray.Length) break;
-                    valuesArray[valueIndex] = val;
-                    curDate = val.dateTime.AddDays(1);
-                    valueIndex++;
-                }
-                s.value = valuesArray;
-            }
             return s;
+
         }
 
-        private static Decimal convertValue(object val, int varId) 
+        private static Decimal convertValue(object val, int varId)
         {
             var dVal = Convert.ToDouble(val);
             switch (varId)
             {
                 case 1:
                     // precipitation - no data value is now displayed as zero
-                    return (dVal >= 0) ? Convert.ToDecimal(dVal * 0.1) : Convert.ToDecimal(0.0);
+                    return Convert.ToDecimal(Math.Round(dVal, 1));
                 case 4:
                     // water stag
-                    return (dVal > 0) ? Convert.ToDecimal(dVal) : Convert.ToDecimal(-9999.0);
+                    return Convert.ToDecimal(Math.Round(dVal, 4));
                 case 5:
                     // discharge
-                    return (dVal >= 0) ? Convert.ToDecimal(Math.Round(dVal,4)) : Convert.ToDecimal(-9999.0);
+                    return Convert.ToDecimal(Math.Round(dVal, 4));
                 case 8:
                     // snow
-                    return (dVal >= 0) ? Convert.ToDecimal(dVal) : Convert.ToDecimal(0.0);
+                    return Convert.ToDecimal(Math.Round(dVal, 1));
                 case 16:
                 case 17:
                 case 18:
                     // air temperature
-                    return dVal >= -500 ? Convert.ToDecimal(dVal * 0.1) : Convert.ToDecimal(-9999.0);
+                    return Convert.ToDecimal(Math.Round(dVal, 1));
                 default:
-                    return dVal >= 0 ? Convert.ToDecimal(dVal) : Convert.ToDecimal(0.1);
+                    return Convert.ToDecimal(Math.Round(dVal, 4));
             }
         }
 
