@@ -841,3 +841,4 @@ log4net: Assembly [waterOneFlowImpl, Version=1.0.0.0, Culture=neutral, PublicKey
 log4net: Assembly [waterOneFlowImpl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null] does not have a RepositoryAttribute specified.
 log4net: Assembly [waterOneFlowImpl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null] using repository [log4net-default-repository] and repository type [log4net.Repository.Hierarchy.Hierarchy]
 log4net: repository [log4net-default-repository] already exists, using repository type [log4net.Repository.Hierarchy.Hierarchy]
+log4net: Shutdown called on Hierarchy [log4net-default-repository]
