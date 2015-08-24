@@ -179,6 +179,12 @@ Public Class BinaryFileManager
             endDateNew = endDateFromFile.AddDays(1)
             newData = MakeRegularTimeSeries_d(endDateNew, values)
         End If
+
+        'no data to add... (!)
+        If newData Is Nothing Then
+            Return 0
+        End If
+
         Dim rowsToAdd As Integer = newData.Count
 
         Using stream2 As New FileStream(fileName, FileMode.Append, FileAccess.Write)
@@ -224,6 +230,11 @@ Public Class BinaryFileManager
         'first step: regular hourly times, values
         Dim endTime As DateTime = input.Last().DateTime
         Dim numTimes As Integer = CInt((endTime - startDate).TotalHours)
+
+        If numTimes <= 0 Then
+            Return Nothing
+        End If
+
         Dim times(numTimes) As DateTime
         Dim vals(numTimes) As Single
 
@@ -247,6 +258,11 @@ Public Class BinaryFileManager
         'first step: regular hourly times, values
         Dim endTime As DateTime = input.Last().DateTime
         Dim numTimes As Integer = CInt((endTime - startDate).TotalDays)
+
+        If numTimes = 0 Then
+            Return Nothing
+        End If
+
         Dim times(numTimes) As DateTime
         Dim vals(numTimes) As Single
 

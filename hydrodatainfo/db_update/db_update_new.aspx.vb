@@ -59,7 +59,7 @@ Public Class db_update_new
         Try
             Dim bft As New BinaryFileTester
             'bft.RunBinaryFileTest()
-            Dim dbm As New DBManager(Connstr3, "C:\Temp\data")
+            Dim dbm As New DBManager(Connstr3, ConfigurationManager.AppSettings("files_dir1"))
             'dbm.UpdateStationsVariables()
             'Dim stTable As DataTable = dbcn.DownloadPrecipMetadata(-7)
             'Dim hydroStTable As DataTable = dbcn.DownloadHydroMetadata()
@@ -88,35 +88,6 @@ Public Class db_update_new
         Catch ex As Exception
         End Try
 
-        'Dim dbc As New DbUpdateClass(Connstr3)
-
-
-
-        ''vlastni vypocty
-        'Try
-        '    LogStr &= vbCrLf & dbc.UpdateObsSnow2()
-        '    LogStr &= vbCrLf & dbc.UpdateTemperature()
-        '    LogStr &= vbCrLf & dbc.UpdatePrecip_povodi()
-        '    LogStr &= vbCrLf & dbc.UpdatePrecip()
-        '    LogStr &= vbCrLf & dbc.UpdateHydro()
-        '    LogStr &= vbCrLf & dbc.UpdateHydro_povodi()
-        '    LogStr &= vbCrLf & dbc.UpdateRadar()
-
-        '    'LogStr &= vbCrLf & dbc.UpdateEvap()
-        '    'LogStr &= vbCrLf & dbc.UpdateSoilWater()
-
-
-        'Catch ex As Exception
-        '    ExStr = ex.Message
-        '    If ExStr.Length > 0 Then ExStr = vbCrLf & ExStr
-        '    LogStr &= ExStr
-        'End Try
-
-        'write protocol to log file!
-        'Try
-        '    dbc.WriteLogFile(LogStr)
-        'Catch ex As Exception
-        'End Try
     End Sub
 
 
