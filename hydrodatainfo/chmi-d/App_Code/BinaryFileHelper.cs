@@ -246,7 +246,7 @@ public class BinaryFileHelper
                 Buffer.BlockCopy(resultBytes, 0, result, 0, resultBytes.Length);
 
                 BinaryFileData res = new BinaryFileData();
-                res.BeginDateTime = startDateFromFile;
+                res.BeginDateTime = startTime;
                 res.Data = result;
                 return res;
             }

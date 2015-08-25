@@ -320,7 +320,8 @@ namespace WaterOneFlow.odws
 
                 //get siteId, variableId
                 string siteId = SiteNumber.Substring(SiteNumber.LastIndexOf(":") + 1);
-                string variableId = Variable.Substring(Variable.LastIndexOf(":") + 1);
+                string variableCode = Variable.Substring(Variable.LastIndexOf(":") + 1);
+                
 
                 //get startDateTime, endDateTime
                 DateTime startDateTime = DateTime.Parse(StartDate);
@@ -331,10 +332,10 @@ namespace WaterOneFlow.odws
                 resp.timeSeries = new TimeSeriesType[1];
                 resp.timeSeries[0] = new TimeSeriesType();
                 resp.timeSeries[0].sourceInfo = WebServiceUtils.GetSiteFromDb2(siteId);
-                resp.timeSeries[0].variable = WebServiceUtils.GetVariableInfoFromDb(variableId);
+                resp.timeSeries[0].variable = WebServiceUtils.GetVariableInfoFromDb(variableCode);
 
                 resp.timeSeries[0].values = new TsValuesSingleVariableType[1];
-                resp.timeSeries[0].values[0] = WebServiceUtils.GetValuesFromDb(siteId, variableId, startDateTime, endDateTime);
+                resp.timeSeries[0].values[0] = WebServiceUtils.GetValuesFromDb(siteId, variableCode, startDateTime, endDateTime);
                 
                 //set the query info
                 resp.queryInfo = new QueryInfoType();

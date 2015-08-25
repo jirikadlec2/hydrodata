@@ -835,7 +835,7 @@ namespace WaterOneFlow.odws
             s.source[0].sourceIDSpecified = true;
 
             string variableFolder = "prutok";
-            switch (Convert.ToInt32(variableCode))
+            switch (varId)
             {
                 case 1:
                     variableFolder = "srazky";
