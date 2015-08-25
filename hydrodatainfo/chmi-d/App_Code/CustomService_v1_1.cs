@@ -324,8 +324,17 @@ namespace WaterOneFlow.odws
                 
 
                 //get startDateTime, endDateTime
-                DateTime startDateTime = DateTime.Parse(StartDate);
-                DateTime endDateTime = DateTime.Parse(EndDate);
+                DateTime startDateTime = new DateTime(2000, 1, 1);
+                DateTime endDateTime = DateTime.Now.AddYears(1);
+
+                if (StartDate != string.Empty)
+                {
+                    startDateTime = DateTime.Parse(StartDate);
+                }
+                if (EndDate != string.Empty)
+                {
+                    endDateTime = DateTime.Parse(EndDate);
+                }
                 
                 //TimeSeriesResponseType resp = obj.getValues(SiteNumber, Variable, StartDate, EndDate);
                 TimeSeriesResponseType resp = new TimeSeriesResponseType();
