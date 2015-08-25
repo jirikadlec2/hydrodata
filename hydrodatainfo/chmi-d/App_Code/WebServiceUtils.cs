@@ -841,7 +841,7 @@ namespace WaterOneFlow.odws
                     variableFolder = "srazky";
                     break;
                 case 2:
-                    variableFolder = "srayky";
+                    variableFolder = "srazky";
                     break;
                 case 4:
                     variableFolder = "vodstav";
@@ -853,9 +853,13 @@ namespace WaterOneFlow.odws
                     variableFolder = "snih";
                     break;
                 case 16:
-                case 17:
-                case 18:
                     variableFolder = "teplota";
+                    break;
+                case 17:
+                    variableFolder = "tmin";
+                    break;
+                case 18:
+                    variableFolder = "tmax";
                     break;
             }
 

@@ -163,43 +163,175 @@ Public Class BinaryFileManager
     'returns number of added values
     Public Function AddValues(ByVal fileName As String, ByVal values As List(Of TimeValuePair), ByVal timeStep As String) As Integer
 
-        'constants
-        Dim SIZEOF_FLOAT As Integer = 4
-        Dim SIZEOF_LONG As Integer = 8
-
-        Dim endDateFromFile As DateTime = GetLastDateInFile(fileName)
-
-        'second step: make input data regular, with daily / hourly time step, suitable to add to the file
-        Dim newData() As Single
-        Dim endDateNew As DateTime
-        If timeStep = "h" Then
-            endDateNew = endDateFromFile.AddHours(1)
-            newData = MakeRegularTimeSeries_h(endDateNew, values)
+        If Not File.Exists(fileName) Then
+            'special case: make a new file..
+            Me.SaveToBinaryFile(values, fileName)
+            Dim rowsToAdd As Integer = values.Count
+            Return rowsToAdd
         Else
-            endDateNew = endDateFromFile.AddDays(1)
-            newData = MakeRegularTimeSeries_d(endDateNew, values)
+
+            'constants
+            Dim SIZEOF_FLOAT As Integer = 4
+            Dim SIZEOF_LONG As Integer = 8
+
+            Dim endDateFromFile As DateTime = GetLastDateInFile(fileName)
+
+            'second step: make input data regular, with daily / hourly time step, suitable to add to the file
+            Dim newData() As Single
+            Dim endDateNew As DateTime
+            If timeStep = "h" Then
+                endDateNew = endDateFromFile.AddHours(1)
+                newData = MakeRegularTimeSeries_h(endDateNew, values)
+            Else
+                endDateNew = endDateFromFile.AddDays(1)
+                newData = MakeRegularTimeSeries_d(endDateNew, values)
+            End If
+
+            'no data to add... (!)
+            If newData Is Nothing Then
+                Return 0
+            End If
+
+            Dim rowsToAdd As Integer = newData.Count
+
+            Using stream2 As New FileStream(fileName, FileMode.Append, FileAccess.Write)
+                Dim N As Integer = newData.Length
+                Dim NBytes As Integer = SIZEOF_FLOAT * N
+                Dim bytesOriginal(NBytes - 1) As Byte
+                System.Buffer.BlockCopy(newData, 0, bytesOriginal, 0, NBytes)
+
+                'write to binary file
+                stream2.Write(bytesOriginal, 0, NBytes)
+                stream2.Flush()
+            End Using
+            Return rowsToAdd
+
         End If
 
-        'no data to add... (!)
-        If newData Is Nothing Then
-            Return 0
+    End Function
+
+
+    'binary file manager, get last date in file, and convert "hourly" to "daily"
+    Public Function HourlyToDaily(ByVal hourlyFileName As String, ByVal dailyFileName As String, ByVal stat As String) As String
+
+        Dim msg As String
+        If Not File.Exists(hourlyFileName) Then
+            msg = "File " & hourlyFileName & " not found "
+            Return msg
         End If
 
-        Dim rowsToAdd As Integer = newData.Count
+        'now we get the last hourly date from output..
+        Dim lastDateDaily As DateTime = New DateTime(2000, 1, 1)
+        If File.Exists(dailyFileName) Then
+            lastDateDaily = Me.GetLastDateInFile(dailyFileName)
+        Else
+            lastDateDaily = Me.GetFirstDateInFile(hourlyFileName).AddDays(-1)
+        End If
 
-        Using stream2 As New FileStream(fileName, FileMode.Append, FileAccess.Write)
-            Dim N As Integer = newData.Length
-            Dim NBytes As Integer = SIZEOF_FLOAT * N
-            Dim bytesOriginal(NBytes - 1) As Byte
-            System.Buffer.BlockCopy(newData, 0, bytesOriginal, 0, NBytes)
+        'now we get the time series
+        Dim obsListH As List(Of TimeValuePair) = Me.OpenBinaryFile(hourlyFileName, lastDateDaily, DateTime.Now)
+        Dim dailyVals As New List(Of TimeValuePair)
 
-            'write to binary file
-            stream2.Write(bytesOriginal, 0, NBytes)
-            stream2.Flush()
-        End Using
+        Dim obsListDay As New List(Of Single)
+        Dim N As Integer = obsListH.Count
+        For i As Integer = 0 To N - 1
+            Dim dat As DateTime = obsListH(i).DateTime
+            obsListDay.Add(obsListH(i).Value)
+            If dat = dat.Date And obsListDay.Count > 0 Then
+                'whole day reached
+                Dim myStat As Single = GetStat(obsListDay, stat)
+                dailyVals.Add(New TimeValuePair(dat, myStat))
+                obsListDay.Clear()
+            End If
+        Next
+        'now save the daily values
+        Dim addedValues As Integer = AddValues(dailyFileName, dailyVals, "d")
+        Return msg
+    End Function
 
-        Return rowsToAdd
+    Private Function GetSum(ByVal input As List(Of Single)) As Single
+        Dim sum As Single = 0
+        Dim noData As Single = -9999.0
+        Dim nValid As Integer = 0
+        For Each v As Single In input
+            If v > noData Then
+                sum += v
+                nValid += 1
+            End If
+        Next
+        If nValid > 0 Then
+            Return sum
+        Else
+            Return noData
+        End If
+    End Function
 
+    Private Function GetAvg(ByVal input As List(Of Single)) As Single
+        Dim sum As Single = 0
+        Dim noData As Single = -9999.0
+        Dim Nvalid As Integer = 0
+        For Each v As Single In input
+            If v > noData Then
+                sum += v
+                Nvalid = Nvalid + 1
+            End If
+        Next
+        If Nvalid > 0 Then
+            Return sum / CSng(input.Count)
+        Else
+            Return noData
+        End If
+    End Function
+
+    Private Function GetMax(ByVal input As List(Of Single)) As Single
+        Dim max As Single = Single.MinValue
+        Dim noData As Single = -9999.0
+        Dim nValid As Integer = 0
+        For Each v As Single In input
+            If v > max And v > noData Then
+                max = v
+                nValid += 1
+            End If
+        Next
+        If nValid > 0 Then
+            Return max
+        Else
+            Return noData
+        End If
+    End Function
+
+    Private Function GetMin(ByVal input As List(Of Single)) As Single
+        Dim min As Single = Single.MaxValue
+        Dim nValid As Integer = 0
+        Dim noData As Single = -9999.0
+        For Each v As Single In input
+            If v < min And v > noData Then
+                min = v
+                nValid += 1
+            End If
+        Next
+
+        If nValid > 0 Then
+            Return min
+        Else
+            Return noData
+        End If
+    End Function
+
+    Private Function GetStat(ByVal input As List(Of Single), ByVal stat As String) As Single
+        Select Case stat
+            Case "sum"
+                Return GetSum(input)
+            Case "avg"
+                Return GetAvg(input)
+            Case "min"
+                Return GetMin(input)
+            Case "max"
+                Return GetMax(input)
+            Case Else
+                Return GetAvg(input)
+
+        End Select
     End Function
 
     'gets the last date in the binary file
@@ -223,6 +355,26 @@ Public Class BinaryFileManager
             endDateFromFile = startDateFromFile.AddHours(numHoursInFile)
         End Using
         Return endDateFromFile
+    End Function
+
+    'gets the first date in the binary file
+    Public Function GetFirstDateInFile(ByVal fileName As String) As DateTime
+        'constants
+        Dim SIZEOF_FLOAT As Integer = 4
+        Dim SIZEOF_LONG As Integer = 8
+
+        Dim startDateFromFile As DateTime
+        'first step: find the last date from the file'
+        Using stream As New FileStream(fileName, FileMode.Open, FileAccess.Read)
+
+            'reads the startDate
+            Dim startDateBytes(7) As Byte
+            stream.Read(startDateBytes, 0, SIZEOF_LONG)
+            Dim startDateBinary(0) As Long
+            Buffer.BlockCopy(startDateBytes, 0, startDateBinary, 0, SIZEOF_LONG)
+            startDateFromFile = DateTime.FromBinary(startDateBinary(0))
+        End Using
+        Return startDateFromFile
     End Function
 
     'makes a hourly regular time series from the input list

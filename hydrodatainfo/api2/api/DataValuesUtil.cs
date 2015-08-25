@@ -150,7 +150,8 @@ namespace api
             string fileName = GetBinaryFileName(siteId, varCode, timeStep);
 
             //fetch values
-            BinaryFileData data = BinaryFileHelper.ReadBinaryFileHourly(fileName, startDateTime, endDateTime, true);
+            BinaryFileData data = BinaryFileHelper.ReadBinaryFile(fileName, startDateTime, endDateTime, timeStep, true);
+
             float[] vals = data.Data;
             
             if (interpolate == true)
