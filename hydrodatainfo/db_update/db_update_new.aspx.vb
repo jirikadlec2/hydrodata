@@ -68,11 +68,11 @@ Public Class db_update_new
 
             'LogStr &= dbcn.UpdateSnow()
             'LogStr &= dbcn.UpdatePrecipitation_Daily()
-            'LogStr &= dbcn.UpdateTemperature()
-            'LogStr &= dbcn.UpdatePrecip_Hourly_Povodi()
-            'LogStr &= dbcn.UpdatePrecip_Hourly_CHMU()
-            'LogStr &= dbcn.UpdateHydro_CHMU()
-            'LogStr &= dbcn.UpdateHydro_povodi()
+            LogStr &= dbcn.UpdateTemperature()
+            LogStr &= dbcn.UpdatePrecip_Hourly_Povodi()
+            LogStr &= dbcn.UpdatePrecip_Hourly_CHMU()
+            LogStr &= dbcn.UpdateHydro_CHMU()
+            LogStr &= dbcn.UpdateHydro_povodi()
             'LogStr &= dbcn.UpdatePrecipHourly_LVS()
             'LogStr &= dbcn.UpdateRadar()
 
