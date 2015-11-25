@@ -38,12 +38,6 @@ Public Class db_update_new
 
     Private Sub ProcessUpdate()
 
-        Dim Connstr1 As String = _
-        "data source=.\SQLEXPRESS; Initial Catalog=plaveninycz1; User Id=sa; password=2c506bbe"
-
-        Dim Connstr2 As String = _
-        "Data Source=sql2005.dotnethosting.cz;Initial Catalog=plaveninycz1;User Id=plaveninycz1;Password=Ziqwdwq1;"
-
         Dim Connstr3 As String = _
             "Data Source=sql4.aspone.cz;Initial Catalog=db1856;User Id=db1856;Password=2c506bbe;"
 
@@ -73,7 +67,7 @@ Public Class db_update_new
             LogStr &= dbcn.UpdatePrecip_Hourly_CHMU()
             LogStr &= dbcn.UpdateHydro_CHMU()
             LogStr &= dbcn.UpdateHydro_povodi()
-            LogStr &= dbcn.UpdatePrecipHourly_LVS()
+            'LogStr &= dbcn.UpdatePrecipHourly_LVS()
             LogStr &= dbcn.UpdateRadar()
 
             'now update the daily data

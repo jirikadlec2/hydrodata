@@ -97,8 +97,6 @@
     <Import Include="System.Web.UI.HtmlControls" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="db_update2.aspx" />
-    <Content Include="db_update.aspx" />
     <Content Include="db_update_new.aspx" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
@@ -115,7 +113,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="WebForm1.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinaryFileManager.vb" />
@@ -124,22 +121,7 @@
     <Compile Include="PrecipStation.vb" />
     <Compile Include="sqlserver_scripts.vb" />
     <Compile Include="db_lib_new.vb" />
-    <Compile Include="db_update2.aspx.designer.vb">
-      <DependentUpon>db_update2.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="db_update2.aspx.vb">
-      <DependentUpon>db_update2.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
-    <Compile Include="db_lib.vb" />
     <Compile Include="db_station_lib.vb" />
-    <Compile Include="db_update.aspx.designer.vb">
-      <DependentUpon>db_update.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="db_update.aspx.vb">
-      <DependentUpon>db_update.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
     <Compile Include="db_update_new.aspx.designer.vb">
       <DependentUpon>db_update_new.aspx</DependentUpon>
     </Compile>
@@ -186,13 +168,6 @@
     </Compile>
     <Compile Include="TemperatureStation.vb" />
     <Compile Include="TimeValuePair.vb" />
-    <Compile Include="WebForm1.aspx.designer.vb">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="WebForm1.aspx.vb">
-      <DependentUpon>WebForm1.aspx</DependentUpon>
-      <SubType>ASPXCodebehind</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
