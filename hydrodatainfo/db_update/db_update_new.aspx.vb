@@ -60,8 +60,8 @@ Public Class db_update_new
             'Dim hydroStTable2 As DataTable = dbcn.DownloadHydroMetadata_Povodi()
             'LogStr &= dbcn.SaveStations_LVS("seso")
 
-            LogStr &= dbcn.UpdateSnow()
             'LogStr &= dbcn.UpdatePrecipitation_Daily()
+            LogStr &= dbcn.UpdateSnow()
             LogStr &= dbcn.UpdateTemperature()
             LogStr &= dbcn.UpdatePrecip_Hourly_Povodi()
             LogStr &= dbcn.UpdatePrecip_Hourly_CHMU()
