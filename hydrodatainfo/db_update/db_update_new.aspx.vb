@@ -54,7 +54,7 @@ Public Class db_update_new
             Dim bft As New BinaryFileTester
             'bft.RunBinaryFileTest()
             Dim dbm As New DBManager(Connstr3, ConfigurationManager.AppSettings("files_dir1"))
-            dbm.Update_Daily_Snow_All()
+            'dbm.Update_Daily_Snow_All()
             'dbm.UpdateStationsVariables()
             'Dim stTable As DataTable = dbcn.DownloadPrecipMetadata(-7)
             'Dim hydroStTable As DataTable = dbcn.DownloadHydroMetadata()
@@ -63,14 +63,14 @@ Public Class db_update_new
 
             'LogStr &= dbcn.UpdatePrecipitation_Daily()
 
-            'LogStr &= dbcn.UpdateSnow()
-            'LogStr &= dbcn.UpdateTemperature()
-            'LogStr &= dbcn.UpdatePrecip_Hourly_Povodi()
-            'LogStr &= dbcn.UpdatePrecip_Hourly_CHMU()
-            'LogStr &= dbcn.UpdateHydro_CHMU()
-            'LogStr &= dbcn.UpdateHydro_povodi()
+            LogStr &= dbcn.UpdateSnow()
+            LogStr &= dbcn.UpdateTemperature()
+            LogStr &= dbcn.UpdatePrecip_Hourly_Povodi()
+            LogStr &= dbcn.UpdatePrecip_Hourly_CHMU()
+            LogStr &= dbcn.UpdateHydro_CHMU()
+            LogStr &= dbcn.UpdateHydro_povodi()
             'LogStr &= dbcn.UpdatePrecipHourly_LVS()
-            'LogStr &= dbcn.UpdateRadar()
+            LogStr &= dbcn.UpdateRadar()
 
             'now update the daily data
             'dbcn.UpdateDailyData()
