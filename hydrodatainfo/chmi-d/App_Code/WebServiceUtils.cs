@@ -65,7 +65,7 @@ namespace WaterOneFlow.odws
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     string sql = "SELECT DISTINCT st.st_id, st.st_name, st.lat, st.lon, st.altitude FROM plaveninycz.Stations st " +
-"INNER JOIN plaveninycz.stationsvariables stv ON st.st_id = stv.st_id WHERE st.lat is not NULL AND stv.var_id IN (1, 4, 5, 16);";
+"INNER JOIN plaveninycz.stationsvariables stv ON st.st_id = stv.st_id WHERE st.lat is not NULL AND stv.var_id IN (1, 4, 5, 8, 16);";
 
                     cmd.CommandText = sql;
                     cmd.Connection = conn;
@@ -371,8 +371,17 @@ namespace WaterOneFlow.odws
             }
 
             //value count, begin time, end time
-            string binFileName = BinaryFileHelper.GetBinaryFileName(siteId, variableFolder, "d");
-            DateRange beginEndTime = BinaryFileHelper.BinaryFileDateRange(binFileName, "d");
+            DateRange beginEndTime = new DateRange();
+
+            if (variableFolder == "snih")
+            {
+                beginEndTime = GetDateRangeFromDb(siteId, 8);
+            }
+            else
+            {
+                string binFileName = BinaryFileHelper.GetBinaryFileName(siteId, variableFolder, "d");
+                beginEndTime = BinaryFileHelper.BinaryFileDateRange(binFileName, "d");
+            }
             if (beginEndTime.Start == null || beginEndTime.End == null)
             {
                 return null;
@@ -405,6 +414,50 @@ namespace WaterOneFlow.odws
             s.sampleMedium = s.variable.sampleMedium;
             s.generalCategory = s.variable.generalCategory;
             return s;
+        }
+
+        public static DateRange GetDateRangeFromDb(int siteId, int varId)
+        {
+            string connStr = GetConnectionString();
+            DateTime startDateTime = DateTime.MinValue;
+            DateTime endDateTime = DateTime.MaxValue;
+
+            string tableName = GetTableName(varId);
+            bool hasValues = true;
+            string sql = String.Format("SELECT MIN(time_utc) AS 'begin', MAX(time_utc) AS 'end' FROM plaveninycz.{0} WHERE station_id={1}", tableName, siteId);
+            using (SqlConnection cnn = new SqlConnection(connStr))
+            {
+                using (SqlCommand cmd = new SqlCommand(sql, cnn))
+                {
+                    cnn.Open();
+                    SqlDataReader r = cmd.ExecuteReader(CommandBehavior.SingleResult);
+                    r.Read();
+                    if (!r.HasRows)
+                    {
+                        hasValues = false;
+                    }
+                    else
+                    {
+                        object startObj = r["begin"];
+                        object endObj = r["end"];
+                        if (startObj is DBNull || endObj is DBNull)
+                        {
+                            hasValues = false;
+                        }
+                        else
+                        {
+                            startDateTime = Convert.ToDateTime(r["begin"]);
+                            endDateTime = Convert.ToDateTime(r["end"]);
+                        }
+                    }
+                }
+            }
+
+            DateRange range = new DateRange();
+            range.Start = startDateTime;
+            range.End = endDateTime;
+            range.HasValues = hasValues;
+            return range;
         }
 
         public static VariableInfoType[] GetVariablesFromDb()
@@ -863,35 +916,112 @@ namespace WaterOneFlow.odws
                     break;
             }
 
-            //values: get from database...
-            string binFileName = BinaryFileHelper.GetBinaryFileName(Convert.ToInt32(siteId), variableFolder, "d");
-            BinaryFileData dataValues = BinaryFileHelper.ReadBinaryFileDaily(binFileName, startDateTime, endDateTime, true);
-
-            List<ValueSingleVariable> valuesList = new List<ValueSingleVariable>();
-            int N = dataValues.Data.Length;
-            DateTime startValueDate = dataValues.BeginDateTime;
-            for (int i = 0; i < N; i++)
+            //special case for SNOW: read values from database
+            if (varId == 8)
             {
-                ValueSingleVariable v = new ValueSingleVariable();
-                v.censorCode = "nc";
-                v.dateTime = startValueDate.AddDays(i);
-                v.dateTimeUTC = v.dateTime.AddHours(-1);
-                v.dateTimeUTCSpecified = true;
-                v.methodCode = s.method[0].methodCode;
-                v.methodID = v.methodCode;
-                v.offsetValueSpecified = false;
-                v.qualityControlLevelCode = "1";
-                v.sourceCode = "1";
-                v.sourceID = "1";
-                v.timeOffset = "01:00";
-                v.Value = convertValue(dataValues.Data[i], varId);
-                valuesList.Add(v);
+                //values: get from database...
+                string connStr = GetConnectionString();
+                List<ValueSingleVariable> valuesList = new List<ValueSingleVariable>();
+                using (SqlConnection cnn = new SqlConnection(connStr))
+                {
+                    using (SqlCommand cmd = new SqlCommand("plaveninycz.new_query_observations", cnn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add(new SqlParameter("@st_id", SqlDbType.SmallInt));
+                        cmd.Parameters.Add(new SqlParameter("@var_id", SqlDbType.SmallInt));
+                        cmd.Parameters.Add(new SqlParameter("@start_time", SqlDbType.SmallDateTime));
+                        cmd.Parameters.Add(new SqlParameter("@end_time", SqlDbType.SmallDateTime));
+                        cmd.Parameters.Add(new SqlParameter("@time_step", SqlDbType.VarChar));
+                        cmd.Parameters.Add(new SqlParameter("@group_function", SqlDbType.VarChar));
+
+                        cmd.Parameters["@st_id"].Value = Convert.ToInt32(siteId);
+                        cmd.Parameters["@var_id"].Value = varId;
+                        cmd.Parameters["@start_time"].Value = startDateTime;
+                        cmd.Parameters["@end_time"].Value = endDateTime;
+                        cmd.Parameters["@time_step"].Value = timeStep;
+                        cmd.Parameters["@group_function"].Value = "sum";
+
+                        cnn.Open();
+
+                        SqlDataReader r = cmd.ExecuteReader();
+                        int obsTimeIndex = r.GetOrdinal("obs_time");
+                        int obsValueIndex = r.GetOrdinal("obs_value");
+                        while (r.Read())
+                        {
+                            ValueSingleVariable v = new ValueSingleVariable();
+                            v.censorCode = "nc";
+                            v.dateTime = Convert.ToDateTime(r["obs_time"]);
+                            v.dateTimeUTC = v.dateTime.AddHours(-1);
+                            v.dateTimeUTCSpecified = true;
+                            v.methodCode = s.method[0].methodCode;
+                            v.methodID = v.methodCode;
+                            v.offsetValueSpecified = false;
+                            v.qualityControlLevelCode = "1";
+                            v.sourceCode = "1";
+                            v.sourceID = "1";
+                            v.timeOffset = "01:00";
+                            v.Value = convertValue(r["obs_value"], varId);
+                            valuesList.Add(v);
+                        }
+                    }
+                }
+
+                //convert list to array - for precip, snow, discharge, stage
+                DateTime beginDate = valuesList[0].dateTime;
+                DateTime endDate = valuesList[valuesList.Count - 1].dateTime;
+                int numDays = endDate.Subtract(beginDate).Days;
+                ValueSingleVariable[] valuesArray = new ValueSingleVariable[numDays];
+                int valueIndex = 0;
+
+                DateTime curDate = beginDate;
+                foreach (ValueSingleVariable val in valuesList)
+                {
+                    if (valueIndex >= valuesArray.Length) break;
+
+                    while (curDate < val.dateTime)
+                    {
+                        valuesArray[valueIndex] = CreateNoDataValue(curDate, s, varId);
+                        curDate = curDate.AddDays(1);
+                        valueIndex++;
+                    }
+
+                    if (valueIndex >= valuesArray.Length) break;
+                    valuesArray[valueIndex] = val;
+                    curDate = val.dateTime.AddDays(1);
+                    valueIndex++;
+                }
+                s.value = valuesArray;
             }
+            else
+            {
+                //values: get from binary file ...
+                string binFileName = BinaryFileHelper.GetBinaryFileName(Convert.ToInt32(siteId), variableFolder, "d");
+                BinaryFileData dataValues = BinaryFileHelper.ReadBinaryFileDaily(binFileName, startDateTime, endDateTime, true);
 
-            s.value = valuesList.ToArray();
+                List<ValueSingleVariable> valuesList = new List<ValueSingleVariable>();
+                int N = dataValues.Data.Length;
+                DateTime startValueDate = dataValues.BeginDateTime;
+                for (int i = 0; i < N; i++)
+                {
+                    ValueSingleVariable v = new ValueSingleVariable();
+                    v.censorCode = "nc";
+                    v.dateTime = startValueDate.AddDays(i);
+                    v.dateTimeUTC = v.dateTime.AddHours(-1);
+                    v.dateTimeUTCSpecified = true;
+                    v.methodCode = s.method[0].methodCode;
+                    v.methodID = v.methodCode;
+                    v.offsetValueSpecified = false;
+                    v.qualityControlLevelCode = "1";
+                    v.sourceCode = "1";
+                    v.sourceID = "1";
+                    v.timeOffset = "01:00";
+                    v.Value = convertValue(dataValues.Data[i], varId);
+                    valuesList.Add(v);
+                }
 
+                s.value = valuesList.ToArray();
+            }
             return s;
-
         }
 
         private static Decimal convertValue(object val, int varId)

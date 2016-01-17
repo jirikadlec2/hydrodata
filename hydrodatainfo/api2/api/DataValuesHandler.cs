@@ -146,7 +146,7 @@ namespace api
             {
                 int varid = DataValuesUtil.VariableCodeToID(varCodeList[i]);
                 DateRange rng;
-                if (varid == 8)
+                if (varid == 88)
                 {
                     // special case for snow because snow values are stored in database
                     rng = DataValuesUtil.GetDateRangeFromDb(siteId, varCodeList[i]);
@@ -304,7 +304,7 @@ namespace api
                 for (int i = 0; i < varCodeList.Length; i++)
                 {
                     float[] mylist;
-                    if (DataValuesUtil.VariableCodeToID(varCodeList[i]) == 8)
+                    if (DataValuesUtil.VariableCodeToID(varCodeList[i]) == 88)
                     {
                         end = end.AddDays(1);
                         mylist = DataValuesUtil.GetDailyValuesFromDb(Convert.ToInt32(siteCode), varCodeList[i], start, end, interpolateOn);

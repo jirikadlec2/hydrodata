@@ -1681,3 +1681,134 @@ log4net: configuring repository [log4net-default-repository] using .config file 
 log4net: Application config file is [C:\dev\github\hydrodata\hydrodatainfo\chmi-d\web.config]
 log4net:ERROR Failed to find configuration section 'log4net' in the application's .config file. Check your .config file for the <log4net> and <configSections> elements. The configuration section should look like: <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler,log4net" />
 log4net: Shutdown called on Hierarchy [log4net-default-repository]
+log4net: Configuration update mode [Merge].
+log4net: Logger [root] Level string is [DEBUG].
+log4net: Logger [root] level set to [name="DEBUG",value=30000].
+log4net: Loading Appender [EventLogAppender] type: [log4net.Appender.EventLogAppender]
+log4net: Setting Property [LevelMin] to Level value [ERROR]
+log4net: Setting Property [LevelMax] to Level value [FATAL]
+log4net: Setting Collection Property [AddFilter] to object [log4net.Filter.LevelRangeFilter]
+log4net: Converter [message] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [newline] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Setting Property [ConversionPattern] to String value [%date [%thread] %-5level %logger [%property{NDC}] - %message%newline]
+log4net: Converter [date] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [literal] Option [ [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [thread] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [literal] Option [] ] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [level] Option [] Format [min=5,max=2147483647,leftAlign=True]
+log4net: Converter [literal] Option [ ] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [logger] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [literal] Option [ [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [property] Option [NDC] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [literal] Option [] - ] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [message] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [newline] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Setting Property [Layout] to object [log4net.Layout.PatternLayout]
+log4net:ERROR [EventLogAppender] ErrorCode: GenericFailure. Caught a SecurityException trying to access the EventLog.  Most likely the event source 55a4fc7b-1-130974749017651739 doesn't exist and must be created by a local administrator.  Will disable EventLogAppender.  See http://logging.apache.org/log4net/release/faq.html#trouble-EventLog
+System.Security.SecurityException: The source was not found, but some or all event logs could not be searched.  Inaccessible logs: Security.
+   at System.Diagnostics.EventLog.FindSourceRegistration(String source, String machineName, Boolean readOnly, Boolean wantToCreate)
+   at System.Diagnostics.EventLog.SourceExists(String source, String machineName, Boolean wantToCreate)
+   at System.Diagnostics.EventLog.SourceExists(String source)
+   at log4net.Appender.EventLogAppender.ActivateOptions()
+The Zone of the assembly that failed was:
+MyComputer
+log4net: reated Appender [EventLogAppender]
+log4net: Adding appender named [EventLogAppender] to logger [root].
+log4net: Loading Appender [LogFileAppender] type: [log4net.Appender.FileAppender]
+log4net: Setting Property [File] to String value [..\logs\\webapp-log.txt]
+log4net: Setting Property [AppendToFile] to Boolean value [True]
+log4net: Converter [message] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [newline] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Setting Property [ConversionPattern] to String value [%date [%thread] %-5level %logger [%ndc] - %message%newline]
+log4net: Converter [date] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [literal] Option [ [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [thread] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [literal] Option [] ] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [level] Option [] Format [min=5,max=2147483647,leftAlign=True]
+log4net: Converter [literal] Option [ ] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [logger] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [literal] Option [ [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [ndc] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [literal] Option [] - ] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [message] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [newline] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Setting Property [Layout] to object [log4net.Layout.PatternLayout]
+log4net: Opening file for writing [C:\dev\github\hydrodata\hydrodatainfo\logs\webapp-log.txt] append [True]
+log4net: reated Appender [LogFileAppender]
+log4net: Adding appender named [LogFileAppender] to logger [root].
+log4net: Loading Appender [HttpTraceAppender] type: [log4net.Appender.AspNetTraceAppender]
+log4net: Converter [logger] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [message] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [newline] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Setting Property [ConversionPattern] to String value [%date [%thread] %-5level %logger [%ndc] - %message%newline]
+log4net: Converter [date] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [literal] Option [ [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [thread] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [literal] Option [] ] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [level] Option [] Format [min=5,max=2147483647,leftAlign=True]
+log4net: Converter [literal] Option [ ] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [logger] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [literal] Option [ [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [ndc] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [literal] Option [] - ] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [message] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [newline] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Setting Property [Layout] to object [log4net.Layout.PatternLayout]
+log4net: reated Appender [HttpTraceAppender]
+log4net: Adding appender named [HttpTraceAppender] to logger [root].
+log4net:ERROR XmlHierarchyConfigurator: No appender named [WebServiceDBAppender] could be found.
+log4net:ERROR Appender named [WebServiceDBAppender] not found.
+log4net: Retrieving an instance of log4net.Repository.Logger for logger [QueryLog].
+log4net: Setting [QueryLog] additivity to [True].
+log4net: Logger [QueryLog] Level string is [INFO].
+log4net: Logger [QueryLog] level set to [name="INFO",value=40000].
+log4net: Loading Appender [QueryLogFileAppender] type: [log4net.Appender.RollingFileAppender]
+log4net: Setting Property [File] to String value [..\logs\\query-log.txt]
+log4net: Setting Property [AppendToFile] to Boolean value [True]
+log4net: Setting Property [MaxSizeRollBackups] to Int32 value [-1]
+log4net: Setting Property [MaximumFileSize] to String value [5MB]
+log4net: Setting Property [RollingStyle] to RollingMode value [Date]
+log4net: Setting Property [DatePattern] to String value [yyyyMM]
+log4net: Setting Property [StaticLogFileName] to Boolean value [True]
+log4net: Converter [message] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [newline] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Setting Property [ConversionPattern] to String value [%date %message%newline]
+log4net: Converter [date] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [literal] Option [ ] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [message] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Converter [newline] Option [] Format [min=-1,max=2147483647,leftAlign=False]
+log4net: Setting Property [Layout] to object [log4net.Layout.PatternLayout]
+log4net: Type = [0], r0 = [197001], r1 = [197001]
+log4net: Type = [1], r0 = [197001], r1 = [197001]
+log4net: Type = [2], r0 = [197001], r1 = [197001]
+log4net: Type = [3], r0 = [197001], r1 = [197001]
+log4net: Type = [4], r0 = [197001], r1 = [197001]
+log4net: Type = [5], r0 = [197001], r1 = [197002]
+log4net: Searched for existing files in [C:\dev\github\hydrodata\hydrodatainfo\logs]
+log4net: curSizeRollBackups starts at [0]
+log4net: [201510] vs. [201601]
+log4net: Initial roll over to [C:\dev\github\hydrodata\hydrodatainfo\logs\query-log.txt201510]
+log4net: Moving [C:\dev\github\hydrodata\hydrodatainfo\logs\query-log.txt] -> [C:\dev\github\hydrodata\hydrodatainfo\logs\query-log.txt201510]
+log4net: curSizeRollBackups after rollOver at [0]
+log4net: Opening file for writing [C:\dev\github\hydrodata\hydrodatainfo\logs\query-log.txt] append [True]
+log4net: reated Appender [QueryLogFileAppender]
+log4net: Adding appender named [QueryLogFileAppender] to logger [QueryLog].
+log4net: Loading Appender [SDSCQueryLog] type: [log4net.Appender.RemotingAppender]
+log4net: Setting Property [Sink] to String value [tcp://river.sdsc.edu:8085/LoggingSink]
+log4net: Setting Property [Lossy] to Boolean value [True]
+log4net: Setting Property [BufferSize] to Int32 value [200]
+log4net: Setting Property [OnlyFixPartialEventData] to Boolean value [True]
+log4net: Setting Property [Threshold] to Level value [INFO]
+log4net: Setting Property [Evaluator] to object [log4net.Core.LevelEvaluator]
+log4net: reated Appender [SDSCQueryLog]
+log4net: Adding appender named [SDSCQueryLog] to logger [QueryLog].
+log4net: Hierarchy Threshold []
+log4net: configuring repository [log4net-default-repository] using .config file section
+log4net: Application config file is [C:\dev\github\hydrodata\hydrodatainfo\chmi-d\web.config]
+log4net:ERROR Failed to find configuration section 'log4net' in the application's .config file. Check your .config file for the <log4net> and <configSections> elements. The configuration section should look like: <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler,log4net" />
+log4net: Creating repository for assembly [waterOneFlowImpl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]
+log4net: Assembly [waterOneFlowImpl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null] Loaded From [C:\Users\Jiri\AppData\Local\Temp\Temporary ASP.NET Files\chmi-d\e2e6e5ad\6b0d7249\assembly\dl3\db764621\00450992_ab52cf01\waterOneFlowImpl.dll]
+log4net: Assembly [waterOneFlowImpl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null] does not have a RepositoryAttribute specified.
+log4net: Assembly [waterOneFlowImpl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null] using repository [log4net-default-repository] and repository type [log4net.Repository.Hierarchy.Hierarchy]
+log4net: repository [log4net-default-repository] already exists, using repository type [log4net.Repository.Hierarchy.Hierarchy]
+log4net: Shutdown called on Hierarchy [log4net-default-repository]
