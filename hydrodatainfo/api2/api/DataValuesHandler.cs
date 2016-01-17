@@ -144,7 +144,19 @@ namespace api
             bool hasTheValues = false;
             for (int i = 0; i < varCodeList.Length; i++)
             {
-                DateRange rng = DataValuesUtil.GetDateRangeFromBinary(siteId, varCodeList[i], step);
+                int varid = DataValuesUtil.VariableCodeToID(varCodeList[i]);
+                DateRange rng;
+                if (varid == 8)
+                {
+                    // special case for snow because snow values are stored in database
+                    rng = DataValuesUtil.GetDateRangeFromDb(siteId, varCodeList[i]);
+                }
+                else
+                {
+                    // other variables are stored in binary file
+                    rng = DataValuesUtil.GetDateRangeFromBinary(siteId, varCodeList[i], step);
+                }
+
                 if (rng.HasValues)
                 {
                     allStarts.Add(rng.Start);
@@ -185,10 +197,11 @@ namespace api
             }
             
             double nodata = -9998.0;
+            double nodata2 = 999.0;
             string numberFormat = DataValuesUtil.GetNumberFormat(varCode);
 
             if (step == "h")
-            {                
+            {                               
                 if (start < range.Start)
                 {
                     start = range.Start.Date.AddHours(range.Start.Hour);
@@ -225,9 +238,15 @@ namespace api
                     float[] vals = valArrays[0];
                     for (int i = 0; i < vals.Length; i++)
                     {
+                        double val = vals[i];
+                        if (val > 999 & val < 1000)
+                        {
+                            val = -9999.0;
+                        }
+
                         DateTime dat = start.AddHours(i);
                         context.Response.Write(string.Format("{0}\t{1}\n", dat.ToString("yyyy-MM-dd HH:mm:ss"),
-                            (vals[i] > nodata) ? vals[i].ToString(numberFormat) : "NA"));
+                            (val > nodata) ? val.ToString(numberFormat) : "NA"));
                     }
                 }
                 else if (valArrays.Count > 1)
@@ -247,6 +266,10 @@ namespace api
                         for (int j=0; j< numValArrays; j++)
                         {
                             double val = valArrays[j][i];
+                            if (val > 999) 
+                            {
+                                val = -9999.0;
+                            }
                             context.Response.Write((val > nodata) ? val.ToString(numberFormat) : "NA");
                             if (j == numValArrays - 1)
                             {
@@ -280,7 +303,17 @@ namespace api
                 List<int> valArrayLengths = new List<int>();
                 for (int i = 0; i < varCodeList.Length; i++)
                 {
-                    float[] mylist = DataValuesUtil.GetValuesFromBinary(Convert.ToInt32(siteCode), varCodeList[i], start, end, step, interpolateOn);
+                    float[] mylist;
+                    if (DataValuesUtil.VariableCodeToID(varCodeList[i]) == 8)
+                    {
+                        end = end.AddDays(1);
+                        mylist = DataValuesUtil.GetDailyValuesFromDb(Convert.ToInt32(siteCode), varCodeList[i], start, end, interpolateOn);
+                    }
+                    else
+                    {
+                        mylist = DataValuesUtil.GetValuesFromBinary(Convert.ToInt32(siteCode), varCodeList[i], start, end, step, interpolateOn);
+                    }
+
                     valArrays.Add(mylist);
                     valArrayLengths.Add(mylist.Length);
                 }
