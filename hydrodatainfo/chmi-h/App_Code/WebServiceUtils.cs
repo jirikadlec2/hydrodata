@@ -308,7 +308,7 @@ namespace WaterOneFlow.odws
                     variableFolder = "srazky";
                     break;
                 case 2:
-                    variableFolder = "srayky";
+                    variableFolder = "srazky";
                     break;
                 case 4:
                     variableFolder = "vodstav";
@@ -407,6 +407,8 @@ namespace WaterOneFlow.odws
                         s.sourceLink[0] = Convert.ToString(dr["url"]);
                         s.sourceID = Convert.ToInt32(dr["id"]);
                     }
+                    s.sourceLink = new string[1];
+                    s.sourceLink[0] = "http://hydrodata.info/";
                 }
             }            
             return s;
@@ -468,7 +470,7 @@ namespace WaterOneFlow.odws
                     varInfo.metadataTimeSpecified = false;
                     varInfo.noDataValue = -9999.0;
                     varInfo.noDataValueSpecified = true;
-                    varInfo.sampleMedium = "Water";
+                    varInfo.sampleMedium = "Surface water";
                     varInfo.speciation = "Not Applicable";
 
                     //variable unit - centimeter
@@ -492,7 +494,7 @@ namespace WaterOneFlow.odws
                     varInfo.metadataTimeSpecified = false;
                     varInfo.noDataValue = -9999.0;
                     varInfo.noDataValueSpecified = true;
-                    varInfo.sampleMedium = "Water";
+                    varInfo.sampleMedium = "Surface water";
                     varInfo.speciation = "Not Applicable";
 
                     //variable unit - cubic meter per second
@@ -761,6 +763,7 @@ namespace WaterOneFlow.odws
                     m.methodLink = "hydro.chmi.cz/hpps";
                     break;
             }
+            m.methodCode = "0";
             return m;
         }
 
@@ -816,12 +819,12 @@ namespace WaterOneFlow.odws
             //TODO: read the correct source
             s.source = new SourceType[1];
             s.source[0] = GetSourceForSite(Convert.ToInt32(siteId));
-            s.source[0].citation = "CHMI";
-            s.source[0].organization = "CHMI";
-            s.source[0].sourceCode = "1";
-            s.source[0].sourceDescription = " measured by CHMI professional stations";
-            s.source[0].sourceID = 1;
-            s.source[0].sourceIDSpecified = true;
+            //s.source[0].citation = "CHMI";
+            //s.source[0].organization = "CHMI";
+            //s.source[0].sourceCode = "1";
+            //s.source[0].sourceDescription = " measured by CHMI professional stations";
+            //s.source[0].sourceID = 1;
+            //s.source[0].sourceIDSpecified = true;
 
             //values: get from database...
             string binFileName = BinaryFileHelper.GetBinaryFileName(Convert.ToInt32(siteId), variableCode.ToLower(), "h");
@@ -837,12 +840,13 @@ namespace WaterOneFlow.odws
                 v.dateTime = startValueDate.AddHours(i);
                 v.dateTimeUTC = v.dateTime.AddHours(-1);
                 v.dateTimeUTCSpecified = true;
-                v.methodCode = s.method[0].methodCode;
-                v.methodID = v.methodCode;
+                //v.methodCode = s.method[0].methodCode;
+                //v.methodID = v.methodCode;
+                v.methodCode = "0";
                 v.offsetValueSpecified = false;
                 v.qualityControlLevelCode = "1";
                 v.sourceCode = "1";
-                v.sourceID = "1";
+                //v.sourceID = "1";
                 v.timeOffset = "01:00";
                 v.Value = convertValue(dataValues.Data[i], varId);
                 valuesList.Add(v);
@@ -887,12 +891,13 @@ namespace WaterOneFlow.odws
             v.dateTime = Convert.ToDateTime(time);
             v.dateTimeUTC = v.dateTime.AddHours(-1);
             v.dateTimeUTCSpecified = true;
-            v.methodCode = s.method[0].methodCode;
-            v.methodID = v.methodCode;
+            //v.methodCode = s.method[0].methodCode;
+            //v.methodID = v.methodCode;
+            v.methodCode = "0";
             v.offsetValueSpecified = false;
             v.qualityControlLevelCode = "1";
             v.sourceCode = "1";
-            v.sourceID = "1";
+            //v.sourceID = "1";
             v.timeOffset = "01:00";
 
             switch (variableId)

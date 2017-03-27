@@ -124,6 +124,6 @@
     <value>SELECT st.st_id, st_name, lat, lon FROM ( SELECT plaveninycz.Stations.st_id, st_name, lat, lon FROM plaveninycz.Stations INNER JOIN plaveninycz.StationsVariables stv ON plaveninycz.Stations.st_id = stv.st_id WHERE var_id={1} AND plaveninycz.Stations.st_id={0} ) st</value>
   </data>
   <data name="query_sitebyid2" xml:space="preserve">
-    <value>SELECT st.st_id, st_name, st.lat, st.lon FROM ( SELECT plaveninycz.Stations.st_id, st_name, lat, lon FROM plaveninycz.Stations INNER JOIN plaveninycz.StationsVariables stv ON plaveninycz.Stations.st_id = stv.st_id WHERE plaveninycz.Stations.st_id={0} ) st</value>
+    <value>SELECT st.st_id, st.st_name, st.lat, st.lon FROM ( SELECT plaveninycz.Stations.st_id, st_name, lat, lon FROM plaveninycz.Stations INNER JOIN plaveninycz.StationsVariables stv ON plaveninycz.Stations.st_id = stv.st_id WHERE plaveninycz.Stations.st_id={0} ) st</value>
   </data>
 </root>
