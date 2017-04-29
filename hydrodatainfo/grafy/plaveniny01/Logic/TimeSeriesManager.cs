@@ -51,7 +51,7 @@ namespace jk.plaveninycz.Bll
             else if (v == VariableEnum.Snow)
             {
                 ts = new HydroTimeSeries(interval.Start, interval.End);
-                TimeSeriesDS.LoadObservationsSnow2(ch.StationId, interval.Start, interval.End, (IObservationList)ts);
+                TimeSeriesDS.LoadObservationsSnow(ch.StationId, ch.VariableId, interval.Start, interval.End, TimeStep.Day, (IObservationList)ts);
             }
             else if (v == VariableEnum.PrecipHour || v == VariableEnum.Precip || v == VariableEnum.PrecipSum)
             {
