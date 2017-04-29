@@ -267,14 +267,17 @@ namespace jk.plaveninycz.graph
         {
             string title;
             string stName;
-            if ( var.VarEnum == VariableEnum.Discharge || var.VarEnum == VariableEnum.Stage )
-            {
-                stName = string.Format("{0} ({1})", st.Name, st.River.Name);
-            }
-            else
-            {
+
+            // TEMPORARILY COMMENT OUT RIVER NAME !!!!!!
+            //if ( var.VarEnum == VariableEnum.Discharge || var.VarEnum == VariableEnum.Stage )
+            //{
+
+            //    stName = string.Format("{0} ({1})", st.Name, st.River.Name);
+            //}
+            //else
+            //{
                 stName = st.Name;
-            }
+            //}
             title = String.Format("{0} - {1} {2} - {3}",
                 var.Name, stName, minDate.ToShortDateString(),
                 maxDate.ToShortDateString());

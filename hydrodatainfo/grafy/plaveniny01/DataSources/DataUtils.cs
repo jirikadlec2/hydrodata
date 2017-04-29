@@ -22,7 +22,9 @@ namespace jk.plaveninycz.DataSources
 
             //return System.Web.Configuration.WebConfigurationManager.ConnectionStrings["connstr3"].ConnectionString;
 
-            return @"data source = sql2005.dotnethosting.cz; Initial Catalog=plaveninycz1; User Id=plaveninycz1; password=Ziqwdwq1";
+            return @"data source = sql4.aspone.cz; Initial Catalog = db1856; User Id = db1856; Password = 2c506bbe";
+
+            // return @"data source = sql2005.dotnethosting.cz; Initial Catalog=plaveninycz1; User Id=plaveninycz1; password=Ziqwdwq1";
         }
 
         /// <summary>

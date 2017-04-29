@@ -117,6 +117,8 @@ namespace jk.plaveninycz.Bll
             {
                 tbl = VariableDS.GetVariableTable();
             }
+            //temporary fix..
+            tbl = VariableDS.GetVariableTable();
             return tbl;
         }
 
