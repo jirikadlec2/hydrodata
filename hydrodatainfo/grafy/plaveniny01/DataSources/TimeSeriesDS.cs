@@ -133,7 +133,7 @@ namespace jk.plaveninycz.DataSources
             TimeStep step, IObservationList observations)
         {
             //the base directory where files are stored
-            string baseDir = @"C:\temp\data";
+            string baseDir = DataUtils.GetDataDirectory(); //@"C:\temp\data";
 
             //the czech variable name
             string varName = "srazky";
@@ -153,7 +153,7 @@ namespace jk.plaveninycz.DataSources
             TimeStep step, IObservationList observations)
         {
             //the base directory where files are stored
-            string baseDir = @"C:\temp\data";
+            string baseDir = DataUtils.GetDataDirectory(); //@"C:\temp\data";
 
             //the czech variable name
             string varName = "teplota";
@@ -173,7 +173,7 @@ namespace jk.plaveninycz.DataSources
             IObservationList observations)
         {
             //the base directory where files are stored
-            string baseDir = @"C:\temp\data";
+            string baseDir = DataUtils.GetDataDirectory(); // @"C:\temp\data";
 
             //the czech variable name
             string varName = "snih";
@@ -280,8 +280,8 @@ namespace jk.plaveninycz.DataSources
         public static void LoadObservationsDischarge2(int stationID, DateTime startTime, DateTime endTime, TimeStep step, IObservationList observations)
         {
             //the base directory where files are stored
-            string baseDir = @"C:\temp\data";
-            
+            string baseDir = DataUtils.GetDataDirectory(); //@"C:\temp\data";
+
             //the czech variable name
             string varName = "prutok";
             
@@ -300,7 +300,7 @@ namespace jk.plaveninycz.DataSources
         public static void LoadObservationsStage2(int stationID, DateTime startTime, DateTime endTime, TimeStep step, IObservationList observations)
         {
             //the base directory where files are stored
-            string baseDir = @"C:\temp\data";
+            string baseDir = DataUtils.GetDataDirectory(); //@"C:\temp\data";
 
             //the czech variable name
             string varName = "vodstav";

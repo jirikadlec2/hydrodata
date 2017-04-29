@@ -60,48 +60,7 @@ namespace jk.plaveninycz.Presentation
     /// </summary>
     public class StatisticsList : List<StatisticsItem>
     {
-        public StatisticsList(Statistics stats, Variable var)
-        {
-            //_manager = new ResourceManager("jk.plaveninycz.Presentation.StatisticsResource"
-            //    ,this.GetType().Assembly);
-            _manager = StatisticsResource.ResourceManager;
-            string units = var.Units;
-            VariableEnum observationType = var.VarEnum;
-            
-            switch (observationType)
-            {
-                case VariableEnum.Precip:
-                case VariableEnum.PrecipHour:
-                    AddItem("precip_count", stats.MeasurableDataCount.ToString());
-                    AddItem("precip_max", stats.Max.ToString("0.0") + " " + units + " (" + stats.TimeOfMax.ToShortDateString() + ")");
-                    AddItem("precip_sum", stats.Sum.ToString("0.0") + " " + "mm");
-                    break;
-                case VariableEnum.Snow:
-                    AddItem("snow_count", stats.MeasurableDataCount.ToString());
-                    AddItem("snow_max", stats.Max.ToString("0.0") + " " + units +
-                        " (" + stats.TimeOfMax.ToShortDateString() + ")");
-                    break;
-                case VariableEnum.Stage:
-                    AddItem("stage_max", stats.Max.ToString("0") + " " + units +
-                        " (" + stats.TimeOfMax.ToShortDateString() + ")");
-                    AddItem("stage_min", stats.Min.ToString("0") + " " + units +
-                        " (" + stats.TimeOfMin.ToShortDateString() + ")");
-                    break;
-                case VariableEnum.Discharge:
-                    AddItem("discharge_max", stats.Max.ToString("0.0") + " " + units +
-                        " (" + stats.TimeOfMax.ToShortDateString() + ")");
-                    AddItem("discharge_min", stats.Min.ToString("0.000") + " " + units +
-                        " (" + stats.TimeOfMin.ToShortDateString() + ")");
-                    break;
-                default:
-                    break;
-            }
-            //always add 'percent available data'
-            if (!(observationType == VariableEnum.Stage && observationType == VariableEnum.Discharge))
-            {
-                AddItem("percent_available", stats.PercentAvailableData.ToString("0.0") + " %");
-            }
-        }
+        
 
         private void AddItem(string label, string value)
         {
@@ -127,46 +86,7 @@ namespace jk.plaveninycz.Presentation
 
         #endregion
         
-        public StatisticsList2(Statistics stats, Variable var)
-        {
-            _manager = new ResourceManager("StatisticsResource",
-                System.Reflection.Assembly.GetExecutingAssembly());
-            _statList = new ListDictionary();
-            string units = var.Units;
-            switch (var.VarEnum)
-            {
-                case VariableEnum.Precip:
-                case VariableEnum.PrecipHour:
-                    AddItem("precip_count", stats.MeasurableDataCount.ToString());
-                    AddItem("precip_max", stats.Max.ToString("0.0") + " " + units + " (" + stats.TimeOfMax.ToShortDateString() + ")");
-                    AddItem("precip_sum", stats.Sum.ToString("0.0") + " " + "mm");
-                    break;
-                case VariableEnum.Snow:
-                    AddItem("snow_count", stats.MeasurableDataCount.ToString());
-                    AddItem("snow_max", stats.Max.ToString("0.0") + " " + units +
-                        " (" + stats.TimeOfMax.ToShortDateString() + ")");
-                    break;
-                case VariableEnum.Stage:
-                    AddItem("stage_max", stats.Max.ToString("0") + " " + units +
-                        " (" + stats.TimeOfMax.ToShortDateString() + ")");
-                    AddItem("stage_min", stats.Min.ToString("0") + " " + units +
-                        " (" + stats.TimeOfMin.ToShortDateString() + ")");
-                    break;
-                case VariableEnum.Discharge:
-                    AddItem("discharge_max", stats.Max.ToString("0.0") + " " + units +
-                        " (" + stats.TimeOfMax.ToShortDateString() + ")");
-                    AddItem("discharge_min", stats.Min.ToString("0.000") + " " + units +
-                        " (" + stats.TimeOfMin.ToShortDateString() + ")");
-                    break;
-                default:
-                    break;
-            }
-            //always add 'percent available data'
-            if (!(var.VarEnum == VariableEnum.Stage && var.VarEnum == VariableEnum.Discharge))
-            {
-                AddItem("percent_available", stats.PercentAvailableData.ToString("0.0") + " %");
-            }
-        }
+        
 
         private void AddItem(string key, string val)
         {

@@ -11,6 +11,12 @@ namespace jk.plaveninycz.DataSources
 
     public class DataUtils
     {
+        public static string GetDataDirectory()
+        {
+            return @"D:\Websites\448cf9624b\www\data";
+            //return @"C:\temp\data";
+        }
+
         public static string GetConnectionString()
         {
             //return @"Data Source=.\SQLEXPRESS;Initial Catalog=plaveninycz1;User Id=sa; password=2c506bbe";
