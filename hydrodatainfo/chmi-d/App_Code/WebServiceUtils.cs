@@ -927,10 +927,10 @@ namespace WaterOneFlow.odws
                     variableFolder = "teplota";
                     break;
                 case 17:
-                    variableFolder = "tmin";
+                    variableFolder = "teplota";
                     break;
                 case 18:
-                    variableFolder = "tmax";
+                    variableFolder = "teplota";
                     break;
             }
 
@@ -1015,14 +1015,99 @@ namespace WaterOneFlow.odws
             else
             {
                 //values: get from binary file ...
-                string binFileName = BinaryFileHelper.GetBinaryFileName(Convert.ToInt32(siteId), variableFolder, "d");
-                BinaryFileData dataValues = BinaryFileHelper.ReadBinaryFileDaily(binFileName, startDateTime, endDateTime, true);
+                //string binFileName = BinaryFileHelper.GetBinaryFileName(Convert.ToInt32(siteId), variableFolder, "d");
+                //BinaryFileData dataValues = BinaryFileHelper.ReadBinaryFileDaily(binFileName, startDateTime, endDateTime, true);
+
+                string binFileName = BinaryFileHelper.GetBinaryFileName(Convert.ToInt32(siteId), variableFolder, "h");
+                BinaryFileData dataValues = BinaryFileHelper.ReadBinaryFileHourly(binFileName, startDateTime, endDateTime, true);
 
                 List<ValueSingleVariable> valuesList = new List<ValueSingleVariable>();
-                int N = dataValues.Data.Length;
+                int N = Convert.ToInt32(dataValues.Data.Length / 24);
                 DateTime startValueDate = dataValues.BeginDateTime;
                 for (int i = 0; i < N; i++)
                 {
+                    //converting hourly values to daily..
+                    float dv = -9999.0f;
+                    float dvSum = 0.0f;
+                    float dvMin = 99.0f;
+                    float dvMax = -98.0f;
+                    int dvN = 0;
+
+                    if (varId == 17)
+                    {
+                        //special case: TMIN
+                        for (int j = 0; j < 24; j++)
+                        {
+                            float hv = dataValues.Data[i * 24 + j];
+                            if (hv > -99)
+                            {
+                                dvN += 1;
+                                if (hv < dvMin)
+                                {
+                                    dvMin = hv;
+                                }
+                            }
+                        }
+                        if (dvN == 0)
+                        {
+                            dvMin = -9999.0f;
+                        }
+                    }
+                    else if (varId == 18)
+                    {
+                        //special case: TMAX
+                        for (int j = 0; j < 24; j++)
+                        {
+                            float hv = dataValues.Data[i * 24 + j];
+                            if (hv > -99)
+                            {
+                                dvN += 1;
+                                if (hv > dvMax)
+                                {
+                                    dvMax = hv;
+                                }
+                            }
+                        }
+                        if (dvN == 0)
+                        {
+                            dvMax = -9999.0f;
+                        }
+                    }
+                    else
+                    {
+                        //other cases
+                        for (int j = 0; j < 24; j++)
+                        {
+                            float hv = dataValues.Data[i * 24 + j];
+                            if (hv > -99)
+                            {
+                                dvSum += hv;
+                                dvN += 1;
+                            }
+                        }
+                    }
+                    
+                    //calculating daily AVG value
+                    if (dvN > 0)
+                    {
+                        switch(varId)
+                        {
+                            case 1:
+                            case 2:
+                                dv = dvSum;
+                                break;
+                            case 17:
+                                dv = dvMin;
+                                break;
+                            case 18:
+                                dv = dvMax;
+                                break;
+                            default:
+                                dv = dvSum / dvN;
+                                break;
+                        }
+                    }
+
                     ValueSingleVariable v = new ValueSingleVariable();
                     v.censorCode = "nc";
                     v.dateTime = startValueDate.AddDays(i);
@@ -1037,7 +1122,8 @@ namespace WaterOneFlow.odws
                     v.sourceCode = "1";
                     //v.sourceID = "1";
                     v.timeOffset = "01:00";
-                    v.Value = convertValue(dataValues.Data[i], varId);
+                    //v.Value = convertValue(dataValues.Data[i], varId);
+                    v.Value = convertValue(dv, varId);
                     valuesList.Add(v);
                 }
 
