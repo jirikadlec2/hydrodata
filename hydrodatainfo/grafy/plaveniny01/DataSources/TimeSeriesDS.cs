@@ -284,17 +284,56 @@ namespace jk.plaveninycz.DataSources
 
             //the czech variable name
             string varName = "prutok";
-            
+
             //find the file name to read the data from
-            string stepName = (step == TimeStep.Hour) ? "h" : "d";
-
+            // always read from hourly data file
+            //string stepName = (step == TimeStep.Hour) ? "h" : "d";
+            string stepName = "h";
             string stationCode = stationID.ToString("D4");
-
             string file = string.Format(@"{0}\{1}\{0}_{1}_{2}.dat", stepName, varName, stationCode);
             string fileName = Path.Combine(baseDir, file);
 
-            BinaryFileHelper.ReadBinaryFile(fileName, startTime, endTime, step, false, observations);
+            if (step == TimeStep.Hour)
+            {
+                // default case: reading hourly data ...
+                BinaryFileHelper.ReadBinaryFile(fileName, startTime, endTime, step, false, observations);
+            }
+            else
+            {
+                // special case: converting to daily data ...
+                BinaryFileData dataValues = BinaryFileHelperNew.ReadBinaryFileHourly(fileName, startTime, endTime, true);
+                int N = Convert.ToInt32(dataValues.Data.Length / 24);
+                DateTime startValueDate = dataValues.BeginDateTime;
 
+                observations.Clear();
+                for (int i = 0; i < N; i++)
+                {
+                    //converting hourly values to daily..
+                    float dv = -9999.0f;
+                    float dvSum = 0.0f;
+                    int dvN = 0;
+
+                    for (int j = 0; j < 24; j++)
+                    {
+                        float hv = dataValues.Data[i * 24 + j];
+                        if (hv > -99)
+                        {
+                            dvSum += hv;
+                            dvN += 1;
+                        }
+                    }
+                    if (dvN > 0)
+                    {
+                        dv = dvSum / dvN;
+                    }
+
+                    DateTime curTime = startTime.AddDays(i);
+                    if (dv > 0)
+                    {
+                        observations.AddObservation(curTime, dv);
+                    }
+                }
+            }
         }
 
         public static void LoadObservationsStage2(int stationID, DateTime startTime, DateTime endTime, TimeStep step, IObservationList observations)
@@ -304,16 +343,52 @@ namespace jk.plaveninycz.DataSources
 
             //the czech variable name
             string varName = "vodstav";
-
-            //find the file name to read the data from
-            string stepName = (step == TimeStep.Hour) ? "h" : "d";
-
+            string stepName = "h";
             string stationCode = stationID.ToString("D4");
-
             string file = string.Format(@"{0}\{1}\{0}_{1}_{2}.dat", stepName, varName, stationCode);
             string fileName = Path.Combine(baseDir, file);
 
-            BinaryFileHelper.ReadBinaryFile(fileName, startTime, endTime, step, false, observations);
+            if (step == TimeStep.Hour)
+            {
+                // default case: reading hourly data ...
+                BinaryFileHelper.ReadBinaryFile(fileName, startTime, endTime, step, false, observations);
+            }
+            else
+            {
+                // special case: converting to daily data ...
+                BinaryFileData dataValues = BinaryFileHelperNew.ReadBinaryFileHourly(fileName, startTime, endTime, true);
+                int N = Convert.ToInt32(dataValues.Data.Length / 24);
+                DateTime startValueDate = dataValues.BeginDateTime;
+
+                observations.Clear();
+                for (int i = 0; i < N; i++)
+                {
+                    //converting hourly values to daily..
+                    float dv = -9999.0f;
+                    float dvSum = 0.0f;
+                    int dvN = 0;
+
+                    for (int j = 0; j < 24; j++)
+                    {
+                        float hv = dataValues.Data[i * 24 + j];
+                        if (hv > -99)
+                        {
+                            dvSum += hv;
+                            dvN += 1;
+                        }
+                    }
+                    if (dvN > 0)
+                    {
+                        dv = dvSum / dvN;
+                    }
+
+                    DateTime curTime = startTime.AddDays(i);
+                    if (dv > 0)
+                    {
+                        observations.AddObservation(curTime, dv);
+                    }
+                }
+            }
 
         }
         

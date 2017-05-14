@@ -13,8 +13,8 @@ namespace jk.plaveninycz.DataSources
     {
         public static string GetDataDirectory()
         {
-            return @"D:\Websites\448cf9624b\www\data";
-            //return @"C:\temp\data";
+            //return @"D:\Websites\448cf9624b\www\data";
+            return @"C:\temp\data";
         }
 
         public static string GetConnectionString()

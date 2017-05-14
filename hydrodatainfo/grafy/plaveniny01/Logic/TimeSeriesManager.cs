@@ -28,6 +28,7 @@ namespace jk.plaveninycz.Bll
         {
             VariableEnum v = ch.Variable.VarEnum;
             TimeStep step = GetDefaultTimeStep(v, interval);
+            //TimeStep step = TimeStep.Hour;
             ITimeSeries ts;
 
             if (v == VariableEnum.Stage)
