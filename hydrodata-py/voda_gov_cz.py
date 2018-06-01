@@ -1,5 +1,6 @@
 # downloads ALL GRAPHS from PVL into the specific directory
 
+import argparse
 import os
 
 from datetime import datetime
@@ -39,12 +40,13 @@ def fetch_vodagov_charts(dst_dir, agency, base_url, subpages, datatype_prefix):
     for subpage in subpages:
 
         url = base_url + subpage
+        print('-----------------------------')
+        print(url)
+        print('-----------------------------')
         r = session.get(url)
 
         for lnk in r.html.absolute_links:
             if 'Mereni.aspx?id=' or 'mereni.aspx?id=' in lnk:
-
-                print(lnk)
 
                 try:
 
@@ -56,7 +58,6 @@ def fetch_vodagov_charts(dst_dir, agency, base_url, subpages, datatype_prefix):
                         if ('graf' in src or 'Graf' in src) and ('miniatury' not in src):
 
                             img_src_absolute = urljoin(lnk, src)
-                            print(img_src_absolute)
 
                             img_response = get(img_src_absolute)
                             if img_response.status_code == 200:
@@ -90,61 +91,37 @@ def fetch_vodagov_charts(dst_dir, agency, base_url, subpages, datatype_prefix):
 
 if __name__ == '__main__':
 
+    parser = argparse.ArgumentParser(description="Downloads precipitation or streamflow data from voda.gov.cz")
+    parser.add_argument('-a', '--agency', help='code of the data provider agency (pla, poh, pod, pvl)', required=True)
+    parser.add_argument('-dt', '--datatype', help='data type name (streamflow, precip)', required=True)
+    parser.add_argument('-o', '--output', help='output directory name', required=True)
+    args = parser.parse_args()
+
+    config_streamflow = {
+        'poh':{'base_url':'https://sap.poh.cz/portal/SaP/en/pc/?oid=','subpages':['1', '2', '3']},
+        'pla':{'base_url':'http://www.pla.cz/portal/SaP/en/PC/?oid=','subpages':['1','2']},
+        'pod':{'base_url':'http://www.pod.cz/portal/SaP/en/pc/?oid=','subpages':['1','2']},
+        'pvl':{'base_url':'http://www.pvl.cz/portal/SaP/en/pc/?oid=','subpages':['1','2','3']}
+    }
+
+    config_precip = {
+        'poh':{'base_url':'https://sap.poh.cz/portal/Srazky/en/pc/?oid=','subpages':['1', '2', '3']},
+        'pla':{'base_url':'http://www.pla.cz/portal/Srazky/en/PC/?oid=','subpages':['1','2']},
+        'pod':{'base_url':'http://www.pod.cz/portal/Srazky/en/pc/?oid=','subpages':['1','2']},
+        'pvl':{'base_url':'http://www.pvl.cz/portal/Srazky/en/pc/?oid=','subpages':['1','2','3']}
+    }
+
     dst_dir = '/home/jiri/meteodata'
 
-    out_result = []
+    if args.datatype == "streamflow":
+        datasource = config_streamflow[args.agency]
+    else:
+        datasource = config_precip[args.agency]
 
-    agency = 'pod'
-    n_streamflow = fetch_vodagov_charts(dst_dir, agency,
-                         base_url='http://www.pod.cz/portal/SaP/en/pc/?',
-                         subpages=['oid=1', 'oid=2'],
-                         datatype_prefix='streamflow')
-
-    n_precip = fetch_vodagov_charts(dst_dir, agency,
-                                        base_url='https://www.pod.cz/portal/Srazky/en/pc/?',
-                                        subpages=['oid=1', 'oid=2'],
-                                        datatype_prefix='precip')
-
-    out_result.append({'agency':agency, 'streamflow_charts':n_streamflow, 'precip_charts': n_precip})
-
-
-    agency = 'poh'
-    n_streamflow = fetch_vodagov_charts(dst_dir, agency,
-                                        base_url='http://sap.poh.cz/portal/SaP/en/pc/?',
-                                        subpages=['oid=1', 'oid=2', 'oid=3'],
-                                        datatype_prefix='streamflow')
-
-    n_precip = fetch_vodagov_charts(dst_dir, agency,
-                                    base_url='http://sap.poh.cz/portal/Srazky/en/pc/?',
-                                    subpages=['oid=1', 'oid=2', 'oid=3'],
-                                    datatype_prefix='precip')
-
-    out_result.append({'agency': agency, 'streamflow_charts': n_streamflow, 'precip_charts': n_precip})
-
-    agency = 'pvl'
-    n_streamflow = fetch_vodagov_charts(dst_dir, agency,
-                                        base_url='http://www.pvl.cz/portal/SaP/en/pc/?',
-                                        subpages=['oid=1', 'oid=2', 'oid=3'],
-                                        datatype_prefix='streamflow')
-
-    n_precip = fetch_vodagov_charts(dst_dir, agency,
-                                    base_url='http://www.pvl.cz/portal/Srazky/en/pc/?',
-                                    subpages=['oid=1', 'oid=2', 'oid=3'],
-                                    datatype_prefix='precip')
-
-    out_result.append({'agency': agency, 'streamflow_charts': n_streamflow, 'precip_charts': n_precip})
-
-    agency = 'pla'
-    n_streamflow = fetch_vodagov_charts(dst_dir, agency,
-                                        base_url='http://www.pla.cz/portal/SaP/en/PC/?',
-                                        subpages=['oid=1', 'oid=2'],
-                                        datatype_prefix='streamflow')
-
-    n_precip = fetch_vodagov_charts(dst_dir, agency,
-                                    base_url='http://www.pla.cz/portal/Srazky/en/PC/?',
-                                    subpages=['oid=1', 'oid=2'],
-                                    datatype_prefix='precip')
-
-    out_result.append({'agency': agency, 'streamflow_charts': n_streamflow, 'precip_charts': n_precip})
-
-    print(out_result)
+    n_results = fetch_vodagov_charts(dst_dir=args.output,
+                                     agency=args.agency,
+                                     datatype_prefix=args.datatype,
+                                     base_url=datasource['base_url'],
+                                     subpages=datasource['subpages'],
+                                     )
+    print('downloaded results: ' + str(n_results))
