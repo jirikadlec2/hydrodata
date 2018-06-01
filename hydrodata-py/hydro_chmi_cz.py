@@ -3,10 +3,45 @@
 import os
 
 from datetime import datetime
+from pathlib import Path
 
 from requests import get
 from requests_html import HTMLSession
 from urllib.parse import urljoin
+
+
+def fetch_hpps_data(dst_dir, url=None):
+    """
+    Fetch streamflow data from chmi fetch_hpps_data
+    """
+    session = HTMLSession()
+    n_charts = 0
+
+    subpage_url = "http://hydro.chmi.cz/hpps/hpps_oplist.php?startpos=0&recnum=50"
+    r = session.get(subpage_url)
+
+    datatype_prefix = 'streamflow'
+    agency = 'chmi'
+
+    for lnk in r.html.absolute_links:
+        if 'prfdyn' in lnk:
+            print(lnk)
+            lnk_table = lnk.replace('prfdyn', 'prfdata')
+
+            print(lnk.split('='))
+
+            station_seq = lnk.split('=')[-1]
+            print(station_seq)
+
+            data_dir = dst_dir / datatype_prefix / agency / station_seq
+            if not os.path.exists(data_dir):
+                os.makedirs(data_dir)
+            utc_timestamp_text = datetime.utcnow().strftime('%Y-%m-%dT%H0000z.png')
+
+            html_filename = 'prfdyn_' + station_seq + '_' + utc_timestamp_text
+
+            html_path = data_dir / html_filename
+            print(html_path)
 
 
 def fetch_vodagov_charts(dst_dir, agency, base_url, subpages, datatype_prefix):
@@ -88,63 +123,68 @@ def fetch_vodagov_charts(dst_dir, agency, base_url, subpages, datatype_prefix):
     return n_charts
 
 
-if __name__ == '__main__':
-
-    dst_dir = '/home/jiri/meteodata'
+def fetch_vodagov_all():
+    dst_dir = Path('C:/Users/Admin/Dropbox/meteodata')
 
     out_result = []
 
     agency = 'pod'
     n_streamflow = fetch_vodagov_charts(dst_dir, agency,
-                         base_url='http://www.pod.cz/portal/SaP/en/pc/?',
-                         subpages=['oid=1', 'oid=2'],
-                         datatype_prefix='streamflow')
+                     base_url='http://www.pod.cz/portal/SaP/en/pc/?',
+                     subpages=['oid=1', 'oid=2'],
+                     datatype_prefix='streamflow')
 
     n_precip = fetch_vodagov_charts(dst_dir, agency,
-                                        base_url='https://www.pod.cz/portal/Srazky/en/pc/?',
-                                        subpages=['oid=1', 'oid=2'],
-                                        datatype_prefix='precip')
+                                    base_url='https://www.pod.cz/portal/Srazky/en/pc/?',
+                                    subpages=['oid=1', 'oid=2'],
+                                    datatype_prefix='precip')
 
     out_result.append({'agency':agency, 'streamflow_charts':n_streamflow, 'precip_charts': n_precip})
 
 
     agency = 'poh'
     n_streamflow = fetch_vodagov_charts(dst_dir, agency,
-                                        base_url='http://sap.poh.cz/portal/SaP/en/pc/?',
-                                        subpages=['oid=1', 'oid=2', 'oid=3'],
-                                        datatype_prefix='streamflow')
+                                    base_url='http://sap.poh.cz/portal/SaP/en/pc/?',
+                                    subpages=['oid=1', 'oid=2', 'oid=3'],
+                                    datatype_prefix='streamflow')
 
     n_precip = fetch_vodagov_charts(dst_dir, agency,
-                                    base_url='http://sap.poh.cz/portal/Srazky/en/pc/?',
-                                    subpages=['oid=1', 'oid=2', 'oid=3'],
-                                    datatype_prefix='precip')
+                                base_url='http://sap.poh.cz/portal/Srazky/en/pc/?',
+                                subpages=['oid=1', 'oid=2', 'oid=3'],
+                                datatype_prefix='precip')
 
     out_result.append({'agency': agency, 'streamflow_charts': n_streamflow, 'precip_charts': n_precip})
 
     agency = 'pvl'
     n_streamflow = fetch_vodagov_charts(dst_dir, agency,
-                                        base_url='http://www.pvl.cz/portal/SaP/en/pc/?',
-                                        subpages=['oid=1', 'oid=2', 'oid=3'],
-                                        datatype_prefix='streamflow')
+                                    base_url='http://www.pvl.cz/portal/SaP/en/pc/?',
+                                    subpages=['oid=1', 'oid=2', 'oid=3'],
+                                    datatype_prefix='streamflow')
 
     n_precip = fetch_vodagov_charts(dst_dir, agency,
-                                    base_url='http://www.pvl.cz/portal/Srazky/en/pc/?',
-                                    subpages=['oid=1', 'oid=2', 'oid=3'],
-                                    datatype_prefix='precip')
+                                base_url='http://www.pvl.cz/portal/Srazky/en/pc/?',
+                                subpages=['oid=1', 'oid=2', 'oid=3'],
+                                datatype_prefix='precip')
 
     out_result.append({'agency': agency, 'streamflow_charts': n_streamflow, 'precip_charts': n_precip})
 
     agency = 'pla'
     n_streamflow = fetch_vodagov_charts(dst_dir, agency,
-                                        base_url='http://www.pla.cz/portal/SaP/en/PC/?',
-                                        subpages=['oid=1', 'oid=2'],
-                                        datatype_prefix='streamflow')
+                                    base_url='http://www.pla.cz/portal/SaP/en/PC/?',
+                                    subpages=['oid=1', 'oid=2'],
+                                    datatype_prefix='streamflow')
 
     n_precip = fetch_vodagov_charts(dst_dir, agency,
-                                    base_url='http://www.pla.cz/portal/Srazky/en/PC/?',
-                                    subpages=['oid=1', 'oid=2'],
-                                    datatype_prefix='precip')
+                                base_url='http://www.pla.cz/portal/Srazky/en/PC/?',
+                                subpages=['oid=1', 'oid=2'],
+                                datatype_prefix='precip')
 
     out_result.append({'agency': agency, 'streamflow_charts': n_streamflow, 'precip_charts': n_precip})
 
     print(out_result)
+
+
+if __name__ == '__main__':
+
+    fetch_hpps_data(Path('C:/Users/Admin/Dropbox/meteodata'))
+    #fetch_vodagov_all()
