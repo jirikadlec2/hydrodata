@@ -2,6 +2,7 @@
 
 import argparse
 import os
+import time
 
 from datetime import datetime
 
@@ -89,6 +90,74 @@ def fetch_vodagov_charts(dst_dir, agency, base_url, subpages, datatype_prefix):
     return n_charts
 
 
+def fetch_pmo_charts(dst_dir, agency, base_url, subpages, datatype_prefix):
+    """
+    Fetch graphs and html tables from pmo (Povodi Moravy) water board
+    fetch_pmo_charts(dst_dir='/home/jiri/meteodata',
+                         agency_prefix='pmo',
+                         base_url='http://www.pmo.cz/portal/srazky/en/',
+                         subpages=['prehled_tab_1_chp.htm', 'prehled_tab_2_chp.htm', 'prehled_tab_3_chp.htm'],
+                         datatype_prefix='precip',
+                         agency='pmo')
+
+    :param dst_dir: destination directory where to save the data (subdirs are created automatically)
+    :param base_url: the base url [for example http://www.pvl.cz/portal/SaP/pc/? for streamflow,
+                                               http://www.pvl.cz/portal/srazky/pc/? for precipitation]
+    :param subpages: the list of sub-pages (for example ['oid=1', 'oid=2', 'oid=3'])
+    :param datatype_prefix: the data type. use 'streamflow' or 'precip'
+    :param agency: the short name of the operating agency. use pla, poh, pod, pvl or pmo
+    :return: number of charts and html pages downloaded
+    """
+
+    agency = "pmo"
+
+    session = HTMLSession()
+    n_charts = 0
+
+    for subpage in subpages:
+        url = base_url + subpage
+        print('-----------------------------')
+        print(url)
+        print('-----------------------------')
+        r = session.get(url)
+
+        anchors = r.html.find('a')
+        a_hrefs = [a for a in r.html.find('a') if "DoMereni" in a.attrs["href"]]
+        for a in a_hrefs:
+            id = a.attrs["href"].split("'")[1]
+            url_html = '{:s}/en/mereni_{:s}.htm'.format(base_url, id)
+            print(url_html)
+
+            
+            if datatype_prefix == 'precip':
+                url_img = '{:s}/grafy/sr{:s}_en.gif'.format(base_url, id)
+            else:
+                url_img = '{:s}/grafy/{:s}.gif'.format(base_url, id)
+            print(url_img)
+            img_response = get(url_img)
+            if img_response.status_code == 200:
+                img_dir = os.path.join(dst_dir, datatype_prefix, agency, os.path.splitext(os.path.basename(url_img))[0])
+                if not os.path.exists(img_dir):
+                    os.makedirs(img_dir)
+                utc_timestamp_text = datetime.utcnow().strftime('_%Y-%m-%dT%H0000z.gif')
+                img_filename = os.path.basename(url_img).replace('.gif', utc_timestamp_text)
+
+                img_path = os.path.join(img_dir, img_filename)
+                print(img_path)
+                with open(img_path, 'wb') as f:
+                    f.write(img_response.content)
+                    n_charts += 1
+
+                # also save the HTML
+                html_path = img_path.replace('.gif', '.htm')
+                html_response = get(url_html)
+                if html_response.status_code == 200:
+                    print(html_path)
+                    with open(html_path, 'wb') as f:
+                        f.write(html_response.content)
+    return n_charts
+                    
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description="Downloads precipitation or streamflow data from voda.gov.cz")
@@ -101,14 +170,20 @@ if __name__ == '__main__':
         'poh':{'base_url':'https://sap.poh.cz/portal/SaP/en/pc/?oid=','subpages':['1', '2', '3']},
         'pla':{'base_url':'http://www.pla.cz/portal/SaP/en/PC/?oid=','subpages':['1','2']},
         'pod':{'base_url':'http://www.pod.cz/portal/SaP/en/pc/?oid=','subpages':['1','2']},
-        'pvl':{'base_url':'http://www.pvl.cz/portal/SaP/en/pc/?oid=','subpages':['1','2','3']}
+        'pvl':{'base_url':'http://www.pvl.cz/portal/SaP/en/pc/?oid=','subpages':['1','2','3']},
+        'pmo':{'base_url':'http://www.pmo.cz/portal/sap','subpages':['/en/prehled_tab_1_chp.htm',
+                                                                            '/en/prehled_tab_2_chp.htm',
+                                                                            '/en/prehled_tab_3_chp.htm']}
     }
 
     config_precip = {
         'poh':{'base_url':'https://sap.poh.cz/portal/Srazky/en/pc/?oid=','subpages':['1', '2', '3']},
         'pla':{'base_url':'http://www.pla.cz/portal/Srazky/en/PC/?oid=','subpages':['1','2']},
         'pod':{'base_url':'http://www.pod.cz/portal/Srazky/en/pc/?oid=','subpages':['1','2']},
-        'pvl':{'base_url':'http://www.pvl.cz/portal/Srazky/en/pc/?oid=','subpages':['1','2','3']}
+        'pvl':{'base_url':'http://www.pvl.cz/portal/Srazky/en/pc/?oid=','subpages':['1','2','3']},
+        'pmo':{'base_url':'http://www.pmo.cz/portal/srazky','subpages':['/en/prehled_tab_1_chp.htm',
+                                                                        '/en/prehled_tab_2_chp.htm',
+                                                                        '/en/prehled_tab_3_chp.htm']}
     }
 
     dst_dir = '/home/jiri/meteodata'
@@ -118,10 +193,27 @@ if __name__ == '__main__':
     else:
         datasource = config_precip[args.agency]
 
-    n_results = fetch_vodagov_charts(dst_dir=args.output,
+    if args.agency == 'pmo':
+        n_results = fetch_pmo_charts(dst_dir=args.output,
                                      agency=args.agency,
                                      datatype_prefix=args.datatype,
                                      base_url=datasource['base_url'],
                                      subpages=datasource['subpages'],
                                      )
+    else:
+        n_results = fetch_vodagov_charts(dst_dir=args.output,
+                                         agency=args.agency,
+                                         datatype_prefix=args.datatype,
+                                         base_url=datasource['base_url'],
+                                         subpages=datasource['subpages'],
+                                         )
+        if n_results == 0:
+            time.sleep(20)
+            print('RETRY DOWNLOAD...')
+            n_results = fetch_vodagov_charts(dst_dir=args.output,
+                                         agency=args.agency,
+                                         datatype_prefix=args.datatype,
+                                         base_url=datasource['base_url'],
+                                         subpages=datasource['subpages'],
+                                         )
     print('downloaded results: ' + str(n_results))
