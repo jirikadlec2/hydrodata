@@ -94,3 +94,4 @@ def fetch_hpps_precip(dst_dir, url=None):
 if __name__ == '__main__':
 
     fetch_hpps_precip(Path('C:/Users/Admin/Dropbox/meteodata'))
+    fetch_hpps_streamflow(Path('C:/Users/Admin/Dropbox/meteodata'))
