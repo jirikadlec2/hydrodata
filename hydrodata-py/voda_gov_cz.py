@@ -58,6 +58,9 @@ def fetch_vodagov_charts(dst_dir, agency, base_url, subpages, datatype_prefix):
                         src = img.attrs['src']
                         if ('graf' in src or 'Graf' in src) and ('miniatury' not in src) and ("&" not in src) and (".ashx" not in src):
 
+                            if 'maska' in src:
+                                continue
+
                             img_src_absolute = urljoin(lnk, src)
 
                             img_response = get(img_src_absolute)
@@ -212,19 +215,23 @@ if __name__ == '__main__':
                                      subpages=datasource['subpages'],
                                      )
         else:
-            n_results = fetch_vodagov_charts(dst_dir=args.output,
-                                         agency=agency,
-                                         datatype_prefix=args.datatype,
-                                         base_url=datasource['base_url'],
-                                         subpages=datasource['subpages'],
-                                         )
-            if n_results == 0:
-                time.sleep(20)
-                print('RETRY DOWNLOAD...')
+            for subpage in datasource['subpages']:              
                 n_results = fetch_vodagov_charts(dst_dir=args.output,
                                          agency=agency,
                                          datatype_prefix=args.datatype,
                                          base_url=datasource['base_url'],
-                                         subpages=datasource['subpages'],
+                                         subpages=[subpage],
+                                        )
+                MAX_RETRIES = 5
+                retry = 0
+                while n_results == 0 and retry <= MAX_RETRIES:
+                    time.sleep(20)
+                    retry += 1
+                    print('RETRY DOWNLOAD {:d} for {:s}'.format(retry, subpage))
+                    n_results = fetch_vodagov_charts(dst_dir=args.output,
+                                         agency=agency,
+                                         datatype_prefix=args.datatype,
+                                         base_url=datasource['base_url'],
+                                         subpages=[subpage],
                                          )
         print('downloaded results from {:s}: {:d}'.format(agency, n_results))
