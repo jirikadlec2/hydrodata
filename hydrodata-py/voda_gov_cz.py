@@ -188,32 +188,43 @@ if __name__ == '__main__':
 
     dst_dir = '/home/jiri/meteodata'
 
-    if args.datatype == "streamflow":
-        datasource = config_streamflow[args.agency]
+    agencies = ["poh", "pla", "pod", "pmo", "pvl"]
+        
+    if args.agency == "all":
+        agencies = ["poh", "pla", "pod", "pmo", "pvl"]
+    elif args.agency in agencies:
+        agencies = [args.agency]
     else:
-        datasource = config_precip[args.agency]
+        raise KeyError("bad agency name {:s}. the agency must be poh, pla, pod, pmo, pvl or all".format(args.agency))
 
-    if args.agency == 'pmo':
-        n_results = fetch_pmo_charts(dst_dir=args.output,
-                                     agency=args.agency,
+    for agency in agencies:
+
+        if args.datatype == "streamflow":
+            datasource = config_streamflow[agency]
+        else:
+            datasource = config_precip[agency]
+        
+        if agency == 'pmo':
+            n_results = fetch_pmo_charts(dst_dir=args.output,
+                                     agency=agency,
                                      datatype_prefix=args.datatype,
                                      base_url=datasource['base_url'],
                                      subpages=datasource['subpages'],
                                      )
-    else:
-        n_results = fetch_vodagov_charts(dst_dir=args.output,
-                                         agency=args.agency,
-                                         datatype_prefix=args.datatype,
-                                         base_url=datasource['base_url'],
-                                         subpages=datasource['subpages'],
-                                         )
-        if n_results == 0:
-            time.sleep(20)
-            print('RETRY DOWNLOAD...')
+        else:
             n_results = fetch_vodagov_charts(dst_dir=args.output,
-                                         agency=args.agency,
+                                         agency=agency,
                                          datatype_prefix=args.datatype,
                                          base_url=datasource['base_url'],
                                          subpages=datasource['subpages'],
                                          )
-    print('downloaded results: ' + str(n_results))
+            if n_results == 0:
+                time.sleep(20)
+                print('RETRY DOWNLOAD...')
+                n_results = fetch_vodagov_charts(dst_dir=args.output,
+                                         agency=agency,
+                                         datatype_prefix=args.datatype,
+                                         base_url=datasource['base_url'],
+                                         subpages=datasource['subpages'],
+                                         )
+        print('downloaded results from {:s}: {:d}'.format(agency, n_results))
