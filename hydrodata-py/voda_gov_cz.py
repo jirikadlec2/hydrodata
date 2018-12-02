@@ -55,6 +55,8 @@ def fetch_vodagov_charts(dst_dir, agency, base_url, subpages, datatype_prefix):
 
                     images = r_st.html.find('img')
                     for img in images:
+                        if 'src' not in img.attrs:
+                            continue
                         src = img.attrs['src']
                         if ('graf' in src or 'Graf' in src) and ('miniatury' not in src) and ("&" not in src) and (".ashx" not in src):
 
